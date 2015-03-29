@@ -1,0 +1,50 @@
+! Molokai theme
+*background: #101010
+*foreground: #d0d0d0
+*color0: #101010
+*color1: #960050
+*color2: #66aa11
+*color3: #c47f2c
+*color4: #30309b
+*color5: #7e40a5
+*color6: #3579a8
+*color7: #9999aa
+*color8: #303030
+*color9: #ff0090
+*color10: #80ff00
+*color11: #ffba68
+*color12: #5f5fee
+*color13: #bb88dd
+*color14: #4eb4fa
+*color15: #d0d0d0
+
+*font: -*-terminus-medium-*-*-*-18-*-*-*-*-*-iso10646-*
+*font1: -*-terminus-medium-*-*-*-12-*-*-*-*-*-iso10646-*
+*font2: -*-terminus-medium-*-*-*-14-*-*-*-*-*-iso10646-*
+*font3: -*-terminus-medium-*-*-*-16-*-*-*-*-*-iso10646-*
+*font4: -*-terminus-medium-*-*-*-22-*-*-*-*-*-iso10646-*
+*font5: -*-terminus-medium-*-*-*-24-*-*-*-*-*-iso10646-*
+*font6: -*-terminus-medium-*-*-*-32-*-*-*-*-*-iso10646-*
+*VT100*translations: #override Shift <Btn1Up>: exec-formatted("firefox '%t'", PRIMARY)
+
+*saveLines: 1000000
+*scrollBar: false
+*font: xft:Inconsolata:autohint=true:antialias=true:pixelsize=13
+*borderless: true
+
+*scrollTtyOutput: false
+*scrollWithBuffer: true
+*scrollTtyKeypress: true
+
+URxvt.iso14755: false
+URxvt.perl-ext: clipboard,matcher,default
+URxvt*urlLauncher: /usr/bin/firefox
+URxvt*matcher.button: 1
+URxvt.keysym.M-c: perl:clipboard:copy
+URxvt.keysym.M-v: perl:clipboard:paste
+URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
+URxvt*keysym.Home: \033[1~
+URxvt*keysym.End: \033[4~
+URxvt*termName: screen-256color
+URxvt.termName: rxvt-unicode
+URxvt.title: terminal
