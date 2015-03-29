@@ -59,7 +59,6 @@ set nopaste
     Plugin 'Raimondi/delimitMate'
     Plugin 'terryma/vim-multiple-cursors'
     Plugin 'Shougo/unite.vim'
-    Plugin 'Shougo/vimproc.vim'
     Plugin 'ggreer/the_silver_searcher'
     Plugin 'benmills/vimux'
     Plugin 'tpope/vim-jdaddy'
@@ -97,10 +96,9 @@ set nopaste
     Plugin 'vim-scripts/quilt'
 
     "color schemes
-    Plugin 'cschlueter/vim-wombat'
     Plugin 'tomasr/molokai'
-    Plugin 'altercation/vim-colors-solarized'
     Plugin 'tpope/vim-vividchalk'
+    Plugin 'gosukiwi/vim-atom-dark'
 
     if iCanHazVundle == 0
         echo "Installing Plugin, please ignore key map error messages"
