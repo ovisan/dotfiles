@@ -71,7 +71,6 @@ set nopaste
     Plugin 'vim-scripts/ScrollColors'
     Plugin 'vim-scripts/OmniCppComplete'
     Plugin 'vim-scripts/CRefVim'
-    Plugin 'vim-scripts/notes.vim'
     Plugin 'vim-scripts/quilt'
 
     "color schemes
