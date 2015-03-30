@@ -143,10 +143,11 @@ export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 alias hs='history | grep '
 alias install='sudo zypper install '
 
+" History completion"
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+
 setxkbmap -option caps:none
 
-source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 # PS1 Prompt
 export PS1="\[\e[00;33m\]\u\[\e[0m\]\[\e[00;37m\]@\h:\[\e[0m\]\[\e[00;36m\][\w]:\[\e[0m\]\[\e[00;37m\] \[\e[0m\]"
-
-source "$HOME/.homesick/repos/homeshick/homeshick.sh"
