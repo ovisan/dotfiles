@@ -299,21 +299,21 @@ let g:ctrlp_working_path_mode = 0
 let g:ctrlp_dotfiles = 0
 let g:ctrlp_switch_buffer = 0
 
-" Neocomplcache config {
+" Neocomplete config {
 	" Launches neocomplcache automatically on vim startup.
-	let g:neocomplcache_enable_at_startup = 1
+	let g:neocomplcache#enable_at_startup = 1
 	" Use smartcase.
-	let g:neocomplcache_enable_smart_case = 1
+	let g:neocomplcache#enable_smart_case = 1
 	" Use camel case completion.
-	let g:neocomplcache_enable_camel_case_completion = 0
+	let g:neocomplcache#enable_camel_case_completion = 0
 	" Use underscore completion.
-	let g:neocomplcache_enable_underbar_completion = 2
+	let g:neocomplcache#enable_underbar_completion = 2
 	" Sets minimum char length of syntax keyword.
-	let g:neocomplcache_min_syntax_length = 3
+	let g:neocomplcache#min_syntax_length = 3
 	" buffer file name pattern that locks neocomplcache. e.g. ku.vim or fuzzyfinder
-	let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+	let g:neocomplcache#lock_buffer_name_pattern = '\*ku\*'
 	" AutoComplPop like behavior.
-	let g:neocomplcache_enable_auto_select = 1
+	let g:neocomplcache#enable_auto_select = 1
 "}
 
 "UltiSnips split vertical and snippets directory {
