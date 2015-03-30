@@ -31,7 +31,7 @@ font pango:Inconsolata 10
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec urxvt
+bindsym $mod+Return exec urxvt-256color
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -239,7 +239,6 @@ client.urgent           #2f343a #900000 #ffffff #900000
 exec xrandr --output DP-1 --primary --output DP-2 --auto --rotate normal --left-of DP-1
 exec setxkbmap -option caps:escape
 exec feh --bg-scale ~/Pictures/linux_dark_wallpaper_by_alienvoid-d48wsty.jpg
-exec groupwise
 exec pnmixer
 exec parcellite
 exec nm-applet

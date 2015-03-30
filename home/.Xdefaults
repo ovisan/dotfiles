@@ -45,5 +45,5 @@ URxvt.keysym.M-v: perl:clipboard:paste
 URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
 URxvt*keysym.Home: \033[1~
 URxvt*keysym.End: \033[4~
-URxvt.termName: rxvt-256color
+/* URxvt.termName: rxvt-256color */
 URxvt.title: terminal
