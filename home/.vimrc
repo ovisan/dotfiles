@@ -293,7 +293,7 @@ let g:neocomplete#enable_auto_select = 1
 let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space=1
 
-"delimitMate and neocomplete mapping to wotk on enter
+"delimitMate and neocomplete mapping to work on enter
 imap <expr> <CR> pumvisible() ? neocomplete#close_popup() : '<Plug>delimitMateCR'
 
 "UltiSnips split vertical and snippets directory {
