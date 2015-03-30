@@ -57,6 +57,7 @@ set nopaste
     Plugin 'benmills/vimux'
     Plugin 'ekalinin/Dockerfile.vim'
 
+
     " github mirrors for vim scripts
     Plugin 'vim-scripts/dbext.vim'
     Plugin 'vim-scripts/EasyGrep'
@@ -136,6 +137,9 @@ endif
 
 "favorite colorscheme
 colorscheme vividchalk
+
+"display indent guides (the space is needed after the line to work properly)
+set list lcs=tab:\|\ 
 
 "setting cursor properties
 "highlight Cursor guifg=white guibg=red
@@ -221,34 +225,6 @@ set foldlevel=1         "this is just what i use
 " Enable repeat in visual mode
 vnoremap . :norm.<CR>
 
-" " Auto closing braces, quotes..
-" inoremap {      {}<Left>
-" inoremap {<CR>  {<CR>}<Esc>O
-" inoremap {{     {
-" inoremap {}     {}
-
-" inoremap (      ()<Left>
-" inoremap (<CR>  (<CR>)<Esc>O
-" inoremap ((     (
-" inoremap ()     ()
-
-" inoremap [      []<Left>
-" inoremap [<CR>  [<CR>]<Esc>O
-" inoremap [[     [
-" inoremap []     []
-
-" inoremap "      ""<Left>
-" inoremap "<CR>  "<CR>"<Esc>O
-" inoremap ""     "
-
-" inoremap '      ''<Left>
-" inoremap '<CR>  '<CR>'<Esc>O
-" inoremap ''     '
-
-" inoremap `      ``<Left>
-" inoremap `<CR>  `<CR>`<Esc>O
-" inoremap ``     `"
-
 " open Godoc under cursor
 nnoremap <Leader>h :GoDoc <C-r><C-w> <CR>
 
@@ -283,9 +259,9 @@ let s:tlist_def_go_settings = 'go;s:struct;f:func;v:var'
 
 " CTRLP Funky
 let g:ctrlp_extensions = ['funky']
-nnoremap <Leader>fu :CtrlPFunky<Cr>
+nnoremap <Leader>fu :CtrlPFunky<CR>
 " narrow the list down with a word under cursor
-nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<CR>
 
 " Ctrlp settings {
 let g:ctrlp_map = '<c-o>'
@@ -299,22 +275,26 @@ let g:ctrlp_working_path_mode = 0
 let g:ctrlp_dotfiles = 0
 let g:ctrlp_switch_buffer = 0
 
-" Neocomplete config {
-	" Launches neocomplcache automatically on vim startup.
-	let g:neocomplcache#enable_at_startup = 1
-	" Use smartcase.
-	let g:neocomplcache#enable_smart_case = 1
-	" Use camel case completion.
-	let g:neocomplcache#enable_camel_case_completion = 0
-	" Use underscore completion.
-	let g:neocomplcache#enable_underbar_completion = 2
-	" Sets minimum char length of syntax keyword.
-	let g:neocomplcache#min_syntax_length = 3
-	" buffer file name pattern that locks neocomplcache. e.g. ku.vim or fuzzyfinder
-	let g:neocomplcache#lock_buffer_name_pattern = '\*ku\*'
-	" AutoComplPop like behavior.
-	let g:neocomplcache#enable_auto_select = 1
-"}
+" Neocomplete config 
+" Launches neocomplete automatically on vim startup.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Use camel case completion.
+let g:neocomplete#enable_camel_case_completion = 0
+" Sets minimum char length of syntax keyword.
+let g:neocomplete#min_syntax_length = 3
+" buffer file name pattern that locks neocomplete. e.g. ku.vim or fuzzyfinder
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+" AutoComplPop like behavior.
+let g:neocomplete#enable_auto_select = 1
+
+"delimitMate settings
+let g:delimitMate_expand_cr=1
+let g:delimitMate_expand_space=1
+
+"delimitMate and neocomplete mapping to wotk on enter
+imap <expr> <CR> pumvisible() ? neocomplete#close_popup() : '<Plug>delimitMateCR'
 
 "UltiSnips split vertical and snippets directory {
 let g:UltiSnipsEditSplit = 'vertical'
