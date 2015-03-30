@@ -26,7 +26,7 @@ set nopaste
     " from github
     Plugin 'ntpeters/vim-better-whitespace'
     Plugin 'ervandew/supertab'
-    Plugin 'Shougo/neocomplcache.vim'
+    Plugin 'Shougo/neocomplete.vim'
     Plugin 'fatih/vim-go'
     Plugin 'scrooloose/nerdtree'
     Plugin 'SirVer/ultisnips'
