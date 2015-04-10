@@ -56,6 +56,9 @@ set nopaste
     Plugin 'ggreer/the_silver_searcher'
     Plugin 'benmills/vimux'
     Plugin 'ekalinin/Dockerfile.vim'
+    Plugin 'xolox/vim-notes'
+    Plugin 'xolox/vim-misc'
+    Plugin 'haya14busa/incsearch.vim'
 
 
     " github mirrors for vim scripts
@@ -251,7 +254,13 @@ nnoremap <Tab> <C-W><C-W>
 
 let g:notes_directories = ['~/Documents/Notes', '~/Dropbox/Shared Notes']
 
+" Incsearch settings
 
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+" highlight Colors
+hi Search ctermfg=Red ctermbg=Yellow
 
 "Taglist golang definition {
 let s:tlist_def_go_settings = 'go;s:struct;f:func;v:var'
@@ -275,7 +284,7 @@ let g:ctrlp_working_path_mode = 0
 let g:ctrlp_dotfiles = 0
 let g:ctrlp_switch_buffer = 0
 
-" Neocomplete config 
+" Neocomplete config
 " Launches neocomplete automatically on vim startup.
 let g:neocomplete#enable_at_startup = 1
 " Use smartcase.
