@@ -353,14 +353,6 @@ let g:airline#extensions#paste#enable=1
 let g:airline#extensions#whitespace#enable=1
 "}
 
-" Minibuf {
-let g:miniBufExplMapWindowNavVim = 1
-let g:miniBufExplMapWindowNavArrows = 1
-let g:miniBufExplMapCTabSwitchBufs = 1
-let g:miniBufExplModSelTarget = 1
-let g:miniBufExplorerMoreThanOne = 0
-"}
-
 " Tagbar Go {
 let g:tagbar_type_go = {
     \ 'ctagstype' : 'go',
