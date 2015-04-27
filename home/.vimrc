@@ -4,10 +4,9 @@ set bg=dark
 set t_Co=256
 " disable stupid beeping
 set vb t_vb=
-set expandtab
-set tabstop=2
-set shiftwidth=2
-set nopaste
+
+autocmd BufRead,BufNewFile *.c,*.h set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+autocmd BufRead,BufNewFile *.go set set tabstop=2 shiftwidth=2 expandtab
 
 " Setting up Vundle - the vim plugin bundler
     let iCanHazVundle=1
@@ -59,6 +58,7 @@ set nopaste
     Plugin 'xolox/vim-notes'
     Plugin 'xolox/vim-misc'
     Plugin 'haya14busa/incsearch.vim'
+    Plugin 'justmao945/vim-clang'
 
 
     " github mirrors for vim scripts
@@ -182,7 +182,7 @@ set clipboard^=unnamed
 " Edit anyway if there is a swap file
 autocmd SwapExists * :let v:swapchoice='e'
 
-autocmd FileType c autocmd BufWritePre <buffer> !astyle %
+autocmd FileType c autocmd BufWritePre <buffer> :%!astyle
 
 autocmd BufRead,BufNewFile *.go syntax on
 autocmd BufRead,BufNewFile *.go set ai
