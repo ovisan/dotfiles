@@ -181,8 +181,8 @@ set clipboard^=unnamed
 " Edit anyway if there is a swap file
 autocmd SwapExists * :let v:swapchoice='e'
 
-autocmd FileType c autocmd BufWritePre <buffer> :%!astyle
-autocmd FileType cpp autocmd BufWritePre <buffer> :%!astyle
+autocmd FileType c autocmd BufWritePre <buffer> :%!clang-format
+autocmd FileType cpp autocmd BufWritePre <buffer> :%!clang-format
 
 autocmd BufRead,BufNewFile *.go syntax on
 autocmd BufRead,BufNewFile *.go set ai
