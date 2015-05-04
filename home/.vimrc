@@ -307,6 +307,8 @@ let g:clang_c_options = '-std=gnu11'
 let g:clang_cpp_options = '-std=c++11'
 let g:clang_auto = 0
 let g:clang_c_completeopt = 'longest,menuone'
+let g:clang_cpp_completeopt = 'longest,menuone'
+let g:clang_diagsopt = ''
 
 " Use smartcase.
 let g:neocomplete#enable_smart_case = 1
