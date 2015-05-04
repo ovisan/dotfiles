@@ -182,6 +182,7 @@ set clipboard^=unnamed
 autocmd SwapExists * :let v:swapchoice='e'
 
 autocmd FileType c autocmd BufWritePre <buffer> :%!astyle
+autocmd FileType cpp autocmd BufWritePre <buffer> :%!astyle
 
 autocmd BufRead,BufNewFile *.go syntax on
 autocmd BufRead,BufNewFile *.go set ai
