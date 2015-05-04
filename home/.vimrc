@@ -26,6 +26,7 @@ autocmd BufRead,BufNewFile *.go set set tabstop=2 shiftwidth=2 expandtab
     Plugin 'ntpeters/vim-better-whitespace'
     Plugin 'ervandew/supertab'
     Plugin 'Shougo/neocomplete.vim'
+    Plugin 'justmao945/vim-clang'
     Plugin 'fatih/vim-go'
     Plugin 'scrooloose/nerdtree'
     Plugin 'SirVer/ultisnips'
@@ -58,7 +59,6 @@ autocmd BufRead,BufNewFile *.go set set tabstop=2 shiftwidth=2 expandtab
     Plugin 'xolox/vim-notes'
     Plugin 'xolox/vim-misc'
     Plugin 'haya14busa/incsearch.vim'
-    Plugin 'justmao945/vim-clang'
 
 
     " github mirrors for vim scripts
@@ -98,13 +98,12 @@ let $GIT_SSL_NO_VERIFY = 'true'
 " let Vundle manage Vundle
 " required!
 let g:neocomplete#sources#omni#functions = {'go': 'go#complete#Complete'}
-" let g:neocomplete#sources#omni#functions = {'c': 'c#complete#Complete'}
+let g:neocomplete#sources#omni#functions = {'c': 'c#complete#Complete'}
 " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-" autocmd FileType c setlocal omnifunc=ccomplete#CompleteTags
+autocmd FileType c setlocal omnifunc=ccomplete#CompleteTags
 autocmd FileType go setlocal omnifunc=gocomplete#CompleteTags
 " " Enable heavy omni completion.
 " if !exists('g:neocomplete#sources#omni#input_patterns')
@@ -275,7 +274,7 @@ nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<CR>
 " Ctrlp settings {
 let g:ctrlp_map = '<c-o>'
 let g:ctrlp_cmd = 'CtrlPMixed'
-let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(hg|git|bzr|svn)($|[/\\])|__init__\.py'
+let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(hg|git|bzr|svn)($|[/\\])'
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_by_filename = 0
 let g:ctrlp_match_window_bottom = 0
@@ -287,6 +286,26 @@ let g:ctrlp_switch_buffer = 0
 " Neocomplete config
 " Launches neocomplete automatically on vim startup.
 let g:neocomplete#enable_at_startup = 1
+" Adding compatibility with vim-clang
+	if !exists('g:neocomplete#force_omni_input_patterns')
+	  let g:neocomplete#force_omni_input_patterns = {}
+	endif
+	let g:neocomplete#force_omni_input_patterns.c =
+	      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+	let g:neocomplete#force_omni_input_patterns.cpp =
+	      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+	let g:neocomplete#force_omni_input_patterns.objc =
+	      \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
+	let g:neocomplete#force_omni_input_patterns.objcpp =
+	      \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
+	let g:clang_complete_auto = 0
+	let g:clang_auto_select = 0
+	let g:clang_default_keymappings = 0
+	"let g:clang_use_library = 1
+
+let g:clang_c_options = '-std=gnu11'
+let g:clang_cpp_options = '-std=c++11'
+
 " Use smartcase.
 let g:neocomplete#enable_smart_case = 1
 " Use camel case completion.
@@ -343,6 +362,8 @@ let pastie_private=1
 
 " Syntastic options {
 let g:syntastic_always_populate_loc_list=1
+let g:syntastic_cpp_compiler = "g++"
+let g:syntastic_cpp_compiler_options = "-std=c++11 -Wall -Wextra -Wpedantic"
 "}
 
 " configuration airline bar {
