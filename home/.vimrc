@@ -59,6 +59,7 @@ autocmd BufRead,BufNewFile *.go set set tabstop=2 shiftwidth=2 expandtab
     Plugin 'xolox/vim-notes'
     Plugin 'xolox/vim-misc'
     Plugin 'haya14busa/incsearch.vim'
+    Plugin 'rust-lang/rust.vim'
 
 
     " github mirrors for vim scripts

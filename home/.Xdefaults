@@ -36,6 +36,7 @@
 *scrollWithBuffer: true
 *scrollTtyKeypress: true
 
+URxvt*skipBuiltinGlyphs: true
 URxvt.iso14755: false
 URxvt.perl-ext: clipboard,matcher,default
 URxvt*urlLauncher: /usr/bin/google-chrome
@@ -45,5 +46,15 @@ URxvt.keysym.M-v: perl:clipboard:paste
 URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
 URxvt*keysym.Home: \033[1~
 URxvt*keysym.End: \033[4~
-/* URxvt.termName: rxvt-256color */
 URxvt.title: terminal
+
+! Make Ctrl+Tab work nicely with Vim
+URxvt*keysym.C-Tab:            \033[27;5;9~
+URxvt*keysym.C-S-Tab:          \033[27;6;9~
+URxvt*keysym.C-S-ISO_Left_Tab: \033[27;6;9~
+
+URxvt.keysym.C-Up:     \033[1;5A
+URxvt.keysym.C-Down:   \033[1;5B
+URxvt.keysym.C-Left:   \033[1;5D
+URxvt.keysym.C-Right:  \033[1;5C
+
