@@ -189,8 +189,8 @@ function! ClangFormat()
 	call winrestview(l:winview)
 endfunction
 
-autocmd FileType c autocmd BufWritePre <buffer> :call ClangFormat()
-autocmd FileType cpp autocmd BufWritePre <buffer> :call ClangFormat()
+" autocmd FileType c autocmd BufWritePre <buffer> :call ClangFormat()
+" autocmd FileType cpp autocmd BufWritePre <buffer> :call ClangFormat()
 
 autocmd BufRead,BufNewFile *.go syntax on
 autocmd BufRead,BufNewFile *.go set ai

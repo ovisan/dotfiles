@@ -25,6 +25,8 @@
 #export PILOTPORT=/dev/pilot
 #export PILOTRATE=115200
 
+# Setting the name for screen compatibility
+export TERM=rxvt-256color
 
 test -s ~/.alias && . ~/.alias || true
 # ~/.bashrc: executed by bash(1) for non-login shells.
