@@ -60,6 +60,8 @@ autocmd BufRead,BufNewFile *.go set set tabstop=2 shiftwidth=2 expandtab
     Plugin 'xolox/vim-misc'
     Plugin 'haya14busa/incsearch.vim'
     Plugin 'rust-lang/rust.vim'
+    Plugin 'suan/vim-instant-markdown'
+    Plugin 'tpope/vim-markdown'
 
 
     " github mirrors for vim scripts
