@@ -41,6 +41,7 @@ autocmd BufRead,BufNewFile *.go set set tabstop=2 shiftwidth=2 expandtab
     Plugin 'tpope/vim-commentary'
     Plugin 'tpope/vim-jdaddy'
     Plugin 'tpope/vim-vinegar'
+    Plugin 'tpope/vim-markdown'
     Plugin 'simmel/vim-pastie'
     Plugin 'scrooloose/syntastic'
     Plugin 'sjl/gundo.vim'
@@ -61,7 +62,8 @@ autocmd BufRead,BufNewFile *.go set set tabstop=2 shiftwidth=2 expandtab
     Plugin 'haya14busa/incsearch.vim'
     Plugin 'rust-lang/rust.vim'
     Plugin 'suan/vim-instant-markdown'
-    Plugin 'tpope/vim-markdown'
+    Plugin '907th/vim-auto-save'
+    Plugin 'ConradIrwin/vim-bracketed-paste'
 
 
     " github mirrors for vim scripts
@@ -259,6 +261,12 @@ nnoremap <F11> :cal VimCommanderToggle()<CR>
 nnoremap <Tab> <C-W><C-W>
 
 " Scripts config
+
+" Autosave
+let g:auto_save = 1  " enable AutoSave on Vim startup
+let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
+
+
 
 " Notes
 
