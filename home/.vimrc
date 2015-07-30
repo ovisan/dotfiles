@@ -30,62 +30,42 @@ autocmd BufRead,BufNewFile *.go set set tabstop=2 shiftwidth=2 expandtab
     Plugin 'fatih/vim-go'
     Plugin 'scrooloose/nerdtree'
     Plugin 'SirVer/ultisnips'
-    Plugin 'Lokaltog/vim-easymotion'
     Plugin 'nsf/gocode', {'rtp': 'vim/'}
-    Plugin 'majutsushi/tagbar'
+    Plugin 'majutsushi/tagbar' "Minimap of functions
     Plugin 'tpope/vim-repeat'
     Plugin 'tpope/vim-abolish'
-    Plugin 'tpope/vim-speeddating'
+    Plugin 'tpope/vim-speeddating' "Enhances the default vim increment
     Plugin 'tpope/vim-fugitive'
     Plugin 'tpope/vim-surround'
     Plugin 'tpope/vim-commentary'
     Plugin 'tpope/vim-jdaddy'
-    Plugin 'tpope/vim-vinegar'
     Plugin 'tpope/vim-markdown'
-    Plugin 'simmel/vim-pastie'
     Plugin 'scrooloose/syntastic'
     Plugin 'sjl/gundo.vim'
     Plugin 'kien/ctrlp.vim'
-    Plugin 'tacahiroy/ctrlp-funky'
-    Plugin 'ivalkeen/vim-ctrlp-tjump'
-    Plugin 'sgur/ctrlp-extensions.vim'
     Plugin 'bling/vim-airline'
-    Plugin 'godlygeek/tabular.git'
+    Plugin 'godlygeek/tabular.git' "Alignment plugin
     Plugin 'Raimondi/delimitMate'
     Plugin 'terryma/vim-multiple-cursors'
-    Plugin 'Shougo/unite.vim'
-    Plugin 'ggreer/the_silver_searcher'
-    Plugin 'benmills/vimux'
-    Plugin 'ekalinin/Dockerfile.vim'
     Plugin 'xolox/vim-notes'
     Plugin 'xolox/vim-misc'
-    Plugin 'haya14busa/incsearch.vim'
-    Plugin 'rust-lang/rust.vim'
+    Plugin 'haya14busa/incsearch.vim' "Better incsearch
     Plugin 'suan/vim-instant-markdown'
-    Plugin '907th/vim-auto-save'
-    Plugin 'ConradIrwin/vim-bracketed-paste'
+    Plugin 'ConradIrwin/vim-bracketed-paste' "No more :set paste!
 
 
     " github mirrors for vim scripts
-    Plugin 'vim-scripts/dbext.vim'
-    Plugin 'vim-scripts/EasyGrep'
-    Plugin 'vim-scripts/netrw.vim'
-    Plugin 'vim-scripts/camelcasemotion'
+    Plugin 'vim-scripts/netrw.vim' "Remote editing
     Plugin 'vim-scripts/vimcommander'
-    Plugin 'vim-scripts/sessionman.vim'
     Plugin 'vim-scripts/c.vim'
     Plugin 'vim-scripts/SQLComplete.vim'
-    Plugin 'vim-scripts/TaskList.vim'
-    Plugin 'vim-scripts/VisIncr'
     Plugin 'vim-scripts/ScrollColors'
     Plugin 'vim-scripts/OmniCppComplete'
     Plugin 'vim-scripts/CRefVim'
-    Plugin 'vim-scripts/quilt'
 
     "color schemes
     Plugin 'tomasr/molokai'
     Plugin 'tpope/vim-vividchalk'
-    Plugin 'gosukiwi/vim-atom-dark'
 
     if iCanHazVundle == 0
         echo "Installing Plugin, please ignore key map error messages"
@@ -124,14 +104,12 @@ autocmd FileType go setlocal omnifunc=gocomplete#CompleteTags
 let $PATH .= ":".$GOPATH."/bin"
 """"""""""""""""""""""""""""""""""""
 
-function! IndentationHeatMap()
-    set conceallevel=1
-    for i in range(1,9)
-        let indentation = repeat(" ", &sts * i)
-        exe 'syntax match NonText "^' . indentation . '" conceal cchar=' . i
-    endfor
-endfunction
-
+" allows incsearch highlighting for range commands
+cnoremap ~c <CR>:t''<CR>
+cnoremap ~C <CR>:T''<CR>
+cnoremap ~m <CR>:m''<CR>
+cnoremap ~M <CR>:M''<CR>
+cnoremap ~d <CR>:d<CR>``
 
 " General Vim
 if has("gui_running")
@@ -168,6 +146,7 @@ syntax on
 set encoding=utf-8
 set number
 set linespace=0
+silent !mkdir ~/tmp > /dev/null 2>&1
 set backupdir=~/tmp
 set mouse=a
 set autoread
@@ -244,10 +223,11 @@ vnoremap . :norm.<CR>
 nnoremap <Leader>h :GoDoc <C-r><C-w> <CR>
 
 " Mapping to rename word under cursor
-nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
-
-" Maping to rename in golang source file (!!IMPORTANT!!)
-nnoremap <Leader>r :silent !gofmt -r '<C-r><C-w> -> ' -w % <Left><Left><Left><Left><Left><Left>
+if &ft=='go'
+    nnoremap <Leader>r :silent !gofmt -r '<C-r><C-w> -> ' -w % <Left><Left><Left><Left><Left><Left>
+else
+    nnoremap <Leader>r :%s/\<<C-r><C-w>\>//g<Left><Left>
+endif
 
 let NERDTreeShowBookmarks=1
 nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
@@ -261,12 +241,6 @@ nnoremap <F11> :cal VimCommanderToggle()<CR>
 nnoremap <Tab> <C-W><C-W>
 
 " Scripts config
-
-" Autosave
-let g:auto_save = 1  " enable AutoSave on Vim startup
-let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
-
-
 
 " Notes
 
