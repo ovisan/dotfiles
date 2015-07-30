@@ -105,11 +105,11 @@ let $PATH .= ":".$GOPATH."/bin"
 """"""""""""""""""""""""""""""""""""
 
 " allows incsearch highlighting for range commands
-cnoremap ~c <CR>:t''<CR>
-cnoremap ~C <CR>:T''<CR>
-cnoremap ~m <CR>:m''<CR>
-cnoremap ~M <CR>:M''<CR>
-cnoremap ~d <CR>:d<CR>``
+cnoremap /c <CR>:t''<CR>
+cnoremap /C <CR>:T''<CR>
+cnoremap /m <CR>:m''<CR>
+cnoremap /M <CR>:M''<CR>
+cnoremap /d <CR>:d<CR>``
 
 " General Vim
 if has("gui_running")
