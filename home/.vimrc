@@ -6,7 +6,7 @@ set t_Co=256
 set vb t_vb=
 
 autocmd BufRead,BufNewFile *.c,*.h set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
-autocmd BufRead,BufNewFile *.go set set tabstop=2 shiftwidth=2 expandtab
+autocmd BufRead,BufNewFile *.go set tabstop=2 shiftwidth=2 expandtab
 
 " Setting up Vundle - the vim plugin bundler
     let iCanHazVundle=1
@@ -176,9 +176,9 @@ endfunction
 " autocmd FileType cpp autocmd BufWritePre <buffer> :call ClangFormat()
 
 autocmd BufRead,BufNewFile *.go syntax on
-autocmd BufRead,BufNewFile *.go set ai
 " autocmd FileType go runtime! autoload/gocomplete.vim
-au BufRead,BufNewFile *.go set filetype=go
+autocmd BufRead,BufNewFile *.go set filetype=go
+autocmd BufRead,BufNewFile *.go set ai 
 " set the autocomplete when loading a go file
 autocmd FileType go set omnifunc=gocomplete#Complete
 

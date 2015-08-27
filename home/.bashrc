@@ -27,6 +27,7 @@
 
 # Setting the name for screen compatibility
 export TERM=rxvt-256color
+export PATH=${PATH}:${HOME}/go/bin
 
 test -s ~/.alias && . ~/.alias || true
 # ~/.bashrc: executed by bash(1) for non-login shells.
@@ -114,6 +115,9 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+
+#sound alias
+alias vol='pavucontrol'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
