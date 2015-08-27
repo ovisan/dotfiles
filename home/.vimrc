@@ -120,6 +120,10 @@ if has("gui_running")
   endif
 endif
 
+"fix remapping
+cmap Q q 
+cmap W w
+
 "favorite colorscheme
 colorscheme vividchalk
 
