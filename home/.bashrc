@@ -27,7 +27,7 @@
 
 # Setting the name for screen compatibility
 # export TERM=rxvt-256color
-export TERM=xterm
+export TERM=rxvt
 export PATH=${PATH}:${HOME}/go/bin
 
 test -s ~/.alias && . ~/.alias || true
@@ -91,15 +91,6 @@ else
 fi
 unset color_prompt force_color_prompt
 
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
-
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -119,6 +110,9 @@ alias l='ls -CF'
 
 #sound alias
 alias vol='pavucontrol'
+
+#gopath alias
+alias gp='export GOPATH=$(pwd)'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -156,7 +150,10 @@ bind '"\e[B": history-search-forward'
 
 setxkbmap -option caps:none
 
-# PS1 Prompt
-export PS1="\[\e[00;33m\]\u\[\e[0m\]\[\e[00;37m\]@\h:\[\e[0m\]\[\e[00;36m\][\w]:\[\e[0m\]\[\e[00;37m\] \[\e[0m\]"
+#w$(parse_git_branch) Add git branch if its present to PS1
+parse_git_branch() {
+ git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+export PS1='\[\e[00;33m\]\u\[\e[0m\]\[\e[00;37m\]@\h:\[\e[0m\]\[\e[00;36m\][\w $(parse_git_branch)]:\[\e[0m\]\[\e[00;37m\] \[\e[0m\]'
 
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
