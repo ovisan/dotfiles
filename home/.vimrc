@@ -8,6 +8,9 @@ set vb t_vb=
 autocmd BufRead,BufNewFile *.c,*.h set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 autocmd BufRead,BufNewFile *.go set tabstop=2 shiftwidth=2 expandtab
 
+"Setting the highlight colors
+hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
+
 " Setting up Vundle - the vim plugin bundler
     let iCanHazVundle=1
     let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
@@ -23,6 +26,12 @@ autocmd BufRead,BufNewFile *.go set tabstop=2 shiftwidth=2 expandtab
     Plugin 'gmarik/vundle'
     "Add your bundles here
     " from github
+
+    "color schemes
+    Plugin 'tpope/vim-vividchalk'
+    Plugin 'ovisan/vividchalk-custom'
+
+    "other
     Plugin 'ntpeters/vim-better-whitespace'
     Plugin 'ervandew/supertab'
     Plugin 'Shougo/neocomplete.vim'
@@ -63,9 +72,6 @@ autocmd BufRead,BufNewFile *.go set tabstop=2 shiftwidth=2 expandtab
     Plugin 'vim-scripts/OmniCppComplete'
     Plugin 'vim-scripts/CRefVim'
 
-    "color schemes
-    Plugin 'tomasr/molokai'
-    Plugin 'tpope/vim-vividchalk'
 
     if iCanHazVundle == 0
         echo "Installing Plugin, please ignore key map error messages"
@@ -121,18 +127,16 @@ if has("gui_running")
 endif
 
 "fix remapping
-cmap Q q 
+cmap Q q
 cmap W w
 
 "favorite colorscheme
-colorscheme vividchalk
+colorscheme vividchalk-custom
 
 "display indent guides (the space is needed after the line to work properly)
 set list lcs=tab:\|\ 
 
 "setting cursor properties
-"highlight Cursor guifg=white guibg=red
-"highlight iCursor guifg=white guibg=steelblue
 "set guicursor=n-v-c:block-Cursor
 "set guicursor+=i:ver100-iCursor
 "set guicursor+=a:blinkon0
@@ -255,8 +259,6 @@ let g:notes_directories = ['~/Documents/Notes', '~/Dropbox/Shared Notes']
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
-" highlight Colors
-hi Search ctermfg=Red ctermbg=Yellow
 
 "Taglist golang definition {
 let s:tlist_def_go_settings = 'go;s:struct;f:func;v:var'
