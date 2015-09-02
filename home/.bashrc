@@ -26,7 +26,8 @@
 #export PILOTRATE=115200
 
 # Setting the name for screen compatibility
-export TERM=rxvt-256color
+# export TERM=rxvt-256color
+export TERM=xterm
 export PATH=${PATH}:${HOME}/go/bin
 
 test -s ~/.alias && . ~/.alias || true

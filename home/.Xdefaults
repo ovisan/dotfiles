@@ -18,18 +18,23 @@
 *color14: #4eb4fa
 *color15: #d0d0d0
 
-*font: -*-terminus-medium-*-*-*-18-*-*-*-*-*-iso10646-*
-*font1: -*-terminus-medium-*-*-*-12-*-*-*-*-*-iso10646-*
-*font2: -*-terminus-medium-*-*-*-14-*-*-*-*-*-iso10646-*
-*font3: -*-terminus-medium-*-*-*-16-*-*-*-*-*-iso10646-*
-*font4: -*-terminus-medium-*-*-*-22-*-*-*-*-*-iso10646-*
-*font5: -*-terminus-medium-*-*-*-24-*-*-*-*-*-iso10646-*
-*font6: -*-terminus-medium-*-*-*-32-*-*-*-*-*-iso10646-*
-*VT100*translations: #override Shift <Btn1Up>: exec-formatted("firefox '%t'", PRIMARY)
+urxvt*font: xft:DejaVu Sans Mono:style=Book:antialias=false:size=8, \
+            xft:WenQuanYi Bitmap Song:size=8, \
+            xft:FreeSerif:style=Regular, \
+            xft:unifont:style=Medium:antialias=false
+
+/* *font: -*-terminus-medium-*-*-*-18-*-*-*-*-*-iso10646-* */
+/* *font1: -*-terminus-medium-*-*-*-12-*-*-*-*-*-iso10646-* */
+/* *font2: -*-terminus-medium-*-*-*-14-*-*-*-*-*-iso10646-* */
+/* *font3: -*-terminus-medium-*-*-*-16-*-*-*-*-*-iso10646-* */
+/* *font4: -*-terminus-medium-*-*-*-22-*-*-*-*-*-iso10646-* */
+/* *font5: -*-terminus-medium-*-*-*-24-*-*-*-*-*-iso10646-* */
+/* *font6: -*-terminus-medium-*-*-*-32-*-*-*-*-*-iso10646-* */
+/* *VT100*translations: #override Shift <Btn1Up>: exec-formatted("firefox '%t'", PRIMARY) */
 
 *saveLines: 1000000
 *scrollBar: false
-*font: xft:Inconsolata:autohint=true:antialias=true:pixelsize=13
+/* *font: xft:Inconsolata:autohint=true:antialias=false:pixelsize=13 */
 *borderless: true
 
 *scrollTtyOutput: false

@@ -114,7 +114,7 @@ cnoremap /d <CR>:d<CR>``
 " General Vim
 if has("gui_running")
   if has("gui_gtk2")
-    set guifont=Inconsolata\ 10
+    set guifont=Deja\ Vu\ Mono\ 10
   elseif has("gui_win32")
     set guifont=Consolas:h11:cANSI
   endif
