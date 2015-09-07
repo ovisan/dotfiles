@@ -30,6 +30,8 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     "color schemes
     Plugin 'tpope/vim-vividchalk'
     Plugin 'ovisan/vividchalk-custom'
+    "temporary
+    Plugin 'vim-ruby/vim-ruby'
 
     "other
     Plugin 'ntpeters/vim-better-whitespace'
@@ -120,7 +122,7 @@ cnoremap /d <CR>:d<CR>``
 " General Vim
 if has("gui_running")
   if has("gui_gtk2")
-    set guifont=Deja\ Vu\ Mono\ 10
+    set guifont=DejaVu\ \Sans\ Mono\ 10
   elseif has("gui_win32")
     set guifont=Consolas:h11:cANSI
   endif
@@ -318,7 +320,7 @@ let g:neocomplete#min_syntax_length = 3
 " buffer file name pattern that locks neocomplete. e.g. ku.vim or fuzzyfinder
 let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 " AutoComplPop like behavior.
-let g:neocomplete#enable_auto_select = 1
+let g:neocomplete#enable_auto_select = 0
 
 "delimitMate settings
 let g:delimitMate_expand_cr=1
