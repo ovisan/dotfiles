@@ -26,8 +26,6 @@
 #export PILOTRATE=115200
 
 # Setting the name for screen compatibility
-# export TERM=rxvt-256color
-export TERM=rxvt
 export PATH=${PATH}:${HOME}/go/bin
 
 test -s ~/.alias && . ~/.alias || true
@@ -48,8 +46,8 @@ awk '!x[$0]++' .bash_history > .bash.tmp && mv -f .bash.tmp .bash_history
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=5000
-HISTFILESIZE=5000
+HISTSIZE=50000
+HISTFILESIZE=50000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -117,6 +115,9 @@ alias gp='export GOPATH=$(pwd)'
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# git aliases
+alias update='git pull --rebase upstream master'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
