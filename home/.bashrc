@@ -134,7 +134,6 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
-alias spellcheck='gnome-terminal -x ~/Documents/spellcheck.sh'
 export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
 export HISTSIZE=10000000                 # big big history
 export HISTFILESIZE=10000000             # big big history

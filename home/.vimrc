@@ -28,7 +28,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     " from github
 
     "color schemes
-    Plugin 'tpope/vim-vividchalk'
+    "Plugin 'tpope/vim-vividchalk'
     Plugin 'ovisan/vividchalk-custom'
     "temporary
     Plugin 'vim-ruby/vim-ruby'

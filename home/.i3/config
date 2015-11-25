@@ -31,14 +31,15 @@ font pango:DejaVu\ Sans\ Mono 10
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec urxvt-256color
+bindsym $mod+Return exec lxterminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
 bindsym $mod+x kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec rofi -show run -font "DejaVu Sans Mono Book 18" -fg "#505050" -bg "#000000" -hlfg "#ffb964" -hlbg "#000000" -lines 20
+bindsym $mod+c exec rofi -show ssh -font "DejaVu Sans Mono Book 18" -fg "#505050" -bg "#000000" -hlfg "#ffb964" -hlbg "#000000" -lines 20 -terminal "lxterminal -e"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -46,17 +47,6 @@ bindsym $mod+d exec dmenu_run
 
 # Take a screenshot upon pressing Print Screen (select an area)
 bindsym --release Print exec --no-startup-id import /tmp/latest-screenshot.png
-
-# volume keys
-#bindsym $mod+Prior exec pactl set-sink-volume 0 +5%
-bindsym $mod+Prior exec amixer -q sset Master 5%+ unmute
-#bindsym $mod+Next exec pactl set-sink-volume 0 -- -5%
-bindsym $mod+Next exec amixer -q sset Master 5%- unmute
-#bindsym $mod+m exec amixer -q set Master toggle
-#
-# Mute microphone only
-bindsym $mod+m exec amixer set Capture 80% toggle
-#bindsym $mod+m exec pactl set-sink-mute 0 toggle
 
 # focus arrows work only inside that workspace
 force_focus_wrapping yes
@@ -153,7 +143,7 @@ bindsym $mod+Shift+0 move container to workspace 10
 assign [class="Google-chrome*"]  1:www
 assign [class="Thunderbird"] 2:mail
 assign [class="Xchat"] 3:xchat
-assign [class="URxvt"] 4:terminal
+assign [class="Lxterminal"] 4:terminal
 assign [class="rdesktop"] 5:rdp
 assign [class="Virt-manager"] 6:virt-manager
 assign [class="Mumble"] 7:mumble
@@ -215,6 +205,10 @@ bar {
 # pulse audio volume control
 bindsym XF86AudioLowerVolume exec /usr/bin/pactl set-sink-volume 1 -5%
 bindsym XF86AudioRaiseVolume exec /usr/bin/pactl set-sink-volume 1 +5%
+
+bindsym $mod+Prior exec pactl set-sink-volume 0 +5%
+bindsym $mod+Next exec pactl set-sink-volume 0 -- -5%
+
 bindsym XF86AudioMute exec /usr/bin/pactl set-sink-volume 0 0
 bindsym XF86MonBrightnessUp exec /usr/bin/xbacklight -inc 10
 bindsym XF86MonBrightnessDown exec /usr/bin/xbacklight -dec 5
