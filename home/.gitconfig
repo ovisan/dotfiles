@@ -1,0 +1,15 @@
+[core]
+	excludesfile = /home/ovisan/.gitignore_global
+[gitreview]
+	username = ovisan
+[user]
+	name = Ovidiu Visan
+  #email = visan.ovidiu@gmail.com
+  email = ovisan@suse.com
+[push]
+	default = simple
+[alias]
+	update = pull --rebase upstream master
+	sl = log --pretty=oneline
+	fl = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+	st = status

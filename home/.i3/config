@@ -25,7 +25,7 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 for_window [class="Plugin-container" instance="plugin-container"] floating enable; border none; focus mode_toggle
 
 # setting custom font
-font pango:DejaVu\ Sans\ Mono 10
+font pango:DejaVu\ Sans\ 10
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -39,6 +39,7 @@ bindsym $mod+x kill
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec rofi -show run -font "DejaVu Sans Mono Book 18" -fg "#505050" -bg "#000000" -hlfg "#ffb964" -hlbg "#000000" -lines 20
+bindsym $mod+n exec rofi -show window -font "DejaVu Sans Mono Book 18" -fg "#505050" -bg "#000000" -hlfg "#ffb964" -hlbg "#000000" -lines 20
 bindsym $mod+c exec rofi -show ssh -font "DejaVu Sans Mono Book 18" -fg "#505050" -bg "#000000" -hlfg "#ffb964" -hlbg "#000000" -lines 20 -terminal "lxterminal -e"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
@@ -206,8 +207,8 @@ bar {
 bindsym XF86AudioLowerVolume exec /usr/bin/pactl set-sink-volume 1 -5%
 bindsym XF86AudioRaiseVolume exec /usr/bin/pactl set-sink-volume 1 +5%
 
-bindsym $mod+Prior exec pactl set-sink-volume 0 +5%
-bindsym $mod+Next exec pactl set-sink-volume 0 -- -5%
+bindsym $mod+Prior exec pactl set-sink-volume 1 +5%
+bindsym $mod+Next exec pactl set-sink-volume 1 -- -5%
 
 bindsym XF86AudioMute exec /usr/bin/pactl set-sink-volume 0 0
 bindsym XF86MonBrightnessUp exec /usr/bin/xbacklight -inc 10

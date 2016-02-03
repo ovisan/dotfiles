@@ -52,7 +52,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'tpope/vim-jdaddy'
     Plugin 'tpope/vim-markdown'
     Plugin 'scrooloose/syntastic'
-    Plugin 'sjl/gundo.vim'
+    Plugin 'mbbill/undotree'
     Plugin 'kien/ctrlp.vim'
     Plugin 'bling/vim-airline'
     Plugin 'godlygeek/tabular.git' "Alignment plugin
@@ -243,7 +243,7 @@ let NERDTreeShowBookmarks=1
 nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
 nnoremap <F3> :NERDTreeToggle<CR>
 nnoremap <F4> :TagbarToggle <CR>
-nnoremap <F5> :GundoToggle <CR>
+nnoremap <F5> :UndotreeToggle<CR>
 
 " Go mapping for test and code files
 autocmd BufNewFile,BufRead *_test.go map <buffer> <F8> :!go test -file %<CR>
