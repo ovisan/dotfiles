@@ -25,23 +25,23 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 for_window [class="Plugin-container" instance="plugin-container"] floating enable; border none; focus mode_toggle
 
 # setting custom font
-font pango:DejaVu\ Sans\ 8
+font Xft:DejaVu\ Sans\ 9
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+# bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec sakura
 
 # kill focused window
 bindsym $mod+Shift+q kill
 bindsym $mod+x kill
 
 # start dmenu (a program launcher)
-# bindsym $mod+d exec rofi -show run -font "DejaVu Sans Mono Book 18" -fg "#505050" -bg "#000000" -hlfg "#ffb964" -hlbg "#000000" -lines 20
-bindsym $mod+d exec dmenu_run
-# bindsym $mod+n exec rofi -show window -font "DejaVu Sans Mono Book 18" -fg "#505050" -bg "#000000" -hlfg "#ffb964" -hlbg "#000000" -lines 20
-# bindsym $mod+c exec rofi -show ssh -font "DejaVu Sans Mono Book 18" -fg "#505050" -bg "#000000" -hlfg "#ffb964" -hlbg "#000000" -lines 20 -terminal "lxterminal -e"
+ bindsym $mod+d exec rofi -show run -font "DejaVu Sans Mono Book 18" -fg "#505050" -bg "#000000" -hlfg "#ffb964" -hlbg "#000000" -lines 20
+ bindsym $mod+n exec rofi -show window -font "DejaVu Sans Mono Book 18" -fg "#505050" -bg "#000000" -hlfg "#ffb964" -hlbg "#000000" -lines 20
+ bindsym $mod+c exec rofi -show ssh -font "DejaVu Sans Mono Book 18" -fg "#505050" -bg "#000000" -hlfg "#ffb964" -hlbg "#000000" -lines 20 -terminal "lxterminal -e"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -143,7 +143,7 @@ bindsym $mod+Shift+0 move container to workspace 10
 
 # custom clients on workspaces
 assign [class="Google-chrome*"]  1:www
-assign [class="gnome-terminal"] 2:terminal
+assign [class="sakura"] 2:terminal
 assign [class="HipChat"] 3:chat
 
 # auto jump back
