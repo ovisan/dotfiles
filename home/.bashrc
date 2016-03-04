@@ -1,5 +1,5 @@
 # Setting the name for screen compatibility
-export PATH=${PATH}:${HOME}/go/bin
+# export PATH=${PATH}:${HOME}/go/bin
 
 test -s ~/.alias && . ~/.alias || true
 # ~/.bashrc: executed by bash(1) for non-login shells.
