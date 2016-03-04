@@ -25,7 +25,7 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 for_window [class="Plugin-container" instance="plugin-container"] floating enable; border none; focus mode_toggle
 
 # setting custom font
-font pango:DejaVu\ Sans\ 10
+font pango:DejaVu\ Sans\ 8
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
