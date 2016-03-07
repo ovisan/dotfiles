@@ -69,7 +69,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'vim-scripts/netrw.vim' "Remote editing
     Plugin 'vim-scripts/vimcommander'
     Plugin 'vim-scripts/c.vim'
-    Plugin 'vim-scripts/SQLComplete.vim'
+    " Plugin 'vim-scripts/SQLComplete.vim'
     Plugin 'vim-scripts/ScrollColors'
     Plugin 'vim-scripts/OmniCppComplete'
     Plugin 'vim-scripts/CRefVim'

@@ -82,8 +82,8 @@ alias l='ls -CF'
 #sound alias
 alias vol='pavucontrol'
 
-#gopath alias
-alias gp='export GOPATH=$(pwd)'
+#gopath and bin to PATH alias
+alias gp='export GOPATH=$(pwd) && export PATH=$PATH:$GOPATH/bin'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
