@@ -1,5 +1,6 @@
 [core]
 	excludesfile = /home/ovisan/.gitignore_global
+	editor = vim
 [gitreview]
 	username = ovisan
 [user]
@@ -13,3 +14,11 @@
 	sl = log --pretty=oneline
 	fl = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 	st = status
+[url "git@bitbucket.org:"]
+	insteadOf = https://bitbucket.org/
+[diff]
+	tool = vimdiff
+[merge]
+	tool = vimdiff
+[difftool]
+	prompt = false

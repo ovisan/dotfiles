@@ -8,6 +8,11 @@ set vb t_vb=
 autocmd BufRead,BufNewFile *.c,*.h set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 autocmd BufRead,BufNewFile *.go set tabstop=2 shiftwidth=2 expandtab
 
+" difference between insert and normal mode with no delay
+autocmd InsertEnter * set cul
+autocmd InsertLeave * set nocul
+set timeoutlen=1000 ttimeoutlen=0
+
 "Setting the highlight colors
 hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
 
@@ -62,7 +67,6 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'xolox/vim-misc'
     Plugin 'haya14busa/incsearch.vim' "Better incsearch
     Plugin 'suan/vim-instant-markdown'
-    Plugin 'ConradIrwin/vim-bracketed-paste' "No more :set paste!
 
 
     " github mirrors for vim scripts
@@ -170,7 +174,7 @@ set matchtime=3
 set background=dark
 
 " Use system's clipboard
-set clipboard^=unnamed
+set clipboard=unnamedplus
 
 " Edit anyway if there is a swap file
 autocmd SwapExists * :let v:swapchoice='e'

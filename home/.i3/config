@@ -228,7 +228,7 @@ client.unfocused        #333333 #222222 #888888 #292d2e
 client.urgent           #2f343a #900000 #ffffff #900000
 
 # running programs
-exec xrandr --output DP-1 --primary --output DP-2 --auto --rotate normal --left-of DP-1
+exec xrandr --output eDP1 --primary --output eDP1 --auto --rotate normal --left-of DP2-2
 exec setxkbmap -option caps:escape
 exec feh --bg-scale ~/Pictures/linux_dark_wallpaper_by_alienvoid-d48wsty.jpg
 exec pnmixer
