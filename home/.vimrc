@@ -13,6 +13,13 @@ autocmd InsertEnter * set cul
 autocmd InsertLeave * set nocul
 set timeoutlen=1000 ttimeoutlen=0
 
+" adding a line from normal mode
+nmap <S-Enter> O<Esc>
+nmap <CR> o<Esc>
+
+" deletes a line on backspace in normal mode
+nmap <BS> dd<Esc>k
+
 "Setting the highlight colors
 hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
 
@@ -67,13 +74,13 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'xolox/vim-misc'
     Plugin 'haya14busa/incsearch.vim' "Better incsearch
     Plugin 'suan/vim-instant-markdown'
+    " Plugin 'Blackrush/vim-gocode'
 
 
     " github mirrors for vim scripts
     Plugin 'vim-scripts/netrw.vim' "Remote editing
     Plugin 'vim-scripts/vimcommander'
     Plugin 'vim-scripts/c.vim'
-    " Plugin 'vim-scripts/SQLComplete.vim'
     Plugin 'vim-scripts/ScrollColors'
     Plugin 'vim-scripts/OmniCppComplete'
     Plugin 'vim-scripts/CRefVim'
@@ -96,18 +103,8 @@ let $GIT_SSL_NO_VERIFY = 'true'
 " required!
 let g:neocomplete#sources#omni#functions = {'go': 'go#complete#Complete'}
 let g:neocomplete#sources#omni#functions = {'c': 'c#complete#Complete'}
-" autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd FileType c setlocal omnifunc=ccomplete#CompleteTags
 autocmd FileType go setlocal omnifunc=gocomplete#CompleteTags
-" " Enable heavy omni completion.
-" if !exists('g:neocomplete#sources#omni#input_patterns')
-"   let g:neocomplete#sources#omni#input_patterns = {}
-" endif
-" let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-
 
 """"""""""""""""""""""""""""""""""""
 " Set the PATH variable internally to point to gocode binary, and that is
@@ -373,6 +370,9 @@ let pastie_private=1
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_cpp_compiler = "g++"
 let g:syntastic_cpp_compiler_options = "-std=c++11 -Wall -Wextra -Wpedantic"
+" Needed for vim-go
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go']  }
 "}
 
 " configuration airline bar {
