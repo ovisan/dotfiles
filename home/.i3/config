@@ -228,7 +228,8 @@ client.unfocused        #333333 #222222 #888888 #292d2e
 client.urgent           #2f343a #900000 #ffffff #900000
 
 # running programs
-exec xrandr --output eDP1 --primary --output eDP1 --auto --rotate normal --left-of DP2-2
+# exec xrandr --output eDP1 --primary --output eDP1 --auto --rotate normal --left-of DP2-2
+exec xrandr --output DP2-2 --primary --output DP2-2 --auto --rotate normal --left-of DP2-3 --output DP2-3 --left-of eDP1
 exec setxkbmap -option caps:escape
 exec feh --bg-scale ~/Pictures/linux_dark_wallpaper_by_alienvoid-d48wsty.jpg
 exec pnmixer
@@ -236,3 +237,4 @@ exec clipit
 exec nm-applet
 exec xset m 4/2 0
 exec hipchat
+exec redshift &

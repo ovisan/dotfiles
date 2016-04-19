@@ -54,7 +54,6 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'scrooloose/nerdtree'
     Plugin 'SirVer/ultisnips'
     Plugin 'nsf/gocode', {'rtp': 'vim/'}
-    Plugin 'majutsushi/tagbar' "Minimap of functions
     Plugin 'tpope/vim-repeat'
     Plugin 'tpope/vim-abolish'
     Plugin 'tpope/vim-speeddating' "Enhances the default vim increment
@@ -84,6 +83,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'vim-scripts/ScrollColors'
     Plugin 'vim-scripts/OmniCppComplete'
     Plugin 'vim-scripts/CRefVim'
+    Plugin 'vim-scripts/taglist.vim'
 
 
     if iCanHazVundle == 0
@@ -150,9 +150,13 @@ set wildmenu
 set hlsearch
 set incsearch
 set ignorecase smartcase
-" IMPORTANT for ftdetect
-filetype indent on
+" disable global autoindent
+autocmd BufRead,BufNewFile * filetype indent off
+autocmd BufRead,BufNewFile *.go filetype indent on
+autocmd BufRead,BufNewFile *.rb filetype indent on
+
 filetype plugin on
+
 syntax on
 set encoding=utf-8
 set number
@@ -243,7 +247,7 @@ endif
 let NERDTreeShowBookmarks=1
 nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
 nnoremap <F3> :NERDTreeToggle<CR>
-nnoremap <F4> :TagbarToggle <CR>
+nnoremap <F4> :TlistToggle <CR>
 nnoremap <F5> :UndotreeToggle<CR>
 
 " Go mapping for test and code files
@@ -264,7 +268,11 @@ map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
 "Taglist golang definition {
-let s:tlist_def_go_settings = 'go;s:struct;f:func;v:var'
+" let s:tlist_def_go_settings = 'go;s:struct;f:func;v:var'
+" go language
+let s:tlist_def_go_settings = 'go;g:enum;s:struct;u:union;t:type;' .
+                           \ 'v:variable;f:function'
+let Tlist_Inc_Winwidth = 0
 "}
 
 " CTRLP Funky
@@ -343,15 +351,7 @@ hi link EasyMotionShade  Comment
 " Taglist {
 let Tlist_Ctags_Cmd = "/usr/bin/ctags"
 let Tlist_WinWidth = 50
-"}
-
-" Taglist {
-let Tlist_Ctags_Cmd = "/usr/bin/ctags"
-let Tlist_WinWidth = 50
-"}
-
-" Conque config {
-let g:ConqueTerm_ReadUnfocused = 1
+let Tlist_Use_Right_Window   = 1
 "}
 
 " Supertab {
@@ -381,36 +381,6 @@ let g:airline#extensions#branch#enable=1
 let g:airline#extensions#modified#enable=1
 let g:airline#extensions#paste#enable=1
 let g:airline#extensions#whitespace#enable=1
-"}
-
-" Tagbar Go {
-let g:tagbar_type_go = {
-    \ 'ctagstype' : 'go',
-    \ 'kinds'     : [
-        \ 'p:package',
-        \ 'i:imports:1',
-        \ 'c:constants',
-        \ 'v:variables',
-        \ 't:types',
-        \ 'n:interfaces',
-        \ 'w:fields',
-        \ 'e:embedded',
-        \ 'm:methods',
-        \ 'r:constructor',
-        \ 'f:functions'
-    \ ],
-    \ 'sro' : '.',
-    \ 'kind2scope' : {
-        \ 't' : 'ctype',
-        \ 'n' : 'ntype'
-    \ },
-    \ 'scope2kind' : {
-        \ 'ctype' : 't',
-        \ 'ntype' : 'n'
-    \ },
-    \ 'ctagsbin'  : 'gotags',
-    \ 'ctagsargs' : '-sort -silent'
-\ }
 "}
 
 " vim-easy-align {
