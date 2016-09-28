@@ -4,9 +4,11 @@
 if [ -f /etc/bash_completion  ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
+
 export HISTCONTROL=ignoreboth:erasedups:ignoredups:ignorespace # no duplicate entries
 export HISTSIZE=10000000                 # big big history
 export HISTFILESIZE=10000000             # big big history
+
 # removes duplicates from history preserving order each time a terminal is started
 awk '!x[$0]++' .bash_history > .bash.tmp && mv -f .bash.tmp .bash_history
 shopt -s histappend                      # append to history, don't overwrite it
