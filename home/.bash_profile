@@ -35,4 +35,5 @@ alias hs='history | grep '
 parse_git_branch() {
  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
+
 export PS1='\[\e[00;33m\]\u\[\e[0m\]\[\e[00;37m\]@\h:\[\e[0m\]\[\e[00;36m\][\w $(parse_git_branch)]:\[\e[0m\]\[\e[00;37m\] \[\e[0m\]'
