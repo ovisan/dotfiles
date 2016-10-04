@@ -1,0 +1,15 @@
+[extern "visan_ovidiu@allianz"]
+	de = extern.visan_ovidiu@allianz.de
+[user]
+	email = extern.visan_ovidiu@allianz.de
+	name = Ovidiu Visan
+[core]
+	editor = /usr/bin/vim
+[alias]
+  co = checkout
+  ci = commit
+  st = status
+  br = branch
+  hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+  type = cat-file -t
+  dump = cat-file -p
