@@ -111,7 +111,6 @@ autocmd FileType go setlocal omnifunc=gocomplete#CompleteTags
 " installed in the $GOPATH/bin by go get. This way gocode will be sure to run
 " from go installed anywhere in the system.
 let $PATH .= ":".$GOPATH."/bin"
-""""""""""""""""""""""""""""""""""""
 
 " allows incsearch highlighting for range commands
 cnoremap /c <CR>:t''<CR>
