@@ -5,6 +5,12 @@ set t_Co=256
 " disable stupid beeping
 set vb t_vb=
 
+" map leader key
+let mapleader = '\'
+
+" set paste to middle mouse
+set mouse=r
+
 autocmd BufRead,BufNewFile *.c,*.h set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 autocmd BufRead,BufNewFile *.go set tabstop=2 shiftwidth=2 expandtab
 
@@ -386,8 +392,11 @@ let g:airline#extensions#whitespace#enable=1
 " For visual mode (e.g. vip<Enter>)
 vmap <Enter>   <Plug>(EasyAlign)
 
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
 " For normal mode, with Vim movement (e.g. <Leader>aip)
-nmap <Leader>a <Plug>(EasyAlign)
+nmap <Leader>ga <Plug>(EasyAlign)
 
 " Repeat alignment in visual mode with . key
 vmap . <Plug>(EasyAlignRepeat)
