@@ -73,7 +73,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'xolox/vim-misc'
     Plugin 'haya14busa/incsearch.vim' "Better incsearch
     Plugin 'suan/vim-instant-markdown'
-    " Plugin 'Blackrush/vim-gocode'
+    Plugin 'chase/vim-ansible-yaml'
 
 
     " github mirrors for vim scripts
