@@ -8,9 +8,6 @@ set vb t_vb=
 " map leader key
 let mapleader = '\'
 
-" set paste to middle mouse
-set mouse=r
-
 autocmd BufRead,BufNewFile *.c,*.h set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 autocmd BufRead,BufNewFile *.go set tabstop=2 shiftwidth=2 expandtab
 
@@ -168,7 +165,6 @@ set number
 set linespace=0
 silent !mkdir ~/tmp > /dev/null 2>&1
 set backupdir=~/tmp
-set mouse=a
 set autoread
 set completeopt-=preview
 set completeopt+=longest
