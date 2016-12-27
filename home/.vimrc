@@ -18,7 +18,6 @@ set timeoutlen=1000 ttimeoutlen=0
 
 " adding a line from normal mode
 nmap <S-Enter> O<Esc>
-nmap <CR> o<Esc>
 
 " deletes a line on backspace in normal mode
 nmap <BS> dd<Esc>k
