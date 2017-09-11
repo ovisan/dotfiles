@@ -193,7 +193,7 @@ endfunction
 autocmd BufRead,BufNewFile *.go syntax on
 " autocmd FileType go runtime! autoload/gocomplete.vim
 autocmd BufRead,BufNewFile *.go set filetype=go
-autocmd BufRead,BufNewFile *.go set ai 
+autocmd BufRead,BufNewFile *.go set ai
 " set the autocomplete when loading a go file
 autocmd FileType go set omnifunc=gocomplete#Complete
 
