@@ -1,7 +1,9 @@
-﻿set nocompatible
+﻿filetype plugin on
+set nocompatible
 filetype off
 set bg=dark
 set t_Co=256
+set updatetime=100
 " disable stupid beeping
 set vb t_vb=
 
@@ -10,6 +12,16 @@ let mapleader = '\'
 
 autocmd BufRead,BufNewFile *.c,*.h set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 autocmd BufRead,BufNewFile *.go set tabstop=2 shiftwidth=2 expandtab
+
+"python with virtualenv support
+py << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+  project_base_dir = os.environ['VIRTUAL_ENV']
+  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  execfile(activate_this, dict(__file__=activate_this))
+EOF
 
 " difference between insert and normal mode with no delay
 autocmd InsertEnter * set cul
@@ -48,13 +60,14 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'vim-ruby/vim-ruby'
 
     "other
+    Plugin 'ajh17/VimCompletesMe'
+    Plugin 'ludovicchabant/vim-gutentags'
     Plugin 'ntpeters/vim-better-whitespace'
     Plugin 'ervandew/supertab'
-    Plugin 'Shougo/neocomplete.vim'
     Plugin 'justmao945/vim-clang'
+    Plugin 'airblade/vim-gitgutter'
     Plugin 'fatih/vim-go'
     Plugin 'scrooloose/nerdtree'
-    Plugin 'SirVer/ultisnips'
     Plugin 'nsf/gocode', {'rtp': 'vim/'}
     Plugin 'tpope/vim-repeat'
     Plugin 'tpope/vim-abolish'
@@ -93,20 +106,12 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
         echo ""
         :PluginInstall
     endif
-" Setting up Vundle - the vim plugin bundler end
-
-" Syntax highlight for JSON
-autocmd BufNewFile,BufRead *.json set ft=javascript
 
 " Variable for vundle to handle git
 let $GIT_SSL_NO_VERIFY = 'true'
 
 " let Vundle manage Vundle
 " required!
-let g:neocomplete#sources#omni#functions = {'go': 'go#complete#Complete'}
-let g:neocomplete#sources#omni#functions = {'c': 'c#complete#Complete'}
-autocmd FileType c setlocal omnifunc=ccomplete#CompleteTags
-autocmd FileType go setlocal omnifunc=gocomplete#CompleteTags
 
 """"""""""""""""""""""""""""""""""""
 " Set the PATH variable internally to point to gocode binary, and that is
@@ -152,11 +157,7 @@ set hlsearch
 set incsearch
 set ignorecase smartcase
 " disable global autoindent
-autocmd BufRead,BufNewFile * filetype indent off
-autocmd BufRead,BufNewFile *.go filetype indent on
-autocmd BufRead,BufNewFile *.rb filetype indent on
 
-filetype plugin on
 
 syntax on
 set encoding=utf-8
@@ -187,15 +188,6 @@ function! ClangFormat()
 	call winrestview(l:winview)
 endfunction
 
-" autocmd FileType c autocmd BufWritePre <buffer> :call ClangFormat()
-" autocmd FileType cpp autocmd BufWritePre <buffer> :call ClangFormat()
-
-autocmd BufRead,BufNewFile *.go syntax on
-" autocmd FileType go runtime! autoload/gocomplete.vim
-autocmd BufRead,BufNewFile *.go set filetype=go
-autocmd BufRead,BufNewFile *.go set ai
-" set the autocomplete when loading a go file
-autocmd FileType go set omnifunc=gocomplete#Complete
 
 "Automatically changes directory to that of the current file
 autocmd BufEnter * silent! lcd %:p:h
@@ -205,6 +197,7 @@ autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
 
 " Auto source vimrc
 autocmd! bufwritepost .vimrc source %
+
 " ignore list
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 
@@ -257,6 +250,10 @@ nnoremap <Tab> <C-W><C-W>
 
 " Scripts config
 
+" GuttenTags
+set statusline+=%{gutentags#statusline()}
+let g:gutentags_ctags_exclude = ["*.min.js", "*.min.css", "build", "vendor", ".git", "node_modules", "*.vim/bundle/*"]
+
 " Notes
 
 let g:notes_directories = ['~/Documents/Notes', '~/Dropbox/Shared Notes']
@@ -282,36 +279,21 @@ nnoremap <Leader>fu :CtrlPFunky<CR>
 nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<CR>
 
 " Ctrlp settings {
-let g:ctrlp_map = '<c-o>'
+let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlPMixed'
-let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend)$|(^|[/\\])\.(hg|git|bzr|svn)($|[/\\])'
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
 let g:ctrlp_by_filename = 0
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_dotfiles = 0
 let g:ctrlp_switch_buffer = 0
-
-" Neocomplete config
-" Launches neocomplete automatically on vim startup.
-let g:neocomplete#enable_at_startup = 1
-" Adding compatibility with vim-clang
-	if !exists('g:neocomplete#force_omni_input_patterns')
-	  let g:neocomplete#force_omni_input_patterns = {}
-	endif
-	let g:neocomplete#force_omni_input_patterns.c =
-	      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-	let g:neocomplete#force_omni_input_patterns.cpp =
-	      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-	let g:neocomplete#force_omni_input_patterns.objc =
-	      \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
-	let g:neocomplete#force_omni_input_patterns.objcpp =
-	      \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
-	let g:clang_complete_auto = 0
-	let g:clang_auto_select = 0
-	let g:clang_default_keymappings = 0
-	"let g:clang_use_library = 1
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 
 let g:clang_c_options = '-std=gnu11'
 let g:clang_cpp_options = '-std=c++11'
@@ -320,28 +302,9 @@ let g:clang_c_completeopt = 'longest,menuone'
 let g:clang_cpp_completeopt = 'longest,menuone'
 let g:clang_diagsopt = ''
 
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Use camel case completion.
-let g:neocomplete#enable_camel_case_completion = 0
-" Sets minimum char length of syntax keyword.
-let g:neocomplete#min_syntax_length = 3
-" buffer file name pattern that locks neocomplete. e.g. ku.vim or fuzzyfinder
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-" AutoComplPop like behavior.
-let g:neocomplete#enable_auto_select = 0
-
 "delimitMate settings
 let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space=1
-
-"delimitMate and neocomplete mapping to work on enter
-imap <expr> <CR> pumvisible() ? neocomplete#close_popup() : '<Plug>delimitMateCR'
-
-"UltiSnips split vertical and snippets directory {
-let g:UltiSnipsEditSplit = 'vertical'
-let g:UltiSnipsSnippetDirectories= ['bundle/ultisnips/UltiSnips']
-"}
 
 " Colors config for EasyMotion {
 hi link EasyMotionTarget ErrorMsg
@@ -356,10 +319,7 @@ let Tlist_Use_Right_Window   = 1
 
 " Supertab {
 let g:SuperTabDefaultCompletionType = "context"
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+let g:SuperTabDefaultCompletionType = "<c-x><c-n>"
 "}
 
 " Private pastes in pastie {
@@ -381,7 +341,23 @@ let g:airline#extensions#branch#enable=1
 let g:airline#extensions#modified#enable=1
 let g:airline#extensions#paste#enable=1
 let g:airline#extensions#whitespace#enable=1
+function! RefreshUI()
+  if exists(':AirlineRefresh')
+    AirlineRefresh
+  else
+    " Clear & redraw the screen, then redraw all statuslines.
+    redraw!
+    redrawstatus!
+  endif
+endfunction
+
+au BufWritePost .vimrc source $MYVIMRC | :call RefreshUI()
 "}
+augroup reload_vimrc " {
+    autocmd!
+    autocmd BufWritePost $MYVIMRC source $MYVIMRC | AirlineRefresh
+    autocmd BufWritePost $MYVIMRC AirlineRefresh
+augroup END " }
 
 " vim-easy-align {
 " For visual mode (e.g. vip<Enter>)
