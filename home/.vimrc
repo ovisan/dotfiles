@@ -53,8 +53,6 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     "color schemes
     "Plugin 'tpope/vim-vividchalk'
     Plugin 'ovisan/vividchalk-custom'
-    "temporary
-    Plugin 'vim-ruby/vim-ruby'
 
     "other
     Plugin 'mileszs/ack.vim'
@@ -64,7 +62,6 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'ervandew/supertab'
     Plugin 'justmao945/vim-clang'
     Plugin 'airblade/vim-gitgutter'
-    Plugin 'fatih/vim-go'
     Plugin 'scrooloose/nerdtree'
     Plugin 'nsf/gocode', {'rtp': 'vim/'}
     Plugin 'tpope/vim-repeat'
