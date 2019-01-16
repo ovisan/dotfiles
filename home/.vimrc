@@ -31,9 +31,6 @@ set timeoutlen=1000 ttimeoutlen=0
 " adding a line from normal mode
 nmap <S-Enter> O<Esc>
 
-" deletes a line on backspace in normal mode
-nmap <BS> dd<Esc>k
-
 "Setting the highlight colors
 hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
 
@@ -60,6 +57,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'vim-ruby/vim-ruby'
 
     "other
+    Plugin 'mileszs/ack.vim'
     Plugin 'ajh17/VimCompletesMe'
     Plugin 'ludovicchabant/vim-gutentags'
     Plugin 'ntpeters/vim-better-whitespace'
@@ -76,7 +74,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'tpope/vim-surround'
     Plugin 'tpope/vim-commentary'
     Plugin 'tpope/vim-jdaddy'
-    Plugin 'tpope/vim-markdown'
+    Plugin 'gabrielelana/vim-markdown'
     Plugin 'scrooloose/syntastic'
     Plugin 'mbbill/undotree'
     Plugin 'kien/ctrlp.vim'
@@ -238,6 +236,7 @@ else
 endif
 
 let NERDTreeShowBookmarks=1
+let g:NERDTreeNodeDelimiter = "\u00a0"
 nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
 nnoremap <F3> :NERDTreeToggle<CR>
 nnoremap <F4> :TlistToggle <CR>
