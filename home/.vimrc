@@ -72,6 +72,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'scrooloose/syntastic'
     Plugin 'mbbill/undotree'
     Plugin 'kien/ctrlp.vim'
+    Plugin 'tacahiroy/ctrlp-funky'
     Plugin 'bling/vim-airline'
     Plugin 'godlygeek/tabular.git' "Alignment plugin
     Plugin 'Raimondi/delimitMate'
@@ -184,7 +185,7 @@ autocmd BufEnter * silent! lcd %:p:h
 autocmd! bufwritepost .vimrc source %
 
 " ignore list
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.tmp
 
 "A mapping to make a backup of the current file.
 function! WriteBackup()
@@ -227,12 +228,13 @@ nnoremap <F5> :UndotreeToggle<CR>
 
 " Go mapping for test and code files
 autocmd BufNewFile,BufRead *_test.go map <buffer> <F8> :!go test -file %<CR>
-nnoremap <F11> :cal VimCommanderToggle()<CR>
+nnoremap <Leader>v :cal VimCommanderToggle()<CR>
 nnoremap <Tab> <C-W><C-W>
 
 " Scripts config
 
 " GuttenTags
+set statusline+=%{gutentags#statusline()}
 let g:gutentags_ctags_exclude = ["*.min.js", "*.min.css", "build", "vendor", ".git", "node_modules", "*.vim/bundle/*"]
 
 " Notes
