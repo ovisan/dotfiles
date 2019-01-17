@@ -6,14 +6,15 @@ set t_Co=256
 set updatetime=100
 " disable stupid beeping
 set vb t_vb=
+" disable capitalize spell checking
+set spellcapcheck=
+" spelling on autocomplete
+set complete+=kspell
 
 " map leader key
 let mapleader = '\'
 
-autocmd BufRead,BufNewFile *.c,*.h set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
-autocmd BufRead,BufNewFile *.go set tabstop=2 shiftwidth=2 expandtab
-
-"python with virtualenv support
+" python with virtualenv support
 py << EOF
 import os
 import sys
@@ -27,9 +28,6 @@ EOF
 autocmd InsertEnter * set cul
 autocmd InsertLeave * set nocul
 set timeoutlen=1000 ttimeoutlen=0
-
-" adding a line from normal mode
-nmap <S-Enter> O<Esc>
 
 "Setting the highlight colors
 hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
@@ -51,14 +49,13 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     " from github
 
     "color schemes
-    "Plugin 'tpope/vim-vividchalk'
     Plugin 'ovisan/vividchalk-custom'
 
     "other
+    Plugin 'bronson/vim-trailing-whitespace'
     Plugin 'mileszs/ack.vim'
     Plugin 'ajh17/VimCompletesMe'
     Plugin 'ludovicchabant/vim-gutentags'
-    Plugin 'ntpeters/vim-better-whitespace'
     Plugin 'ervandew/supertab'
     Plugin 'justmao945/vim-clang'
     Plugin 'airblade/vim-gitgutter'
@@ -130,10 +127,6 @@ if has("gui_running")
   endif
 endif
 
-"fix remapping
-cmap Q q
-cmap W w
-
 "favorite colorscheme
 colorscheme vividchalk-custom
 
@@ -187,9 +180,6 @@ endfunction
 "Automatically changes directory to that of the current file
 autocmd BufEnter * silent! lcd %:p:h
 
-"Go to first line when git commit
-autocmd FileType gitcommit call setpos('.', [0, 1, 1, 0])
-
 " Auto source vimrc
 autocmd! bufwritepost .vimrc source %
 
@@ -213,25 +203,21 @@ set foldlevel=1         "this is just what i use
 
 " Mapping keys
 
-" diable arrow keys for vim motion learning
-"noremap <Up> <Nop>
-"noremap <Down> <Nop>
-"noremap <Left> <Nop>
-"noremap <Right> <Nop>
-
 " Enable repeat in visual mode
 vnoremap . :norm.<CR>
 
 " open Godoc under cursor
 nnoremap <Leader>h :GoDoc <C-r><C-w> <CR>
 
-" Mapping to rename word under cursor
+" Mapping to rename word under cursor in go
 if &ft=='go'
     nnoremap <Leader>r :silent !gofmt -r '<C-r><C-w> -> ' -w % <Left><Left><Left><Left><Left><Left>
 else
     nnoremap <Leader>r :%s/\<<C-r><C-w>\>//g<Left><Left>
 endif
 
+
+" NERDTree
 let NERDTreeShowBookmarks=1
 let g:NERDTreeNodeDelimiter = "\u00a0"
 nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
@@ -247,7 +233,6 @@ nnoremap <Tab> <C-W><C-W>
 " Scripts config
 
 " GuttenTags
-set statusline+=%{gutentags#statusline()}
 let g:gutentags_ctags_exclude = ["*.min.js", "*.min.css", "build", "vendor", ".git", "node_modules", "*.vim/bundle/*"]
 
 " Notes
@@ -326,10 +311,6 @@ let pastie_private=1
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_cpp_compiler = "g++"
 let g:syntastic_cpp_compiler_options = "-std=c++11 -Wall -Wextra -Wpedantic"
-" Needed for vim-go
-let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go']  }
-"}
 
 " configuration airline bar {
 let g:airline#extensions#syntastic#enable=1
@@ -348,12 +329,11 @@ function! RefreshUI()
 endfunction
 
 au BufWritePost .vimrc source $MYVIMRC | :call RefreshUI()
-"}
-augroup reload_vimrc " {
+augroup reload_vimrc  {
     autocmd!
     autocmd BufWritePost $MYVIMRC source $MYVIMRC | AirlineRefresh
     autocmd BufWritePost $MYVIMRC AirlineRefresh
-augroup END " }
+augroup END }
 
 " vim-easy-align {
 " For visual mode (e.g. vip<Enter>)
