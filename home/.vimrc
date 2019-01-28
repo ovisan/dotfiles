@@ -55,9 +55,9 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'bronson/vim-trailing-whitespace'
     Plugin 'mileszs/ack.vim'
     Plugin 'ajh17/VimCompletesMe'
-    Plugin 'ludovicchabant/vim-gutentags'
     Plugin 'ervandew/supertab'
     Plugin 'justmao945/vim-clang'
+    Plugin 'ludovicchabant/vim-gutentags'
     Plugin 'airblade/vim-gitgutter'
     Plugin 'scrooloose/nerdtree'
     Plugin 'nsf/gocode', {'rtp': 'vim/'}
@@ -222,7 +222,7 @@ endif
 let NERDTreeShowBookmarks=1
 let g:NERDTreeNodeDelimiter = "\u00a0"
 nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
-nnoremap <F3> :NERDTreeToggle<CR>
+nnoremap <Leader>z :NERDTreeToggle<CR>
 nnoremap <F4> :TlistToggle <CR>
 nnoremap <F5> :UndotreeToggle<CR>
 
@@ -337,16 +337,7 @@ augroup reload_vimrc  {
     autocmd BufWritePost $MYVIMRC AirlineRefresh
 augroup END }
 
-" vim-easy-align {
-" For visual mode (e.g. vip<Enter>)
-vmap <Enter>   <Plug>(EasyAlign)
-
-" Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
-
+" tabularize {
 " For normal mode, with Vim movement (e.g. <Leader>aip)
-nmap <Leader>ga <Plug>(EasyAlign)
-
-" Repeat alignment in visual mode with . key
-vmap . <Plug>(EasyAlignRepeat)
+nmap <Leader>ga <Plug>(Tabularize)
 " }
