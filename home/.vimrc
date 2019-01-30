@@ -147,7 +147,6 @@ set incsearch
 set ignorecase smartcase
 " disable global autoindent
 
-
 syntax on
 set encoding=utf-8
 set number
@@ -181,19 +180,46 @@ endfunction
 "Automatically changes directory to that of the current file
 autocmd BufEnter * silent! lcd %:p:h
 
+"QuickFix and Location list window toggle
+function! GetBufferList()
+  redir =>buflist
+  silent! ls!
+  redir END
+  return buflist
+endfunction
+
+function! ToggleList(bufname, pfx)
+  let buflist = GetBufferList()
+  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+    if bufwinnr(bufnum) != -1
+      exec(a:pfx.'close')
+      return
+    endif
+  endfor
+  if a:pfx == 'l' && len(getloclist(0)) == 0
+      echohl ErrorMsg
+      echo "Location List is Empty."
+      return
+  endif
+  let winnr = winnr()
+  exec(a:pfx.'open')
+  if winnr() != winnr
+    wincmd p
+  endif
+endfunction
+
+nmap <silent> <leader>l :call ToggleList("Location List", 'l')<CR>
+nmap <silent> <leader>q :call ToggleList("Quickfix List", 'c')<CR>
+nnoremap <expr> . !empty(filter(tabpagebuflist(), 'getbufvar(v:val,"&buftype")==# "quickfix"')) > 0  ? "\:cnext<CR>" : '.'
+nnoremap <expr> , !empty(filter(tabpagebuflist(), 'getbufvar(v:val,"&buftype")==# "quickfix"')) > 0 ?  "\:cprevious<CR>" : ','
+set wildignore+=tags,*.tmp,test.c,*.hpi
+nnoremap <Leader>f :vim  **<C-Left><Left>
+
 " Auto source vimrc
 autocmd! bufwritepost .vimrc source %
 
 " ignore list
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.tmp
-
-"A mapping to make a backup of the current file.
-function! WriteBackup()
-  let l:fname = expand('%:p') . '__' . strftime('%Y_%m_%d_%H.%M.%S')
-  silent execute 'write' l:fname
-  echomsg 'Wrote' l:fname
-endfunction
-nnoremap <Leader>ba :<C-U>call WriteBackup()<CR>
 
 "folding settings
 set foldcolumn=0
