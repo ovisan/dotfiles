@@ -11,6 +11,9 @@ set spellcapcheck=
 " spelling on autocomplete
 set complete+=kspell
 
+" tabs and spaces
+set et ts=2 ai sw=2
+
 " map leader key
 let mapleader = '\'
 
@@ -83,6 +86,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'suan/vim-instant-markdown'
     Plugin 'chase/vim-ansible-yaml'
     Plugin 'hashivim/vim-terraform'
+    Plugin 'pearofducks/ansible-vim'
 
 
     " github mirrors for vim scripts
