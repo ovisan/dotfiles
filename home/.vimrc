@@ -82,6 +82,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'haya14busa/incsearch.vim' "Better incsearch
     Plugin 'suan/vim-instant-markdown'
     Plugin 'chase/vim-ansible-yaml'
+    Plugin 'hashivim/vim-terraform'
 
 
     " github mirrors for vim scripts
@@ -251,6 +252,11 @@ nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
 nnoremap <Leader>z :NERDTreeToggle<CR>
 nnoremap <F4> :TlistToggle <CR>
 nnoremap <F5> :UndotreeToggle<CR>
+
+" Terraform
+let g:terraform_align=1
+let g:terraform_remap_spacebar=1
+let g:terraform_commentstring='//%s'
 
 " Go mapping for test and code files
 autocmd BufNewFile,BufRead *_test.go map <buffer> <F8> :!go test -file %<CR>
