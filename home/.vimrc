@@ -12,7 +12,10 @@ set spellcapcheck=
 set complete+=kspell
 
 " tabs and spaces
-set et ts=2 ai sw=2
+set tabstop=8 expandtab shiftwidth=4 softtabstop=4
+
+" yank to clipboard
+vmap '' :w !pbcopy<CR><CR>
 
 " map leader key
 let mapleader = '\'
@@ -87,6 +90,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'chase/vim-ansible-yaml'
     Plugin 'hashivim/vim-terraform'
     Plugin 'pearofducks/ansible-vim'
+    Plugin 'Vimjas/vim-python-pep8-indent'
 
 
     " github mirrors for vim scripts
@@ -146,11 +150,14 @@ set list lcs=tab:\|\
 
 "GUI browser opens in current directory
 set browsedir=buffer
+
 set wildmenu
 set hlsearch
 set incsearch
 set ignorecase smartcase
-" disable global autoindent
+
+set autoindent
+set smartindent
 
 syntax on
 set encoding=utf-8
@@ -349,6 +356,7 @@ let pastie_private=1
 let g:syntastic_always_populate_loc_list=1
 let g:syntastic_cpp_compiler = "g++"
 let g:syntastic_cpp_compiler_options = "-std=c++11 -Wall -Wextra -Wpedantic"
+let g:syntastic_quiet_messages = { "type": "style" }
 
 " configuration airline bar {
 let g:airline#extensions#syntastic#enable=1
