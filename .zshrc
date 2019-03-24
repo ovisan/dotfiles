@@ -874,3 +874,50 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --colors "match:fg:red" --colors "match:bg:yellow" --colors "match:style:bold" --files --hidden --follow --glob "!git/*"'
 export FZF_DEFAULT_OPTS='--preview="head -$LINES {}" --height 75% --multi --reverse --bind ctrl-f:page-down,ctrl-b:page-up'
+export EDITOR='vim'
+
+fe() {
+  local files
+  IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0 --preview 'bat --color=always --line-range :500 {}'))
+  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+}
+alias ffe='fe'
+
+# fd - cd to selected directory
+fd() {
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune \
+                  -o -type d -print 2> /dev/null | fzf +m) &&
+  cd "$dir"
+}
+
+# cdf - cd into the directory of the selected file
+cdf() {
+   local file
+   local dir
+   file=$(fzf +m -q "$1" --preview 'bat --color=always --line-range :500 {}') && dir=$(dirname "$file") && cd "$dir"
+}
+
+fkill() {
+  local pid
+  pid=$(ps -ef | sed 1d | fzf -m --preview 'bat --color=always --line-range :500 {}'| awk '{print $2}')
+
+  if [ "x$pid" != "x" ]
+  then
+    echo $pid | xargs kill -${1:-9}
+  fi
+}
+alias fkill='fkill'
+
+# fshow - git commit browser
+fshow() {
+  git log --graph --color=always \
+      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+      --bind "ctrl-m:execute:
+                (grep -o '[a-f0-9]\{7\}' | head -1 |
+                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                {}
+FZF-EOF"
+}
+alias fshow='fshow'
