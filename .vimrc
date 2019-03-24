@@ -77,8 +77,6 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'gabrielelana/vim-markdown'
     Plugin 'scrooloose/syntastic'
     Plugin 'mbbill/undotree'
-    " Plugin 'kien/ctrlp.vim'
-    " Plugin 'tacahiroy/ctrlp-funky'
     Plugin 'bling/vim-airline'
     Plugin 'godlygeek/tabular.git' "Alignment plugin
     Plugin 'Raimondi/delimitMate'
@@ -309,27 +307,6 @@ let s:tlist_def_go_settings = 'go;g:enum;s:struct;u:union;t:type;' .
 let Tlist_Inc_Winwidth = 0
 "}
 
-" " CTRLP Funky
-" let g:ctrlp_extensions = ['funky']
-" nnoremap <Leader>fu :CtrlPFunky<CR>
-" " narrow the list down with a word under cursor
-" nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<CR>
-
-" " Ctrlp settings {
-" let g:ctrlp_map = '<c-p>'
-" let g:ctrlp_cmd = 'CtrlPMixed'
-" let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-" let g:ctrlp_custom_ignore = {
-"   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-"   \ 'file': '\v\.(exe|so|dll)$',
-"   \ 'link': 'some_bad_symbolic_links',
-"   \ }
-" let g:ctrlp_by_filename = 0
-" let g:ctrlp_match_window_bottom = 0
-" let g:ctrlp_match_window_reversed = 0
-" let g:ctrlp_working_path_mode = 0
-" let g:ctrlp_dotfiles = 0
-" let g:ctrlp_switch_buffer = 0
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 
 let g:clang_c_options = '-std=gnu11'

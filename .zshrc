@@ -898,6 +898,24 @@ cdf() {
    file=$(fzf +m -q "$1" --preview 'bat --color=always --line-range :500 {}') && dir=$(dirname "$file") && cd "$dir"
 }
 
+cf() {
+  local file
+
+  file="$(locate -Ai -0 $@ | grep -z -vE '~$' | fzf --read0 -0 -1)"
+
+  if [[ -n $file ]]
+  then
+     if [[ -d $file ]]
+     then
+        cd -- $file
+     else
+        cd -- ${file:h}
+     fi
+  fi
+}
+alias fcf='cf'
+
+
 fkill() {
   local pid
   pid=$(ps -ef | sed 1d | fzf -m --preview 'bat --color=always --line-range :500 {}'| awk '{print $2}')
