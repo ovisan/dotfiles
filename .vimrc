@@ -59,13 +59,10 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
 
     "other
     Plugin 'bronson/vim-trailing-whitespace'
-    Plugin 'mileszs/ack.vim'
     Plugin 'ajh17/VimCompletesMe'
     Plugin 'ervandew/supertab'
-    Plugin 'justmao945/vim-clang'
     Plugin 'ludovicchabant/vim-gutentags'
     Plugin 'airblade/vim-gitgutter'
-    Plugin 'scrooloose/nerdtree'
     Plugin 'nsf/gocode', {'rtp': 'vim/'}
     Plugin 'tpope/vim-repeat'
     Plugin 'tpope/vim-abolish'
@@ -73,33 +70,30 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'tpope/vim-fugitive'
     Plugin 'tpope/vim-surround'
     Plugin 'tpope/vim-commentary'
-    Plugin 'tpope/vim-jdaddy'
+    Plugin 'tpope/vim-jdaddy' " JSON
     Plugin 'gabrielelana/vim-markdown'
+    Plugin 'suan/vim-instant-markdown'
     Plugin 'scrooloose/syntastic'
     Plugin 'mbbill/undotree'
     Plugin 'bling/vim-airline'
     Plugin 'godlygeek/tabular.git' "Alignment plugin
     Plugin 'Raimondi/delimitMate'
     Plugin 'terryma/vim-multiple-cursors'
-    Plugin 'xolox/vim-notes'
-    Plugin 'xolox/vim-misc'
     Plugin 'haya14busa/incsearch.vim' "Better incsearch
-    Plugin 'suan/vim-instant-markdown'
     Plugin 'chase/vim-ansible-yaml'
-    Plugin 'hashivim/vim-terraform'
     Plugin 'pearofducks/ansible-vim'
+    Plugin 'hashivim/vim-terraform'
     Plugin 'Vimjas/vim-python-pep8-indent'
     Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plugin 'junegunn/fzf.vim' ", {'rtp': '~/.fzf'}
+    Plugin 'rust-lang/rust.vim'
+    Plugin 'racer-rust/vim-racer'
 
 
     " github mirrors for vim scripts
     Plugin 'vim-scripts/netrw.vim' "Remote editing
     Plugin 'vim-scripts/vimcommander'
-    Plugin 'vim-scripts/c.vim'
     Plugin 'vim-scripts/ScrollColors'
-    Plugin 'vim-scripts/OmniCppComplete'
-    Plugin 'vim-scripts/CRefVim'
     Plugin 'vim-scripts/taglist.vim'
 
 
@@ -255,13 +249,67 @@ else
 endif
 
 
-" NERDTree
-let NERDTreeShowBookmarks=1
-let g:NERDTreeNodeDelimiter = "\u00a0"
 nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
-nnoremap <Leader>z :NERDTreeToggle<CR>
 nnoremap <F4> :TlistToggle <CR>
 nnoremap <F5> :UndotreeToggle<CR>
+
+" netrw
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+" let g:netrw_liststyle = 3
+
+"augroup ProjectDrawer
+"  autocmd!
+"  autocmd VimEnter * :Vexplore
+"augroup END
+
+" let g:NetrwIsOpen=0
+" function! ToggleNetrw()
+"     if g:NetrwIsOpen
+"         let i = bufnr("$")
+"         while (i >= 1)
+"             if (getbufvar(i, "&filetype") == "netrw")
+"                 silent exe "bwipeout " . i
+"             endif
+"             let i-=1
+"         endwhile
+"         let g:NetrwIsOpen=0
+"     else
+"         let g:NetrwIsOpen=1
+"         silent Vexplore
+"     endif
+" endfunction
+
+function! ToggleVExplorer()
+  if exists("t:expl_buf_num")
+      let expl_win_num = bufwinnr(t:expl_buf_num)
+      if expl_win_num != -1
+          let cur_win_nr = winnr()
+          exec expl_win_num . 'wincmd w'
+          close
+          exec cur_win_nr . 'wincmd w'
+          unlet t:expl_buf_num
+      else
+          unlet t:expl_buf_num
+      endif
+  else
+      exec '1wincmd w'
+      Vexplore
+      let t:expl_buf_num = bufnr("%")
+  endif
+endfunction
+
+noremap <silent> <Leader>z :call ToggleVExplorer()<CR>
+
+" rust racer
+set hidden
+let g:racer_cmd = "/usr/local/bin/racer"
+let $RUST_SRC_PATH="/usr/local/share/rust/rust_src"
+let g:racer_experimental_completer = 1
+let g:raceer_insert_paren = 1
 
 " FZF
 nnoremap <C-o> :FZF ~<Cr>
@@ -333,7 +381,7 @@ let Tlist_Use_Right_Window   = 1
 
 " Supertab {
 let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabDefaultCompletionType = "<c-x><c-n>"
+let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 "}
 
 " Private pastes in pastie {
