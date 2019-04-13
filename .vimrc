@@ -58,6 +58,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'ovisan/vividchalk-custom'
 
     "other
+    Plugin 'scrooloose/nerdtree'
     Plugin 'bronson/vim-trailing-whitespace'
     Plugin 'ajh17/VimCompletesMe'
     Plugin 'ervandew/supertab'
@@ -80,7 +81,6 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'Raimondi/delimitMate'
     Plugin 'terryma/vim-multiple-cursors'
     Plugin 'haya14busa/incsearch.vim' "Better incsearch
-    Plugin 'chase/vim-ansible-yaml'
     Plugin 'pearofducks/ansible-vim'
     Plugin 'hashivim/vim-terraform'
     Plugin 'Vimjas/vim-python-pep8-indent'
@@ -253,35 +253,19 @@ nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
 nnoremap <F4> :TlistToggle <CR>
 nnoremap <F5> :UndotreeToggle<CR>
 
+" nerdtree
+let NERDTreeShowBookmarks=1
+nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
+nnoremap <F4> :TlistToggle <CR>
+nnoremap <silent> <Leader>u :UndotreeToggle<CR>
+noremap <silent> <Leader>z :NERDTreeToggle<CR>
+
 " netrw
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
-" let g:netrw_liststyle = 3
-
-"augroup ProjectDrawer
-"  autocmd!
-"  autocmd VimEnter * :Vexplore
-"augroup END
-
-" let g:NetrwIsOpen=0
-" function! ToggleNetrw()
-"     if g:NetrwIsOpen
-"         let i = bufnr("$")
-"         while (i >= 1)
-"             if (getbufvar(i, "&filetype") == "netrw")
-"                 silent exe "bwipeout " . i
-"             endif
-"             let i-=1
-"         endwhile
-"         let g:NetrwIsOpen=0
-"     else
-"         let g:NetrwIsOpen=1
-"         silent Vexplore
-"     endif
-" endfunction
 
 function! ToggleVExplorer()
   if exists("t:expl_buf_num")
@@ -302,7 +286,7 @@ function! ToggleVExplorer()
   endif
 endfunction
 
-noremap <silent> <Leader>z :call ToggleVExplorer()<CR>
+noremap <silent> <Leader>x :call ToggleVExplorer()<CR>
 
 " rust racer
 set hidden
