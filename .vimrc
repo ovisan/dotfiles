@@ -339,8 +339,12 @@ let g:clang_cpp_completeopt = 'longest,menuone'
 let g:clang_diagsopt = ''
 
 "delimitMate settings
-let g:delimitMate_expand_cr=1
-let g:delimitMate_expand_space=1
+let g:delimitMate_expand_cr=2
+let g:delimitMate_expand_space = 1
+let g:delimitMate_autoclose = 1
+let g:delimitMate_matchpairs = "(:),[:],{:},<:>"
+let g:delimitMate_jump_expansion = 1
+let g:delimitMate_expand_inside_quotes = 1
 
 " Colors config for EasyMotion {
 hi link EasyMotionTarget ErrorMsg
