@@ -17,6 +17,8 @@ set tabstop=8 expandtab shiftwidth=4 softtabstop=4
 " yank to clipboard
 vmap '' :w !pbcopy<CR><CR>
 
+nnoremap <silent> <Leader>w :%s/\s\+$//e<CR>
+
 " map leader key
 let mapleader = '\'
 
@@ -62,7 +64,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'tpope/vim-surround'
     Plugin 'tpope/vim-commentary'
     Plugin 'tpope/vim-jdaddy' " JSON
-    Plugin 'gabrielelana/vim-markdown'
+    " Plugin 'gabrielelana/vim-markdown'
     Plugin 'suan/vim-instant-markdown'
     Plugin 'scrooloose/syntastic'
     Plugin 'mbbill/undotree'
@@ -125,7 +127,7 @@ endif
 colorscheme vividchalk-custom
 
 "display indent guides (the space is needed after the line to work properly)
-set list lcs=tab:\|\ 
+set list lcs=tab:\|\
 
 "setting cursor properties
 "set guicursor=n-v-c:block-Cursor
@@ -160,7 +162,7 @@ set matchtime=3
 set background=dark
 
 " Use system's clipboard
-set clipboard=unnamedplus
+set clipboard=unnamed
 
 " Edit anyway if there is a swap file
 autocmd SwapExists * :let v:swapchoice='e'
@@ -371,10 +373,6 @@ autocmd FileType *
       \ call SuperTabChain(&omnifunc, "<c-p>") |
       \ call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
       \ endif
-"}
-
-" Private pastes in pastie {
-let pastie_private=1
 "}
 
 " Syntastic options {
