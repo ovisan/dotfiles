@@ -1,6 +1,7 @@
 ﻿filetype plugin on
 set nocompatible
 filetype off
+set backspace=indent,eol,start
 set bg=dark
 set t_Co=256
 set updatetime=100
