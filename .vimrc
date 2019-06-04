@@ -65,7 +65,6 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'tpope/vim-surround'
     Plugin 'tpope/vim-commentary'
     Plugin 'tpope/vim-jdaddy' " JSON
-    " Plugin 'gabrielelana/vim-markdown'
     Plugin 'suan/vim-instant-markdown'
     Plugin 'scrooloose/syntastic'
     Plugin 'mbbill/undotree'
@@ -252,6 +251,19 @@ nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
 nnoremap <F4> :TlistToggle <CR>
 nnoremap <silent> <Leader>u :UndotreeToggle<CR>
 noremap <silent> <Leader>z :NERDTreeToggle<CR>
+
+" multiple cursors
+let g:multi_cursor_use_default_mapping=0
+
+" Default mapping
+let g:multi_cursor_start_word_key      = '<C-n>'
+let g:multi_cursor_select_all_word_key = '<C-a>'
+let g:multi_cursor_start_key           = 'g<C-n>'
+let g:multi_cursor_select_all_key      = 'g<C-a>'
+let g:multi_cursor_next_key            = '<C-n>'
+let g:multi_cursor_prev_key            = '<C-p>'
+let g:multi_cursor_skip_key            = '<C-x>'
+let g:multi_cursor_quit_key            = '<Esc>'
 
 " netrw
 let g:netrw_banner = 0
