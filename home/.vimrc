@@ -1,6 +1,7 @@
 ﻿filetype plugin on
 set nocompatible
 filetype off
+set backspace=indent,eol,start
 set bg=dark
 set t_Co=256
 set updatetime=100
@@ -17,18 +18,10 @@ set tabstop=8 expandtab shiftwidth=4 softtabstop=4
 " yank to clipboard
 vmap '' :w !pbcopy<CR><CR>
 
+nnoremap <silent> <Leader>w :%s/\s\+$//e<CR>
+
 " map leader key
 let mapleader = '\'
-
-" python with virtualenv support
-py << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-  project_base_dir = os.environ['VIRTUAL_ENV']
-  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-  execfile(activate_this, dict(__file__=activate_this))
-EOF
 
 " difference between insert and normal mode with no delay
 autocmd InsertEnter * set cul
@@ -58,14 +51,12 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'ovisan/vividchalk-custom'
 
     "other
+    Plugin 'scrooloose/nerdtree'
     Plugin 'bronson/vim-trailing-whitespace'
-    Plugin 'mileszs/ack.vim'
     Plugin 'ajh17/VimCompletesMe'
     Plugin 'ervandew/supertab'
-    Plugin 'justmao945/vim-clang'
     Plugin 'ludovicchabant/vim-gutentags'
     Plugin 'airblade/vim-gitgutter'
-    Plugin 'scrooloose/nerdtree'
     Plugin 'nsf/gocode', {'rtp': 'vim/'}
     Plugin 'tpope/vim-repeat'
     Plugin 'tpope/vim-abolish'
@@ -73,33 +64,28 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'tpope/vim-fugitive'
     Plugin 'tpope/vim-surround'
     Plugin 'tpope/vim-commentary'
-    Plugin 'tpope/vim-jdaddy'
-    Plugin 'gabrielelana/vim-markdown'
+    Plugin 'tpope/vim-jdaddy' " JSON
+    Plugin 'suan/vim-instant-markdown'
     Plugin 'scrooloose/syntastic'
     Plugin 'mbbill/undotree'
-    Plugin 'kien/ctrlp.vim'
-    Plugin 'tacahiroy/ctrlp-funky'
     Plugin 'bling/vim-airline'
     Plugin 'godlygeek/tabular.git' "Alignment plugin
     Plugin 'Raimondi/delimitMate'
     Plugin 'terryma/vim-multiple-cursors'
-    Plugin 'xolox/vim-notes'
-    Plugin 'xolox/vim-misc'
     Plugin 'haya14busa/incsearch.vim' "Better incsearch
-    Plugin 'suan/vim-instant-markdown'
-    Plugin 'chase/vim-ansible-yaml'
-    Plugin 'hashivim/vim-terraform'
     Plugin 'pearofducks/ansible-vim'
+    Plugin 'hashivim/vim-terraform'
     Plugin 'Vimjas/vim-python-pep8-indent'
+    Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plugin 'junegunn/fzf.vim' ", {'rtp': '~/.fzf'}
+    Plugin 'rust-lang/rust.vim'
+    Plugin 'racer-rust/vim-racer'
 
 
     " github mirrors for vim scripts
     Plugin 'vim-scripts/netrw.vim' "Remote editing
     Plugin 'vim-scripts/vimcommander'
-    Plugin 'vim-scripts/c.vim'
     Plugin 'vim-scripts/ScrollColors'
-    Plugin 'vim-scripts/OmniCppComplete'
-    Plugin 'vim-scripts/CRefVim'
     Plugin 'vim-scripts/taglist.vim'
 
 
@@ -141,7 +127,7 @@ endif
 colorscheme vividchalk-custom
 
 "display indent guides (the space is needed after the line to work properly)
-set list lcs=tab:\|\ 
+set list lcs=tab:\|\
 
 "setting cursor properties
 "set guicursor=n-v-c:block-Cursor
@@ -176,7 +162,7 @@ set matchtime=3
 set background=dark
 
 " Use system's clipboard
-set clipboard=unnamedplus
+set clipboard=unnamed
 
 " Edit anyway if there is a swap file
 autocmd SwapExists * :let v:swapchoice='e'
@@ -225,7 +211,6 @@ nmap <silent> <leader>q :call ToggleList("Quickfix List", 'c')<CR>
 nnoremap <expr> . !empty(filter(tabpagebuflist(), 'getbufvar(v:val,"&buftype")==# "quickfix"')) > 0  ? "\:cnext<CR>" : '.'
 nnoremap <expr> , !empty(filter(tabpagebuflist(), 'getbufvar(v:val,"&buftype")==# "quickfix"')) > 0 ?  "\:cprevious<CR>" : ','
 set wildignore+=tags,*.tmp,test.c,*.hpi
-nnoremap <Leader>f :vim  **<C-Left><Left>
 
 " Auto source vimrc
 autocmd! bufwritepost .vimrc source %
@@ -256,13 +241,74 @@ else
 endif
 
 
-" NERDTree
-let NERDTreeShowBookmarks=1
-let g:NERDTreeNodeDelimiter = "\u00a0"
 nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
-nnoremap <Leader>z :NERDTreeToggle<CR>
 nnoremap <F4> :TlistToggle <CR>
 nnoremap <F5> :UndotreeToggle<CR>
+
+" nerdtree
+let NERDTreeShowBookmarks=1
+nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
+nnoremap <F4> :TlistToggle <CR>
+nnoremap <silent> <Leader>u :UndotreeToggle<CR>
+noremap <silent> <Leader>z :NERDTreeToggle<CR>
+
+" multiple cursors
+let g:multi_cursor_use_default_mapping=0
+
+" Default mapping
+let g:multi_cursor_start_word_key      = '<C-n>'
+let g:multi_cursor_select_all_word_key = '<C-a>'
+let g:multi_cursor_start_key           = 'g<C-n>'
+let g:multi_cursor_select_all_key      = 'g<C-a>'
+let g:multi_cursor_next_key            = '<C-n>'
+let g:multi_cursor_prev_key            = '<C-p>'
+let g:multi_cursor_skip_key            = '<C-x>'
+let g:multi_cursor_quit_key            = '<Esc>'
+
+" netrw
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+
+function! ToggleVExplorer()
+  if exists("t:expl_buf_num")
+      let expl_win_num = bufwinnr(t:expl_buf_num)
+      if expl_win_num != -1
+          let cur_win_nr = winnr()
+          exec expl_win_num . 'wincmd w'
+          close
+          exec cur_win_nr . 'wincmd w'
+          unlet t:expl_buf_num
+      else
+          unlet t:expl_buf_num
+      endif
+  else
+      exec '1wincmd w'
+      Vexplore
+      let t:expl_buf_num = bufnr("%")
+  endif
+endfunction
+
+noremap <silent> <Leader>x :call ToggleVExplorer()<CR>
+
+" rust racer
+set hidden
+let g:racer_cmd = "/usr/local/bin/racer"
+let $RUST_SRC_PATH="/usr/local/share/rust/rust_src"
+let g:racer_experimental_completer = 1
+let g:raceer_insert_paren = 1
+
+" FZF
+nnoremap <C-o> :FZF ~<Cr>
+nnoremap <leader>f :Rg<Cr>
+let g:fzf_action = {
+      \ 'ctrl-s': 'split',
+      \ 'ctrl-v': 'vsplit'
+      \ }
+nnoremap <c-p> :Files<cr>
+imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " Terraform
 let g:terraform_align=1
@@ -298,27 +344,6 @@ let s:tlist_def_go_settings = 'go;g:enum;s:struct;u:union;t:type;' .
 let Tlist_Inc_Winwidth = 0
 "}
 
-" CTRLP Funky
-let g:ctrlp_extensions = ['funky']
-nnoremap <Leader>fu :CtrlPFunky<CR>
-" narrow the list down with a word under cursor
-nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<CR>
-
-" Ctrlp settings {
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlPMixed'
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ 'link': 'some_bad_symbolic_links',
-  \ }
-let g:ctrlp_by_filename = 0
-let g:ctrlp_match_window_bottom = 0
-let g:ctrlp_match_window_reversed = 0
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_dotfiles = 0
-let g:ctrlp_switch_buffer = 0
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 
 let g:clang_c_options = '-std=gnu11'
@@ -329,8 +354,12 @@ let g:clang_cpp_completeopt = 'longest,menuone'
 let g:clang_diagsopt = ''
 
 "delimitMate settings
-let g:delimitMate_expand_cr=1
-let g:delimitMate_expand_space=1
+let g:delimitMate_expand_cr=2
+let g:delimitMate_expand_space = 1
+let g:delimitMate_autoclose = 1
+let g:delimitMate_matchpairs = "(:),[:],{:},<:>"
+let g:delimitMate_jump_expansion = 1
+let g:delimitMate_expand_inside_quotes = 1
 
 " Colors config for EasyMotion {
 hi link EasyMotionTarget ErrorMsg
@@ -345,11 +374,18 @@ let Tlist_Use_Right_Window   = 1
 
 " Supertab {
 let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabDefaultCompletionType = "<c-x><c-n>"
-"}
-
-" Private pastes in pastie {
-let pastie_private=1
+let g:SuperTabContextDefaultCompletionType = "<c-p>"
+let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
+let g:SuperTabContextDiscoverDiscovery = ["&omnifunc:<c-x><c-o>"]
+" Problem with load order (vimrc is evaluated before latex-box setting of omnifunc)
+" \ verbose set omnifunc? | " is empty
+" added this autocommand to after/ftplugin/tex.vim
+" :do FileType solves also the problem
+autocmd FileType *
+      \ if &omnifunc != '' |
+      \ call SuperTabChain(&omnifunc, "<c-p>") |
+      \ call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
+      \ endif
 "}
 
 " Syntastic options {
