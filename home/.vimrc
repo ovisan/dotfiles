@@ -15,6 +15,10 @@ set complete+=kspell
 " tabs and spaces
 set tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
+" move between splits
+map <C-left> <C-W>h
+map <C-right> <C-W>l
+
 " yank to clipboard
 vmap '' :w !pbcopy<CR><CR>
 
@@ -77,10 +81,9 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'hashivim/vim-terraform'
     Plugin 'Vimjas/vim-python-pep8-indent'
     Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-    Plugin 'junegunn/fzf.vim' ", {'rtp': '~/.fzf'}
+    Plugin 'junegunn/fzf.vim'
     Plugin 'rust-lang/rust.vim'
     Plugin 'racer-rust/vim-racer'
-
 
     " github mirrors for vim scripts
     Plugin 'vim-scripts/netrw.vim' "Remote editing
@@ -230,17 +233,6 @@ set foldlevel=1         "this is just what i use
 " Enable repeat in visual mode
 vnoremap . :norm.<CR>
 
-" open Godoc under cursor
-nnoremap <Leader>h :GoDoc <C-r><C-w> <CR>
-
-" Mapping to rename word under cursor in go
-if &ft=='go'
-    nnoremap <Leader>r :silent !gofmt -r '<C-r><C-w> -> ' -w % <Left><Left><Left><Left><Left><Left>
-else
-    nnoremap <Leader>r :%s/\<<C-r><C-w>\>//g<Left><Left>
-endif
-
-
 nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
 nnoremap <F4> :TlistToggle <CR>
 nnoremap <F5> :UndotreeToggle<CR>
@@ -307,18 +299,12 @@ let g:fzf_action = {
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit'
       \ }
-nnoremap <c-p> :Files<cr>
 imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " Terraform
 let g:terraform_align=1
 let g:terraform_remap_spacebar=1
 let g:terraform_commentstring='//%s'
-
-" Go mapping for test and code files
-autocmd BufNewFile,BufRead *_test.go map <buffer> <F8> :!go test -file %<CR>
-nnoremap <Leader>v :cal VimCommanderToggle()<CR>
-nnoremap <Tab> <C-W><C-W>
 
 " Scripts config
 
@@ -367,16 +353,16 @@ hi link EasyMotionShade  Comment
 "}
 
 " Taglist {
-let Tlist_Ctags_Cmd = "/usr/bin/ctags"
-let Tlist_WinWidth = 50
-let Tlist_Use_Right_Window   = 1
+let Tlist_Ctags_Cmd        = "/usr/bin/ctags"
+let Tlist_WinWidth         = 50
+let Tlist_Use_Right_Window = 1
 "}
 
 " Supertab {
-let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabDefaultCompletionType        = "context"
 let g:SuperTabContextDefaultCompletionType = "<c-p>"
-let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
-let g:SuperTabContextDiscoverDiscovery = ["&omnifunc:<c-x><c-o>"]
+let g:SuperTabCompletionContexts           = ['s:ContextText', 's:ContextDiscover']
+let g:SuperTabContextDiscoverDiscovery     = ["&omnifunc:<c-x><c-o>"]
 " Problem with load order (vimrc is evaluated before latex-box setting of omnifunc)
 " \ verbose set omnifunc? | " is empty
 " added this autocommand to after/ftplugin/tex.vim
@@ -388,18 +374,38 @@ autocmd FileType *
       \ endif
 "}
 
+" Tabular {
+if exists(":Tabularize")
+  nmap <Leader>a= :Tabularize /=<CR>
+  vmap <Leader>a= :Tabularize /=<CR>
+  nmap <Leader>a: :Tabularize /:\zs<CR>
+  vmap <Leader>a: :Tabularize /:\zs<CR>
+endif
+
+function! s:align()
+  let p = '^\s*|\s.*\s|\s*$'
+  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+    Tabularize/|/l1
+    normal! 0
+    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+  endif
+endfunction
+"}
+
 " Syntastic options {
-let g:syntastic_always_populate_loc_list=1
-let g:syntastic_cpp_compiler = "g++"
-let g:syntastic_cpp_compiler_options = "-std=c++11 -Wall -Wextra -Wpedantic"
-let g:syntastic_quiet_messages = { "type": "style" }
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_cpp_compiler             = "g++"
+let g:syntastic_cpp_compiler_options     = "-std=c++11 -Wall -Wextra -Wpedantic"
+let g:syntastic_quiet_messages           = { "type": "style" }
 
 " configuration airline bar {
-let g:airline#extensions#syntastic#enable=1
-let g:airline#extensions#branch#enable=1
-let g:airline#extensions#modified#enable=1
-let g:airline#extensions#paste#enable=1
-let g:airline#extensions#whitespace#enable=1
+let g:airline#extensions#syntastic#enable  = 1
+let g:airline#extensions#branch#enable     = 1
+let g:airline#extensions#modified#enable   = 1
+let g:airline#extensions#paste#enable      = 1
+let g:airline#extensions#whitespace#enable = 1
 function! RefreshUI()
   if exists(':AirlineRefresh')
     AirlineRefresh
@@ -417,7 +423,4 @@ augroup reload_vimrc  {
     autocmd BufWritePost $MYVIMRC AirlineRefresh
 augroup END }
 
-" tabularize {
-" For normal mode, with Vim movement (e.g. <Leader>aip)
-nmap <Leader>ga <Plug>(Tabularize)
 " }
