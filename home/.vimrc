@@ -22,6 +22,7 @@ map <C-right> <C-W>l
 " yank to clipboard
 vmap '' :w !pbcopy<CR><CR>
 
+" remove whitespace
 nnoremap <silent> <Leader>w :%s/\s\+$//e<CR>
 
 " map leader key
@@ -61,7 +62,6 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'ervandew/supertab'
     Plugin 'ludovicchabant/vim-gutentags'
     Plugin 'airblade/vim-gitgutter'
-    Plugin 'nsf/gocode', {'rtp': 'vim/'}
     Plugin 'tpope/vim-repeat'
     Plugin 'tpope/vim-abolish'
     Plugin 'tpope/vim-speeddating' "Enhances the default vim increment
@@ -82,6 +82,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'Vimjas/vim-python-pep8-indent'
     Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plugin 'junegunn/fzf.vim'
+    Plugin 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
     Plugin 'rust-lang/rust.vim'
     Plugin 'racer-rust/vim-racer'
 
@@ -282,8 +283,6 @@ function! ToggleVExplorer()
       let t:expl_buf_num = bufnr("%")
   endif
 endfunction
-
-noremap <silent> <Leader>x :call ToggleVExplorer()<CR>
 
 " rust racer
 set hidden

@@ -84,8 +84,6 @@ source $ZSH/oh-my-zsh.sh
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-alias ll='lsd --icon never -lah'
-alias ls='lsd --icon never'
 
 # History completion"
 # bind '"\e[A": history-search-backward'
@@ -93,7 +91,9 @@ alias ls='lsd --icon never'
 # keybindings for history autocomplete
 
 alias hs='history | grep '
-alias ll='ls -lah'
+# alias ll='ls -lah'
+alias ll='lsd -lah'
+alias ls='lsd'
 
 # git aliases
 alias gs='git status '
@@ -900,8 +900,7 @@ fo() {
 # fd - cd to selected directory
 fd() {
   local dir
-  dir=$(find ${1:-.} -path '*/\.*' -prune \
-                  -o -type d -print 2> /dev/null | fzf +m) &&
+  dir=$(find ~ -d | fzf-tmux)
   cd "$dir"
 }
 
@@ -952,8 +951,28 @@ fshow() {
                 {}
 FZF-EOF"
 }
+
+# cd into a specified dir from anywhere
+cf() {
+  local file
+
+  file="$(locate -i -0 $@  | fzf --read0 -0 -1)"
+
+  if [[ -n $file ]]
+  then
+     if [[ -d $file ]]
+     then
+        cd -- $file
+     else
+        cd -- ${file:h}
+     fi
+  fi
+}
+
 alias fshow='fshow'
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 function google() { open /Applications/Safari.app/ "https://www.google.com/search?q= $1"\ }
+
+complete -o nospace -C /usr/local/bin/vault vault
