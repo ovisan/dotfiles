@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/ovidiuvisan/.oh-my-zsh
+export ZSH=/Users/OUVN/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -84,6 +84,8 @@ source $ZSH/oh-my-zsh.sh
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
+alias ll='lsd --icon never -lah'
+alias ls='lsd --icon never'
 
 # History completion"
 # bind '"\e[A": history-search-backward'
@@ -873,8 +875,9 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --colors "match:fg:red" --colors "match:bg:yellow" --colors "match:style:bold" --files --hidden --follow --glob "!git/*"'
-export FZF_DEFAULT_OPTS='--preview="head -$LINES {}" --height 75% --multi --reverse --bind ctrl-f:page-down,ctrl-b:page-up'
+export FZF_DEFAULT_OPTS="--preview 'bat --color always {}' --color=dark,hl:#FF0000,hl+:#F7FA45 --height 80% --multi --reverse --bind ctrl-f:page-down,ctrl-b:page-up,alt-up:preview-up,alt-down:preview-down"
 export EDITOR='vim'
+export SKIM_DEFAULT_OPTIONS="--preview 'bat --color always {}' --color=dark,hl:#FF0000,hl+:#F7FA45 --preview-window right:70% --height 80% --bind ctrl-f:page-down,ctrl-b:page-up,alt-up:preview-up,alt-down:preview-down"
 
 fe() {
   local files
@@ -883,11 +886,21 @@ fe() {
 }
 alias ffe='fe'
 
+# fo open with selected $EDITOR
+fo() {
+  local out file key
+  IFS=$'\n' out=("$(fzf-tmux --query="$1" --exit-0 --expect=ctrl-o,ctrl-e)")
+  key=$(head -1 <<< "$out")
+  file=$(head -2 <<< "$out" | tail -1)
+  if [ -n "$file" ]; then
+    [ "$key" = ctrl-o ] && open "$file" || ${EDITOR:-vim} "$file"
+  fi
+}
+
 # fd - cd to selected directory
 fd() {
   local dir
-  dir=$(find ${1:-.} -path '*/\.*' -prune \
-                  -o -type d -print 2> /dev/null | fzf +m) &&
+  dir=$(find ~ -d | fzf-tmux)
   cd "$dir"
 }
 
@@ -938,4 +951,28 @@ fshow() {
                 {}
 FZF-EOF"
 }
+
+# cd into a specified dir from anywhere
+cf() {
+  local file
+
+  file="$(locate -i -0 $@  | fzf --read0 -0 -1)"
+
+  if [[ -n $file ]]
+  then
+     if [[ -d $file ]]
+     then
+        cd -- $file
+     else
+        cd -- ${file:h}
+     fi
+  fi
+}
+
 alias fshow='fshow'
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+function google() { open /Applications/Safari.app/ "https://www.google.com/search?q= $1"\ }
+
+complete -o nospace -C /usr/local/bin/vault vault

@@ -23,7 +23,7 @@ map <C-right> <C-W>l
 vmap '' :w !pbcopy<CR><CR>
 
 " remove whitespace
-nnoremap <silent> <Leader>w :%s/\s\+$//e<CR>
+" nnoremap <silent> <Leader>w :%s/\s\+$//e<CR>
 
 " map leader key
 let mapleader = '\'
@@ -58,8 +58,6 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     "other
     Plugin 'scrooloose/nerdtree'
     Plugin 'bronson/vim-trailing-whitespace'
-    Plugin 'ajh17/VimCompletesMe'
-    Plugin 'ervandew/supertab'
     Plugin 'ludovicchabant/vim-gutentags'
     Plugin 'airblade/vim-gitgutter'
     Plugin 'tpope/vim-repeat'
@@ -82,9 +80,10 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'Vimjas/vim-python-pep8-indent'
     Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plugin 'junegunn/fzf.vim'
-    Plugin 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
     Plugin 'rust-lang/rust.vim'
     Plugin 'racer-rust/vim-racer'
+    Plugin 'juliosueiras/vim-terraform-completion'
+    Plugin 'lifepillar/vim-mucomplete'
 
     " github mirrors for vim scripts
     Plugin 'vim-scripts/netrw.vim' "Remote editing
@@ -156,8 +155,6 @@ set linespace=0
 silent !mkdir ~/tmp > /dev/null 2>&1
 set backupdir=~/tmp
 set autoread
-set completeopt-=preview
-set completeopt+=longest
 set wildmode=longest,list
 
 "speed up matching
@@ -357,21 +354,6 @@ let Tlist_WinWidth         = 50
 let Tlist_Use_Right_Window = 1
 "}
 
-" Supertab {
-let g:SuperTabDefaultCompletionType        = "context"
-let g:SuperTabContextDefaultCompletionType = "<c-p>"
-let g:SuperTabCompletionContexts           = ['s:ContextText', 's:ContextDiscover']
-let g:SuperTabContextDiscoverDiscovery     = ["&omnifunc:<c-x><c-o>"]
-" Problem with load order (vimrc is evaluated before latex-box setting of omnifunc)
-" \ verbose set omnifunc? | " is empty
-" added this autocommand to after/ftplugin/tex.vim
-" :do FileType solves also the problem
-autocmd FileType *
-      \ if &omnifunc != '' |
-      \ call SuperTabChain(&omnifunc, "<c-p>") |
-      \ call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
-      \ endif
-"}
 
 " Tabular {
 if exists(":Tabularize")
@@ -423,3 +405,12 @@ augroup reload_vimrc  {
 augroup END }
 
 " }
+set completeopt+=menuone,noinsert
+set shortmess+=c   " Shut off completion messages
+set belloff+=ctrlg " If Vim beeps during completion
+let g:mucomplete#enable_auto_at_startup = 1
+let g:mucomplete#completion_delay = 1
+let g:mucomplete#always_use_completeopt = 1
+" let g:mucomplete#force_manual = 1
+imap <c-j> <plug>(MUcompleteFwd)
+imap <c-k> <plug>(MUcompleteBwd)
