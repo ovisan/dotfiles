@@ -5,7 +5,7 @@ set backspace=indent,eol,start
 set bg=dark
 set t_Co=256
 set updatetime=100
-" disable stupid beeping
+" disable beeping
 set vb t_vb=
 " disable capitalize spell checking
 set spellcapcheck=
@@ -14,6 +14,9 @@ set complete+=kspell
 
 " tabs and spaces
 set tabstop=8 expandtab shiftwidth=4 softtabstop=4
+
+" ignore list
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.tmp,tags,*.hpi
 
 " move between splits
 map <C-left> <C-W>h
@@ -58,7 +61,6 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     "other
     Plugin 'scrooloose/nerdtree'
     Plugin 'bronson/vim-trailing-whitespace'
-    Plugin 'ludovicchabant/vim-gutentags'
     Plugin 'airblade/vim-gitgutter'
     Plugin 'tpope/vim-repeat'
     Plugin 'tpope/vim-abolish'
@@ -84,12 +86,11 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'racer-rust/vim-racer'
     Plugin 'juliosueiras/vim-terraform-completion'
     Plugin 'lifepillar/vim-mucomplete'
+    Plugin 'majutsushi/tagbar'
 
     " github mirrors for vim scripts
     Plugin 'vim-scripts/netrw.vim' "Remote editing
     Plugin 'vim-scripts/vimcommander'
-    Plugin 'vim-scripts/ScrollColors'
-    Plugin 'vim-scripts/taglist.vim'
 
 
     if iCanHazVundle == 0
@@ -117,28 +118,11 @@ cnoremap /m <CR>:m''<CR>
 cnoremap /M <CR>:M''<CR>
 cnoremap /d <CR>:d<CR>``
 
-" General Vim
-if has("gui_running")
-  if has("gui_gtk2")
-    set guifont=DejaVu\ \Sans\ Mono\ 10
-  elseif has("gui_win32")
-    set guifont=Consolas:h11:cANSI
-  endif
-endif
-
 "favorite colorscheme
 colorscheme vividchalk-custom
 
 "display indent guides (the space is needed after the line to work properly)
 set list lcs=tab:\|\
-
-"setting cursor properties
-"set guicursor=n-v-c:block-Cursor
-"set guicursor+=i:ver100-iCursor
-"set guicursor+=a:blinkon0
-
-"GUI browser opens in current directory
-set browsedir=buffer
 
 set wildmenu
 set hlsearch
@@ -152,8 +136,6 @@ syntax on
 set encoding=utf-8
 set number
 set linespace=0
-silent !mkdir ~/tmp > /dev/null 2>&1
-set backupdir=~/tmp
 set autoread
 set wildmode=longest,list
 
@@ -211,13 +193,14 @@ nmap <silent> <leader>l :call ToggleList("Location List", 'l')<CR>
 nmap <silent> <leader>q :call ToggleList("Quickfix List", 'c')<CR>
 nnoremap <expr> . !empty(filter(tabpagebuflist(), 'getbufvar(v:val,"&buftype")==# "quickfix"')) > 0  ? "\:cnext<CR>" : '.'
 nnoremap <expr> , !empty(filter(tabpagebuflist(), 'getbufvar(v:val,"&buftype")==# "quickfix"')) > 0 ?  "\:cprevious<CR>" : ','
-set wildignore+=tags,*.tmp,test.c,*.hpi
 
 " Auto source vimrc
 autocmd! bufwritepost .vimrc source %
 
-" ignore list
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.tmp
+
+" mappings
+nnoremap <silent> <Leader>t :TagbarToggle <CR>
+nnoremap <silent> <Leader>n :set nonumber!<CR>:set foldcolumn=0<CR>
 
 "folding settings
 set foldcolumn=0
@@ -226,19 +209,12 @@ set foldnestmax=10      "deepest fold is 10 levels
 set nofoldenable        "dont fold by default
 set foldlevel=1         "this is just what i use
 
-" Mapping keys
-
 " Enable repeat in visual mode
 vnoremap . :norm.<CR>
 
-nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
-nnoremap <F4> :TlistToggle <CR>
-nnoremap <F5> :UndotreeToggle<CR>
 
 " nerdtree
 let NERDTreeShowBookmarks=1
-nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>
-nnoremap <F4> :TlistToggle <CR>
 nnoremap <silent> <Leader>u :UndotreeToggle<CR>
 noremap <silent> <Leader>z :NERDTreeToggle<CR>
 
@@ -281,14 +257,14 @@ function! ToggleVExplorer()
   endif
 endfunction
 
-" rust racer
+" rust
 set hidden
 let g:racer_cmd = "/usr/local/bin/racer"
 let $RUST_SRC_PATH="/usr/local/share/rust/rust_src"
 let g:racer_experimental_completer = 1
 let g:raceer_insert_paren = 1
 
-" FZF
+" fzf
 nnoremap <C-o> :FZF ~<Cr>
 nnoremap <leader>f :Rg<Cr>
 let g:fzf_action = {
@@ -297,45 +273,17 @@ let g:fzf_action = {
       \ }
 imap <c-x><c-l> <plug>(fzf-complete-line)
 
-" Terraform
+" terraform
 let g:terraform_align=1
 let g:terraform_remap_spacebar=1
 let g:terraform_commentstring='//%s'
 
-" Scripts config
-
-" GuttenTags
-set statusline+=%{gutentags#statusline()}
-let g:gutentags_ctags_exclude = ["*.min.js", "*.min.css", "build", "vendor", ".git", "node_modules", "*.vim/bundle/*"]
-
-" Notes
-
-let g:notes_directories = ['~/Documents/Notes', '~/Dropbox/Shared Notes']
-
-" Incsearch settings
-
+" incsearch
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
-"Taglist golang definition {
-" let s:tlist_def_go_settings = 'go;s:struct;f:func;v:var'
-" go language
-let s:tlist_def_go_settings = 'go;g:enum;s:struct;u:union;t:type;' .
-                           \ 'v:variable;f:function'
-let Tlist_Inc_Winwidth = 0
-"}
-
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-
-let g:clang_c_options = '-std=gnu11'
-let g:clang_cpp_options = '-std=c++11'
-let g:clang_auto = 0
-let g:clang_c_completeopt = 'longest,menuone'
-let g:clang_cpp_completeopt = 'longest,menuone'
-let g:clang_diagsopt = ''
-
-"delimitMate settings
+" delimitmate
 let g:delimitMate_expand_cr=2
 let g:delimitMate_expand_space = 1
 let g:delimitMate_autoclose = 1
@@ -343,24 +291,14 @@ let g:delimitMate_matchpairs = "(:),[:],{:},<:>"
 let g:delimitMate_jump_expansion = 1
 let g:delimitMate_expand_inside_quotes = 1
 
-" Colors config for EasyMotion {
+" easymotion
 hi link EasyMotionTarget ErrorMsg
 hi link EasyMotionShade  Comment
-"}
 
-" Taglist {
-let Tlist_Ctags_Cmd        = "/usr/bin/ctags"
-let Tlist_WinWidth         = 50
-let Tlist_Use_Right_Window = 1
-"}
-
-
-" Tabular {
+" tabular
 if exists(":Tabularize")
   nmap <Leader>a= :Tabularize /=<CR>
-  vmap <Leader>a= :Tabularize /=<CR>
   nmap <Leader>a: :Tabularize /:\zs<CR>
-  vmap <Leader>a: :Tabularize /:\zs<CR>
 endif
 
 function! s:align()
@@ -373,20 +311,21 @@ function! s:align()
     call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
   endif
 endfunction
-"}
 
-" Syntastic options {
+" syntastic
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_cpp_compiler             = "g++"
-let g:syntastic_cpp_compiler_options     = "-std=c++11 -Wall -Wextra -Wpedantic"
-let g:syntastic_quiet_messages           = { "type": "style" }
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_python_flake8_args='--ignore=E501,E128'
 
-" configuration airline bar {
+" airline bar
 let g:airline#extensions#syntastic#enable  = 1
 let g:airline#extensions#branch#enable     = 1
 let g:airline#extensions#modified#enable   = 1
 let g:airline#extensions#paste#enable      = 1
 let g:airline#extensions#whitespace#enable = 1
+
 function! RefreshUI()
   if exists(':AirlineRefresh')
     AirlineRefresh
@@ -404,13 +343,10 @@ augroup reload_vimrc  {
     autocmd BufWritePost $MYVIMRC AirlineRefresh
 augroup END }
 
-" }
+" mucomplete options
 set completeopt+=menuone,noinsert
 set shortmess+=c   " Shut off completion messages
 set belloff+=ctrlg " If Vim beeps during completion
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#completion_delay = 1
 let g:mucomplete#always_use_completeopt = 1
-" let g:mucomplete#force_manual = 1
-imap <c-j> <plug>(MUcompleteFwd)
-imap <c-k> <plug>(MUcompleteBwd)
