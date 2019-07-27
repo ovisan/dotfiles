@@ -87,6 +87,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'juliosueiras/vim-terraform-completion'
     Plugin 'lifepillar/vim-mucomplete'
     Plugin 'majutsushi/tagbar'
+    Plugin 'stephpy/vim-yaml'
 
     " github mirrors for vim scripts
     Plugin 'vim-scripts/netrw.vim' "Remote editing
