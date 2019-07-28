@@ -26,7 +26,7 @@ map <C-right> <C-W>l
 vmap '' :w !pbcopy<CR><CR>
 
 " remove whitespace
-" nnoremap <silent> <Leader>w :%s/\s\+$//e<CR>
+nnoremap <silent> <Leader>w :%s/\s\+$//e<CR>
 
 " map leader key
 let mapleader = '\'
