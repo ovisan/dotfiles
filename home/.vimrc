@@ -73,7 +73,8 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'scrooloose/syntastic'
     Plugin 'mbbill/undotree'
     Plugin 'itchyny/lightline.vim'
-    Plugin 'godlygeek/tabular.git' "Alignment plugin
+    Plugin 'junegunn/vim-easy-align' "Alignment plugin
+
     Plugin 'Raimondi/delimitMate'
     Plugin 'terryma/vim-multiple-cursors'
     Plugin 'haya14busa/incsearch.vim' "Better incsearch
@@ -302,10 +303,16 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list            = 1
 let g:syntastic_check_on_open            = 1
 let g:syntastic_check_on_wq              = 0
-let g:syntastic_python_flake8_args       = '--ignore = E501,E128'
+let g:syntastic_python_flake8_args       = '--ignore=E501,E128'
 
 " lightline
 set laststatus=2
+
+" vim-easy-align
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 " mucomplete options
 set completeopt-=preview
