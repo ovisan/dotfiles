@@ -72,7 +72,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'suan/vim-instant-markdown'
     Plugin 'scrooloose/syntastic'
     Plugin 'mbbill/undotree'
-    Plugin 'bling/vim-airline'
+    Plugin 'itchyny/lightline.vim'
     Plugin 'godlygeek/tabular.git' "Alignment plugin
     Plugin 'Raimondi/delimitMate'
     Plugin 'terryma/vim-multiple-cursors'
@@ -80,6 +80,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'pearofducks/ansible-vim'
     Plugin 'hashivim/vim-terraform'
     Plugin 'Vimjas/vim-python-pep8-indent'
+    Plugin 'davidhalter/jedi-vim'
     Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plugin 'junegunn/fzf.vim'
     Plugin 'rust-lang/rust.vim'
@@ -195,7 +196,7 @@ nmap <silent> <leader>q :call ToggleList("Quickfix List", 'c')<CR>
 nnoremap <expr> . !empty(filter(tabpagebuflist(), 'getbufvar(v:val,"&buftype")==# "quickfix"')) > 0  ? "\:cnext<CR>" : '.'
 nnoremap <expr> , !empty(filter(tabpagebuflist(), 'getbufvar(v:val,"&buftype")==# "quickfix"')) > 0 ?  "\:cprevious<CR>" : ','
 
-" Auto source vimrc
+" auto source vimrc
 autocmd! bufwritepost .vimrc source %
 
 
@@ -210,7 +211,7 @@ set foldnestmax=10      "deepest fold is 10 levels
 set nofoldenable        "dont fold by default
 set foldlevel=1         "this is just what i use
 
-" Enable repeat in visual mode
+" enable repeat in visual mode
 vnoremap . :norm.<CR>
 
 
@@ -222,7 +223,7 @@ noremap <silent> <Leader>z :NERDTreeToggle<CR>
 " multiple cursors
 let g:multi_cursor_use_default_mapping=0
 
-" Default mapping
+" default mapping
 let g:multi_cursor_start_word_key      = '<C-n>'
 let g:multi_cursor_select_all_word_key = '<C-a>'
 let g:multi_cursor_start_key           = 'g<C-n>'
@@ -233,11 +234,11 @@ let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
 
 " netrw
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
+let g:netrw_banner       = 0
+let g:netrw_liststyle    = 3
 let g:netrw_browse_split = 4
-let g:netrw_altv = 1
-let g:netrw_winsize = 25
+let g:netrw_altv         = 1
+let g:netrw_winsize      = 25
 
 function! ToggleVExplorer()
   if exists("t:expl_buf_num")
@@ -260,10 +261,10 @@ endfunction
 
 " rust
 set hidden
-let g:racer_cmd = "/usr/local/bin/racer"
-let $RUST_SRC_PATH="/usr/local/share/rust/rust_src"
+let g:racer_cmd                    = "/usr/local/bin/racer"
+let $RUST_SRC_PATH                 = "/usr/local/share/rust/rust_src"
 let g:racer_experimental_completer = 1
-let g:raceer_insert_paren = 1
+let g:raceer_insert_paren          = 1
 
 " fzf
 nnoremap <C-o> :FZF ~<Cr>
@@ -275,9 +276,9 @@ let g:fzf_action = {
 imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " terraform
-let g:terraform_align=1
-let g:terraform_remap_spacebar=1
-let g:terraform_commentstring='//%s'
+let g:terraform_align          = 1
+let g:terraform_remap_spacebar = 1
+let g:terraform_commentstring  = '//%s'
 
 " incsearch
 map /  <Plug>(incsearch-forward)
@@ -285,69 +286,34 @@ map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
 " delimitmate
-let g:delimitMate_expand_cr=2
-let g:delimitMate_expand_space = 1
-let g:delimitMate_autoclose = 1
-let g:delimitMate_matchpairs = "(:),[:],{:},<:>"
-let g:delimitMate_jump_expansion = 1
+let g:delimitMate_expand_cr            = 2
+let g:delimitMate_expand_space         = 1
+let g:delimitMate_autoclose            = 1
+let g:delimitMate_matchpairs           = "(:),[:],{:},<:>"
+let g:delimitMate_jump_expansion       = 1
 let g:delimitMate_expand_inside_quotes = 1
 
 " easymotion
 hi link EasyMotionTarget ErrorMsg
 hi link EasyMotionShade  Comment
 
-" tabular
-if exists(":Tabularize")
-  nmap <Leader>a= :Tabularize /=<CR>
-  nmap <Leader>a: :Tabularize /:\zs<CR>
-endif
-
-function! s:align()
-  let p = '^\s*|\s.*\s|\s*$'
-  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
-    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
-    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
-    Tabularize/|/l1
-    normal! 0
-    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
-  endif
-endfunction
-
 " syntastic
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_python_flake8_args='--ignore=E501,E128'
+let g:syntastic_auto_loc_list            = 1
+let g:syntastic_check_on_open            = 1
+let g:syntastic_check_on_wq              = 0
+let g:syntastic_python_flake8_args       = '--ignore = E501,E128'
 
-" airline bar
-let g:airline#extensions#syntastic#enable  = 1
-let g:airline#extensions#branch#enable     = 1
-let g:airline#extensions#modified#enable   = 1
-let g:airline#extensions#paste#enable      = 1
-let g:airline#extensions#whitespace#enable = 1
-
-function! RefreshUI()
-  if exists(':AirlineRefresh')
-    AirlineRefresh
-  else
-    " Clear & redraw the screen, then redraw all statuslines.
-    redraw!
-    redrawstatus!
-  endif
-endfunction
-
-au BufWritePost .vimrc source $MYVIMRC | :call RefreshUI()
-augroup reload_vimrc  {
-    autocmd!
-    autocmd BufWritePost $MYVIMRC source $MYVIMRC | AirlineRefresh
-    autocmd BufWritePost $MYVIMRC AirlineRefresh
-augroup END }
+" lightline
+set laststatus=2
 
 " mucomplete options
+set completeopt-=preview
 set completeopt+=menuone,noinsert
 set shortmess+=c   " Shut off completion messages
 set belloff+=ctrlg " If Vim beeps during completion
 let g:mucomplete#enable_auto_at_startup = 1
-let g:mucomplete#completion_delay = 1
+let g:mucomplete#completion_delay       = 1
 let g:mucomplete#always_use_completeopt = 1
+set completeopt+=longest,menuone,noselect
+let g:jedi#popup_on_dot = 1  " It may be 1 as well
