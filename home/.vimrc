@@ -13,7 +13,7 @@ set spellcapcheck=
 set complete+=kspell
 
 " tabs and spaces
-set tabstop=8 expandtab shiftwidth=4 softtabstop=4
+set tabstop=2 expandtab shiftwidth=2 softtabstop=2
 
 " ignore list
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.tmp,tags,*.hpi
@@ -24,6 +24,11 @@ map <C-right> <C-W>l
 
 " yank to clipboard
 vmap '' :w !pbcopy<CR><CR>
+
+" persistent history
+silent !mkdir ~/.vim/history > /dev/null 2>&1
+set undodir=~/.vim/history
+set undofile
 
 " remove whitespace
 nnoremap <silent> <Leader>w :%s/\s\+$//e<CR>
@@ -299,11 +304,15 @@ hi link EasyMotionTarget ErrorMsg
 hi link EasyMotionShade  Comment
 
 " syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list            = 1
 let g:syntastic_check_on_open            = 1
 let g:syntastic_check_on_wq              = 0
-let g:syntastic_python_flake8_args       = '--ignore=E501,E128'
+let g:syntastic_python_flake8_args       = '--ignore=E501,E128,E221,E722,E201,E202,E251,E225,E226,W391,W605'
 
 " lightline
 set laststatus=2
@@ -323,4 +332,8 @@ let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#completion_delay       = 1
 let g:mucomplete#always_use_completeopt = 1
 set completeopt+=longest,menuone,noselect
+" jedi
 let g:jedi#popup_on_dot = 1  " It may be 1 as well
+let g:jedi#use_splits_not_buffers = "left"
+let g:jedi#popup_select_first = 0
+let g:jedi#show_call_signatures = "1"
