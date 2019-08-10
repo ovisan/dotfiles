@@ -31,7 +31,12 @@ set undodir=~/.vim/history
 set undofile
 
 " remove whitespace
-nnoremap <silent> <Leader>w :%s/\s\+$//e<CR>
+
+" vim way to strip whitespace
+" nnoremap <silent> <Leader>w :%s/\s\+$//e<CR>
+
+" function provided by vim-better-whitespace
+nnoremap <silent> <Leader>w :StripWhitespace<CR>
 
 " map leader key
 let mapleader = '\'
@@ -65,7 +70,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
 
     "other
     Plugin 'scrooloose/nerdtree'
-    Plugin 'bronson/vim-trailing-whitespace'
+    Plugin 'ntpeters/vim-better-whitespace'
     Plugin 'airblade/vim-gitgutter'
     Plugin 'tpope/vim-repeat'
     Plugin 'tpope/vim-abolish'
