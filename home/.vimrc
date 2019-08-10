@@ -130,7 +130,8 @@ cnoremap /d <CR>:d<CR>``
 colorscheme vividchalk-custom
 
 "display indent guides (the space is needed after the line to work properly)
-set list lcs=tab:\|\
+set list
+set listchars=tab:\|\ 
 
 set wildmenu
 set hlsearch
