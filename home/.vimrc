@@ -90,7 +90,6 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'haya14busa/incsearch.vim' "Better incsearch
     Plugin 'pearofducks/ansible-vim'
     Plugin 'hashivim/vim-terraform'
-    Plugin 'Vimjas/vim-python-pep8-indent'
     Plugin 'davidhalter/jedi-vim'
     Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plugin 'rust-lang/rust.vim'
@@ -317,6 +316,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list            = 1
 let g:syntastic_check_on_open            = 1
 let g:syntastic_check_on_wq              = 0
+let g:syntastic_python_checkers          = ['flake8']
 let g:syntastic_python_flake8_args       = '--ignore=E501,E128,E221,E722,E201,E202,E251,E225,E226,W391,W605'
 
 " lightline
@@ -324,9 +324,9 @@ set laststatus=2
 
 " vim-easy-align
 " Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
+xmap <leader>a <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
+nmap <leader>a <Plug>(EasyAlign)
 
 " mucomplete options
 set completeopt-=preview
