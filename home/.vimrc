@@ -317,7 +317,7 @@ let g:syntastic_auto_loc_list            = 1
 let g:syntastic_check_on_open            = 1
 let g:syntastic_check_on_wq              = 0
 let g:syntastic_python_checkers          = ['flake8']
-let g:syntastic_python_flake8_args       = '--ignore=E501,E128,E221,E722,E201,E202,E251,E225,E226,W391,W605'
+let g:syntastic_python_flake8_args       = '--ignore=E501,E128,E221,E722,E201,E202,E251,E225,E226,W391,W605,E126,E123,E241'
 
 " lightline
 set laststatus=2
@@ -338,7 +338,7 @@ let g:mucomplete#completion_delay       = 1
 let g:mucomplete#always_use_completeopt = 1
 set completeopt+=longest,menuone,noselect
 " jedi
-let g:jedi#popup_on_dot = 1  " It may be 1 as well
+let g:jedi#popup_on_dot           = 1  " It may be 1 as well
 let g:jedi#use_splits_not_buffers = "left"
-let g:jedi#popup_select_first = 0
-let g:jedi#show_call_signatures = "1"
+let g:jedi#popup_select_first     = 0
+let g:jedi#show_call_signatures   = "1"
