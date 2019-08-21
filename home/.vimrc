@@ -92,6 +92,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'hashivim/vim-terraform'
     Plugin 'davidhalter/jedi-vim'
     Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plugin 'junegunn/fzf.vim'
     Plugin 'rust-lang/rust.vim'
     Plugin 'racer-rust/vim-racer'
     Plugin 'juliosueiras/vim-terraform-completion'
