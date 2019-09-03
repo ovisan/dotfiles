@@ -69,7 +69,6 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'ovisan/vividchalk-custom'
 
     "other
-    Plugin 'scrooloose/nerdtree'
     Plugin 'ntpeters/vim-better-whitespace'
     Plugin 'airblade/vim-gitgutter'
     Plugin 'tpope/vim-repeat'
@@ -212,10 +211,8 @@ set foldlevel=1         "this is just what i use
 vnoremap . :norm.<CR>
 
 
-" nerdtree
-let NERDTreeShowBookmarks=1
+" undotree
 nnoremap <silent> <Leader>u :UndotreeToggle<CR>
-noremap <silent> <Leader>z :NERDTreeToggle<CR>
 
 " netrw
 let g:netrw_banner       = 0
@@ -223,6 +220,7 @@ let g:netrw_liststyle    = 3
 let g:netrw_browse_split = 4
 let g:netrw_altv         = 1
 let g:netrw_winsize      = 25
+noremap <silent> <Leader>z :Lexplore<CR>
 
 function! ToggleVExplorer()
   if exists("t:expl_buf_num")
