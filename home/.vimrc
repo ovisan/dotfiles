@@ -253,19 +253,12 @@ let g:raceer_insert_paren          = 1
 " fzf
 nnoremap <leader>o :FZF<Cr>
 nnoremap <leader><leader>o :FZF ~<Cr>
-nnoremap <leader>f :Rg <C-r><C-w><Cr>
-nnoremap <leader><leader>f :Rg<Cr>
+nnoremap <leader>f :Rg<Cr>
 let g:fzf_action = {
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit'
       \ }
-
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
+autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
 
 let g:fzf_tags_command = 'ctags -R'
 
