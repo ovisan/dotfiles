@@ -86,23 +86,15 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'junegunn/vim-easy-align' "Alignment plugin
 
     Plugin 'Raimondi/delimitMate'
-    " Plugin 'terryma/vim-multiple-cursors'
-    Plugin 'haya14busa/incsearch.vim' "Better incsearch
     Plugin 'pearofducks/ansible-vim'
-    Plugin 'hashivim/vim-terraform'
     Plugin 'davidhalter/jedi-vim'
     Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plugin 'junegunn/fzf.vim'
     Plugin 'rust-lang/rust.vim'
     Plugin 'racer-rust/vim-racer'
-    Plugin 'juliosueiras/vim-terraform-completion'
     Plugin 'lifepillar/vim-mucomplete'
     Plugin 'majutsushi/tagbar'
     Plugin 'stephpy/vim-yaml'
-
-    " github mirrors for vim scripts
-    Plugin 'vim-scripts/netrw.vim' "Remote editing
-    Plugin 'vim-scripts/vimcommander'
 
 
     if iCanHazVundle == 0
@@ -122,13 +114,6 @@ let $GIT_SSL_NO_VERIFY = 'true'
 " installed in the $GOPATH/bin by go get. This way gocode will be sure to run
 " from go installed anywhere in the system.
 let $PATH .= ":".$GOPATH."/bin"
-
-" allows incsearch highlighting for range commands
-cnoremap /c <CR>:t''<CR>
-cnoremap /C <CR>:T''<CR>
-cnoremap /m <CR>:m''<CR>
-cnoremap /M <CR>:M''<CR>
-cnoremap /d <CR>:d<CR>``
 
 "favorite colorscheme
 colorscheme vividchalk-custom
@@ -232,19 +217,6 @@ let NERDTreeShowBookmarks=1
 nnoremap <silent> <Leader>u :UndotreeToggle<CR>
 noremap <silent> <Leader>z :NERDTreeToggle<CR>
 
-" " multiple cursors
-" let g:multi_cursor_use_default_mapping=0
-
-" " default mapping
-" let g:multi_cursor_start_word_key      = '<C-n>'
-" let g:multi_cursor_select_all_word_key = '<C-a>'
-" let g:multi_cursor_start_key           = 'g<C-n>'
-" let g:multi_cursor_select_all_key      = 'g<C-a>'
-" let g:multi_cursor_next_key            = '<C-n>'
-" let g:multi_cursor_prev_key            = '<C-p>'
-" let g:multi_cursor_skip_key            = '<C-x>'
-" let g:multi_cursor_quit_key            = '<Esc>'
-
 " netrw
 let g:netrw_banner       = 0
 let g:netrw_liststyle    = 3
@@ -299,15 +271,6 @@ let g:fzf_tags_command = 'ctags -R'
 
 imap <c-x><c-l> <plug>(fzf-complete-line)
 
-" terraform
-let g:terraform_align          = 1
-let g:terraform_remap_spacebar = 1
-let g:terraform_commentstring  = '//%s'
-
-" incsearch
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
 
 " delimitmate
 let g:delimitMate_expand_cr            = 2
@@ -316,10 +279,6 @@ let g:delimitMate_autoclose            = 1
 let g:delimitMate_matchpairs           = "(:),[:],{:},<:>"
 let g:delimitMate_jump_expansion       = 1
 let g:delimitMate_expand_inside_quotes = 1
-
-" easymotion
-hi link EasyMotionTarget ErrorMsg
-hi link EasyMotionShade  Comment
 
 " syntastic
 set statusline+=%#warningmsg#
@@ -351,6 +310,7 @@ let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#completion_delay       = 1
 let g:mucomplete#always_use_completeopt = 1
 set completeopt+=longest,menuone,noselect
+
 " jedi
 let g:jedi#popup_on_dot           = 1  " It may be 1 as well
 let g:jedi#use_splits_not_buffers = "left"
