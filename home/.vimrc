@@ -86,7 +86,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'junegunn/vim-easy-align' "Alignment plugin
 
     Plugin 'Raimondi/delimitMate'
-    Plugin 'terryma/vim-multiple-cursors'
+    " Plugin 'terryma/vim-multiple-cursors'
     Plugin 'haya14busa/incsearch.vim' "Better incsearch
     Plugin 'pearofducks/ansible-vim'
     Plugin 'hashivim/vim-terraform'
@@ -163,11 +163,12 @@ set clipboard=unnamed
 " Edit anyway if there is a swap file
 autocmd SwapExists * :let v:swapchoice='e'
 
-" Function to save the cursor position after formatting the c/c++ code
-function! ClangFormat()
-	let l:winview = winsaveview()
-	:%!clang-format
-	call winrestview(l:winview)
+" Macros
+xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
+
+function! ExecuteMacroOverVisualRange()
+  echo "@".getcmdline()
+  execute ":'<,'>normal @".nr2char(getchar())
 endfunction
 
 
@@ -231,18 +232,18 @@ let NERDTreeShowBookmarks=1
 nnoremap <silent> <Leader>u :UndotreeToggle<CR>
 noremap <silent> <Leader>z :NERDTreeToggle<CR>
 
-" multiple cursors
-let g:multi_cursor_use_default_mapping=0
+" " multiple cursors
+" let g:multi_cursor_use_default_mapping=0
 
-" default mapping
-let g:multi_cursor_start_word_key      = '<C-n>'
-let g:multi_cursor_select_all_word_key = '<C-a>'
-let g:multi_cursor_start_key           = 'g<C-n>'
-let g:multi_cursor_select_all_key      = 'g<C-a>'
-let g:multi_cursor_next_key            = '<C-n>'
-let g:multi_cursor_prev_key            = '<C-p>'
-let g:multi_cursor_skip_key            = '<C-x>'
-let g:multi_cursor_quit_key            = '<Esc>'
+" " default mapping
+" let g:multi_cursor_start_word_key      = '<C-n>'
+" let g:multi_cursor_select_all_word_key = '<C-a>'
+" let g:multi_cursor_start_key           = 'g<C-n>'
+" let g:multi_cursor_select_all_key      = 'g<C-a>'
+" let g:multi_cursor_next_key            = '<C-n>'
+" let g:multi_cursor_prev_key            = '<C-p>'
+" let g:multi_cursor_skip_key            = '<C-x>'
+" let g:multi_cursor_quit_key            = '<Esc>'
 
 " netrw
 let g:netrw_banner       = 0
@@ -278,12 +279,24 @@ let g:racer_experimental_completer = 1
 let g:raceer_insert_paren          = 1
 
 " fzf
-nnoremap <C-o> :FZF ~<Cr>
-nnoremap <leader>f :Rg<Cr>
+nnoremap <leader>o :FZF<Cr>
+nnoremap <leader><leader>o :FZF ~<Cr>
+nnoremap <leader>f :Rg <C-r><C-w><Cr>
+nnoremap <leader><leader>f :Rg<Cr>
 let g:fzf_action = {
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit'
       \ }
+
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+let g:fzf_tags_command = 'ctags -R'
+
 imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " terraform
