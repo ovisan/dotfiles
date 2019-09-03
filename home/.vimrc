@@ -251,9 +251,10 @@ let g:racer_experimental_completer = 1
 let g:raceer_insert_paren          = 1
 
 " fzf
-nnoremap <leader>o :FZF<Cr>
-nnoremap <leader><leader>o :FZF ~<Cr>
 nnoremap <leader>f :Rg<Cr>
+nmap ; :Buffers<CR>
+nmap <Leader>o :Files<CR>
+nmap <Leader>t :Tags<CR>
 let g:fzf_action = {
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit'
