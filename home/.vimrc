@@ -250,9 +250,9 @@ let g:raceer_insert_paren          = 1
 
 " fzf
 nnoremap <leader>f :Rg<Cr>
-nmap ; :Buffers<CR>
-nmap <Leader>o :Files<CR>
-nmap <Leader>t :Tags<CR>
+nmap <leader>; :Buffers<CR>
+nmap <leader>o :Files<CR>
+nmap <leader>t :Tags<CR>
 let g:fzf_action = {
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit'
@@ -276,7 +276,6 @@ let g:delimitMate_expand_inside_quotes = 1
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-let g:syntastic_loc_list_height=3
 
 let g:syntastic_check_on_open            = 1
 let g:syntastic_check_on_wq              = 0
