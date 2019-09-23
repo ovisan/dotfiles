@@ -214,14 +214,6 @@ vnoremap . :norm.<CR>
 " undotree
 nnoremap <silent> <Leader>u :UndotreeToggle<CR>
 
-" netrw
-let g:netrw_banner       = 0
-let g:netrw_liststyle    = 3
-let g:netrw_browse_split = 4
-let g:netrw_altv         = 1
-let g:netrw_winsize      = 25
-noremap <silent> <Leader>z :Lexplore<CR>
-
 function! ToggleVExplorer()
   if exists("t:expl_buf_num")
       let expl_win_num = bufwinnr(t:expl_buf_num)
@@ -251,8 +243,9 @@ let g:raceer_insert_paren          = 1
 " fzf
 nnoremap <leader>f :Rg<Cr>
 nmap <leader>; :Buffers<CR>
-nmap <leader>o :Files<CR>
+nmap <leader><leader>o :Files<CR>
 nmap <leader>t :Tags<CR>
+nmap <leader>o :GFiles<CR>
 let g:fzf_action = {
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit'
@@ -260,6 +253,7 @@ let g:fzf_action = {
 autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
 
 let g:fzf_tags_command = 'ctags -R'
+
 
 imap <c-x><c-l> <plug>(fzf-complete-line)
 
