@@ -243,7 +243,7 @@ let g:raceer_insert_paren          = 1
 " fzf
 nnoremap <leader>f :Rg<Cr>
 nmap <leader>; :Buffers<CR>
-nmap <leader><leader>o :Files<CR>
+nmap <leader><leader>o :ProjectFiles<CR>
 nmap <leader>t :Tags<CR>
 nmap <leader>o :GFiles<CR>
 let g:fzf_action = {
@@ -256,7 +256,11 @@ let g:fzf_tags_command = 'ctags -R'
 
 
 imap <c-x><c-l> <plug>(fzf-complete-line)
+function! s:find_git_root()
+  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
 
+command! ProjectFiles execute 'Files' s:find_git_root()
 
 " delimitmate
 let g:delimitMate_expand_cr            = 2
@@ -274,7 +278,7 @@ set statusline+=%*
 let g:syntastic_check_on_open            = 1
 let g:syntastic_check_on_wq              = 0
 let g:syntastic_python_checkers          = ['flake8']
-let g:syntastic_python_flake8_args       = '--ignore=E501,E128,E221,E722,E201,E202,E251,E225,E226,W391,W605,E126,E123,E241'
+let g:syntastic_python_flake8_args       = '--ignore=E501,E128,E221,E722,E201,E202,E251,E225,E226,W391,W605,E126,E123,E241,E305,E302'
 
 " lightline
 set laststatus=2
