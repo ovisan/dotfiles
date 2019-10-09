@@ -22,9 +22,6 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.tmp,tags,*.hpi
 map <C-left> <C-W>h
 map <C-right> <C-W>l
 
-" yank to clipboard
-vmap '' :w !pbcopy<CR><CR>
-
 " persistent history
 silent !mkdir ~/.vim/history > /dev/null 2>&1
 set undodir=~/.vim/history
