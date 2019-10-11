@@ -30,10 +30,8 @@ set undofile
 " remove whitespace
 
 " vim way to strip whitespace
-" nnoremap <silent> <Leader>w :%s/\s\+$//e<CR>
+nnoremap <silent> <Leader>w :%s/\s\+$//e<CR>
 
-" function provided by vim-better-whitespace
-nnoremap <silent> <Leader>w :StripWhitespace<CR>
 
 " map leader key
 let mapleader = '\'
@@ -66,7 +64,6 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'ovisan/vividchalk-custom'
 
     "other
-    Plugin 'ntpeters/vim-better-whitespace'
     Plugin 'airblade/vim-gitgutter'
     Plugin 'tpope/vim-repeat'
     Plugin 'tpope/vim-abolish'
@@ -81,7 +78,6 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'itchyny/lightline.vim'
     Plugin 'junegunn/vim-easy-align' "Alignment plugin
 
-    Plugin 'Raimondi/delimitMate'
     Plugin 'pearofducks/ansible-vim'
     Plugin 'davidhalter/jedi-vim'
     Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -259,14 +255,6 @@ endfunction
 
 command! ProjectFiles execute 'Files' s:find_git_root()
 
-" delimitmate
-let g:delimitMate_expand_cr            = 2
-let g:delimitMate_expand_space         = 1
-let g:delimitMate_autoclose            = 1
-let g:delimitMate_matchpairs           = "(:),[:],{:},<:>"
-let g:delimitMate_jump_expansion       = 1
-let g:delimitMate_expand_inside_quotes = 1
-
 " syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -279,12 +267,6 @@ let g:syntastic_python_flake8_args       = '--ignore=E501,E128,E221,E722,E201,E2
 
 " lightline
 set laststatus=2
-
-" vim-easy-align
-" Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap <leader>a <Plug>(EasyAlign)
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap <leader>a <Plug>(EasyAlign)
 
 " mucomplete options
 set completeopt-=preview
