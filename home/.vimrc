@@ -27,8 +27,13 @@ silent !mkdir ~/.vim/history > /dev/null 2>&1
 set undodir=~/.vim/history
 set undofile
 
-" remove whitespace
+" source $MYVIMRC reloads the saved $MYVIMRC
+:nmap <Leader>s :source $MYVIMRC
 
+" opens $MYVIMRC for editing, or use :tabedit $MYVIMRC
+:nmap <Leader>v :e $MYVIMRC
+
+" <Leader> is \ by default, so those commands can be invoked by doing \v and \s
 " vim way to strip whitespace
 nnoremap <silent> <Leader>w :%s/\s\+$//e<CR>
 
@@ -276,7 +281,6 @@ set belloff+=ctrlg " If Vim beeps during completion
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#completion_delay       = 1
 let g:mucomplete#always_use_completeopt = 1
-set completeopt+=longest,menuone,noselect
 
 " jedi
 let g:jedi#popup_on_dot           = 1  " It may be 1 as well
