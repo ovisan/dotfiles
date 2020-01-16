@@ -90,7 +90,6 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'rust-lang/rust.vim'
     Plugin 'racer-rust/vim-racer'
     Plugin 'lifepillar/vim-mucomplete'
-    Plugin 'majutsushi/tagbar'
     Plugin 'stephpy/vim-yaml'
 
 
@@ -153,9 +152,6 @@ function! ExecuteMacroOverVisualRange()
   execute ":'<,'>normal @".nr2char(getchar())
 endfunction
 
-
-"Automatically changes directory to that of the current file
-autocmd BufEnter * silent! lcd %:p:h
 
 "QuickFix and Location list window toggle
 function! GetBufferList()
