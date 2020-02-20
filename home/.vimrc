@@ -233,6 +233,14 @@ let g:racer_cmd                    = "/usr/local/bin/racer"
 let $RUST_SRC_PATH                 = "/usr/local/share/rust/rust_src"
 let g:racer_experimental_completer = 1
 let g:racer_insert_paren           = 1
+augroup Racer
+    autocmd!
+    autocmd FileType rust nmap <buffer> gd         <Plug>(rust-def)
+    autocmd FileType rust nmap <buffer> gs         <Plug>(rust-def-split)
+    autocmd FileType rust nmap <buffer> gx         <Plug>(rust-def-vertical)
+    autocmd FileType rust nmap <buffer> gt         <Plug>(rust-def-tab)
+    autocmd FileType rust nmap <buffer> <leader>gd <Plug>(rust-doc)
+augroup END
 
 
 " fzf
@@ -280,9 +288,14 @@ let g:mucomplete#completion_delay       = 1
 let g:mucomplete#always_use_completeopt = 1
 let g:mucomplete#can_complete = {
   \ 'rust': {
-  \    'omni': { t -> strlen(&l:omnifunc) > 0 && t =~# '\%(::\)$' }
+  \    'omni': { t -> strlen(&l:omnifunc) > 0 && t =~# '\%(\.\|::\)$' }
   \    }
   \  }
+let g:mucomplete#chains = {
+	    \ 'default' : ['path', 'omni', 'keyn', 'dict', 'uspl'],
+	    \ 'vim'     : ['path', 'cmd', 'keyn'],
+	    \ 'rust'     : ['omni', 'keyn']
+	    \ }
 
 " jedi
 let g:jedi#popup_on_dot           = 1  " It may be 1 as well
