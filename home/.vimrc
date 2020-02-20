@@ -232,7 +232,8 @@ set hidden
 let g:racer_cmd                    = "/usr/local/bin/racer"
 let $RUST_SRC_PATH                 = "/usr/local/share/rust/rust_src"
 let g:racer_experimental_completer = 1
-let g:raceer_insert_paren          = 1
+let g:racer_insert_paren           = 1
+
 
 " fzf
 nnoremap <leader>f :Rg<Cr>
@@ -277,6 +278,11 @@ set belloff+=ctrlg " If Vim beeps during completion
 let g:mucomplete#enable_auto_at_startup = 1
 let g:mucomplete#completion_delay       = 1
 let g:mucomplete#always_use_completeopt = 1
+let g:mucomplete#can_complete = {
+  \ 'rust': {
+  \    'omni': { t -> strlen(&l:omnifunc) > 0 && t =~# '\%(::\)$' }
+  \    }
+  \  }
 
 " jedi
 let g:jedi#popup_on_dot           = 1  " It may be 1 as well
