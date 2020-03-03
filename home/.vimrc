@@ -93,7 +93,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'lifepillar/vim-mucomplete'
     Plugin 'stephpy/vim-yaml'
     Plugin 'fatih/vim-go'
-
+    Plugin 'craigemery/vim-autotag'
 
     if iCanHazVundle == 0
         echo "Installing Plugin, please ignore key map error messages"
