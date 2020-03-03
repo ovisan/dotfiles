@@ -91,6 +91,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'racer-rust/vim-racer'
     Plugin 'lifepillar/vim-mucomplete'
     Plugin 'stephpy/vim-yaml'
+    Plugin 'fatih/vim-go'
 
 
     if iCanHazVundle == 0
@@ -180,6 +181,23 @@ function! ToggleList(bufname, pfx)
     wincmd p
   endif
 endfunction
+
+"Jump list
+function! GotoJump()
+  jumps
+  let j = input("Please select your jump: ")
+  if j != ''
+    let pattern = '\v\c^\+'
+    if j =~ pattern
+      let j = substitute(j, pattern, '', 'g')
+      execute "normal " . j . "\<c-i>"
+    else
+      execute "normal " . j . "\<c-o>"
+    endif
+  endif
+endfunction
+
+nmap <Leader>j :call GotoJump()<CR>
 
 nmap <silent> <leader>l :call ToggleList("Location List", 'l')<CR>
 nmap <silent> <leader>q :call ToggleList("Quickfix List", 'c')<CR>
