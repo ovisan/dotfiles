@@ -67,6 +67,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
 
     "color schemes
     Plugin 'ovisan/vividchalk-custom'
+    Plugin 'nanotech/jellybeans.vim'
 
     "other
     Plugin 'airblade/vim-gitgutter'
@@ -113,7 +114,8 @@ let $GIT_SSL_NO_VERIFY = 'true'
 let $PATH .= ":".$GOPATH."/bin"
 
 "favorite colorscheme
-colorscheme vividchalk-custom
+colorscheme jellybeans
+
 
 "display indent guides (the space is needed after the line to work properly)
 set list
