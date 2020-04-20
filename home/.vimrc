@@ -90,7 +90,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'racer-rust/vim-racer'
     Plugin 'lifepillar/vim-mucomplete'
     Plugin 'stephpy/vim-yaml'
-    Plugin 'fatih/vim-go'
+    Plugin 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
     Plugin 'craigemery/vim-autotag'
 
     if iCanHazVundle == 0
@@ -308,12 +308,16 @@ let g:mucomplete#always_use_completeopt = 1
 let g:mucomplete#can_complete = {
   \ 'rust': {
   \    'omni': { t -> strlen(&l:omnifunc) > 0 && t =~# '\%(\.\|::\)$' }
+  \    },
+  \ 'default': {
+  \    'omni': { t -> strlen(&l:omnifunc) > 0 && t =~# '\%(\k\k\|\.\)$'}
   \    }
   \  }
 let g:mucomplete#chains = {
 	    \ 'default' : ['path', 'omni', 'keyn', 'dict', 'uspl'],
 	    \ 'vim'     : ['path', 'cmd', 'keyn'],
-	    \ 'rust'     : ['omni', 'keyn']
+	    \ 'rust'     : ['omni', 'keyn'],
+	    \ 'go'     : ['omni']
 	    \ }
 
 " jedi
