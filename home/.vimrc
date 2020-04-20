@@ -77,13 +77,11 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'tpope/vim-fugitive'
     Plugin 'tpope/vim-surround'
     Plugin 'tpope/vim-commentary'
-    Plugin 'tpope/vim-jdaddy' " JSON
     Plugin 'suan/vim-instant-markdown'
     Plugin 'scrooloose/syntastic'
     Plugin 'mbbill/undotree'
     Plugin 'itchyny/lightline.vim'
     Plugin 'junegunn/vim-easy-align' "Alignment plugin
-
     Plugin 'pearofducks/ansible-vim'
     Plugin 'davidhalter/jedi-vim'
     Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -100,6 +98,7 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
         echo ""
         :PluginInstall
     endif
+
 
 " Variable for vundle to handle git
 let $GIT_SSL_NO_VERIFY = 'true'
@@ -322,3 +321,4 @@ let g:jedi#popup_on_dot           = 1  " It may be 1 as well
 let g:jedi#use_splits_not_buffers = "left"
 let g:jedi#popup_select_first     = 0
 let g:jedi#show_call_signatures   = "1"
+
