@@ -36,6 +36,8 @@ set undofile
 " <Leader> is \ by default, so those commands can be invoked by doing \v and \s
 " vim way to strip whitespace
 nnoremap <silent> <Leader>w :%s/\s\+$//e<CR>
+" count word under cursor
+map <Leader>c *<C-O>:%s///gn<CR>
 
 
 " map leader key
