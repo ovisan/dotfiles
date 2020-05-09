@@ -43,10 +43,30 @@ map <Leader>c *<C-O>:%s///gn<CR>
 " map leader key
 let mapleader = '\'
 
-" difference between insert and normal mode with no delay
-autocmd InsertEnter * set cul
-autocmd InsertLeave * set nocul
-set timeoutlen=1000 ttimeoutlen=0
+" closing matching characters and skipping over the closing characters
+inoremap <expr> " strpart(getline('.'), col('.')-1, 1) == "\"" ? "\<Right>" : "\"\"\<Left>"
+inoremap <expr> ' strpart(getline('.'), col('.')-1, 1) == "\'" ? "\<Right>" : "\'\'\<Left>"
+inoremap ( ()<Left>
+inoremap <expr> )  strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
+inoremap [ []<Left>
+inoremap <expr> ]  strpart(getline('.'), col('.')-1, 1) == "]" ? "\<Right>" : "]"
+inoremap { {}<Left>
+inoremap <expr> }  strpart(getline('.'), col('.')-1, 1) == "}" ? "\<Right>" : "}"
+inoremap {<CR> {<CR>}<ESC>O
+inoremap {;<CR> {<CR>};<ESC>O
+
+" automatic paste toggle function
+" let &t_SI .= "\<Esc>[?2004h"
+" let &t_EI .= "\<Esc>[?2004l"
+
+" inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+" function! XTermPasteBegin()
+"   set pastetoggle=<Esc>[201~
+"     set paste
+"       return ""
+"       endfunction
+
 
 "Setting the highlight colors
 hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
