@@ -38,6 +38,8 @@ set undofile
 nnoremap <silent> <Leader>w :%s/\s\+$//e<CR>
 " count word under cursor
 map <Leader>c *<C-O>:%s///gn<CR>
+" rename word under cursor
+nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 
 
 " map leader key
@@ -62,7 +64,6 @@ let &t_EI .= "\<Esc>[?2004l"
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
 function! XTermPasteBegin()
-  echom "Got here"
   set pastetoggle=<Esc>[201~
     set paste
       return ""
@@ -106,7 +107,6 @@ hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
     Plugin 'itchyny/lightline.vim'
     Plugin 'junegunn/vim-easy-align' "Alignment plugin
     Plugin 'pearofducks/ansible-vim'
-    Plugin 'davidhalter/jedi-vim'
     Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plugin 'junegunn/fzf.vim'
     Plugin 'rust-lang/rust.vim'
