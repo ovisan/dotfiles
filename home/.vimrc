@@ -73,70 +73,65 @@ function! XTermPasteBegin()
 "Setting the highlight colors
 hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
 
-" Setting up Vundle - the vim plugin bundler
-    let iCanHazVundle=1
-    let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
-    if !filereadable(vundle_readme)
-        echo "Installing Vundle.."
-        echo ""
-        silent !mkdir -p ~/.vim/bundle
-        silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
-        let iCanHazVundle=0
-    endif
-    set rtp+=~/.vim/bundle/vundle/
-    call vundle#rc()
-    Plugin 'gmarik/vundle'
-    "Add your bundles here
-    " from github
+" Try to load minpac.
+packadd minpac
 
-    "color schemes
-    Plugin 'ovisan/vividchalk-custom'
-    Plugin 'nanotech/jellybeans.vim'
+function! InstallPackages()
+  call minpac#add('nanotech/jellybeans.vim', {'do': 'colorscheme jellybeans'})
+  call minpac#add('airblade/vim-gitgutter')
+  call minpac#add('tpope/vim-repeat')
+  call minpac#add('tpope/vim-abolish')
+  call minpac#add('tpope/vim-speeddating') "Enhances the default vim increment
+  call minpac#add('tpope/vim-fugitive')
+  call minpac#add('tpope/vim-surround')
+  call minpac#add('tpope/vim-commentary')
+  call minpac#add('suan/vim-instant-markdown')
+  call minpac#add('scrooloose/syntastic')
+  call minpac#add('mbbill/undotree')
+  call minpac#add('itchyny/lightline.vim')
+  call minpac#add('junegunn/vim-easy-align') "Alignment plugin
+  call minpac#add('pearofducks/ansible-vim')
+  call minpac#add('junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' })
+  call minpac#add('junegunn/fzf.vim')
+  call minpac#add('rust-lang/rust.vim')
+  call minpac#add('racer-rust/vim-racer')
+  call minpac#add('lifepillar/vim-mucomplete')
+  call minpac#add('stephpy/vim-yaml')
+  call minpac#add('fatih/vim-go', { 'do': ':GoInstallBinaries' })
+endfunction
 
-    "other
-    Plugin 'airblade/vim-gitgutter'
-    Plugin 'tpope/vim-repeat'
-    Plugin 'tpope/vim-abolish'
-    Plugin 'tpope/vim-speeddating' "Enhances the default vim increment
-    Plugin 'tpope/vim-fugitive'
-    Plugin 'tpope/vim-surround'
-    Plugin 'tpope/vim-commentary'
-    Plugin 'suan/vim-instant-markdown'
-    Plugin 'scrooloose/syntastic'
-    Plugin 'mbbill/undotree'
-    Plugin 'itchyny/lightline.vim'
-    Plugin 'junegunn/vim-easy-align' "Alignment plugin
-    Plugin 'pearofducks/ansible-vim'
-    Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-    Plugin 'junegunn/fzf.vim'
-    Plugin 'rust-lang/rust.vim'
-    Plugin 'racer-rust/vim-racer'
-    Plugin 'lifepillar/vim-mucomplete'
-    Plugin 'stephpy/vim-yaml'
-    Plugin 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 
-    if iCanHazVundle == 0
-        echo "Installing Plugin, please ignore key map error messages"
-        echo ""
-        :PluginInstall
-    endif
+let minpac_readme=expand('~/.vim/pack/minpac/opt/minpac/README.md')
+if !filereadable(minpac_readme)
+  " set packpath for all OS
+  set packpath^=~/.vim
 
+  silent !mkdir -p ~/.vim/pack/minpack/opt
+  silent !git clone https://github.com/k-takata/minpac.git ~/.vim/pack/minpac/opt/minpac
+
+  packadd minpac
+  call minpac#init()
+  call minpac#add('k-takata/minpac', {'type': 'opt'})
+
+  call InstallPackages()
+  call minpac#update()
+  packloadall
+
+else
+  call minpac#init()
+  call InstallPackages()
+
+endif
 
 " Variable for vundle to handle git
 let $GIT_SSL_NO_VERIFY = 'true'
 
-" let Vundle manage Vundle
-" required!
 
 """"""""""""""""""""""""""""""""""""
 " Set the PATH variable internally to point to gocode binary, and that is
 " installed in the $GOPATH/bin by go get. This way gocode will be sure to run
 " from go installed anywhere in the system.
 let $PATH .= ":".$GOPATH."/bin"
-
-"favorite colorscheme
-colorscheme jellybeans
-
 
 "display indent guides (the space is needed after the line to work properly)
 set list
@@ -161,6 +156,9 @@ set wildmode=longest,list
 set matchtime=3
 "selection colors for dark background
 set background=dark
+
+" set colorscheme
+colorscheme jellybeans
 
 " Use system's clipboard
 set clipboard=unnamed
