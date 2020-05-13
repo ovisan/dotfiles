@@ -86,20 +86,21 @@ function! InstallPackages()
   call minpac#add('tpope/vim-surround')
   call minpac#add('tpope/vim-commentary')
   call minpac#add('suan/vim-instant-markdown')
-  call minpac#add('scrooloose/syntastic')
+  " call minpac#add('scrooloose/syntastic')
+  call minpac#add('dense-analysis/ale')
+  " call minpac#add('maximbaz/lightline-ale')
   call minpac#add('mbbill/undotree')
   call minpac#add('itchyny/lightline.vim')
   call minpac#add('junegunn/vim-easy-align') "Alignment plugin
-  call minpac#add('pearofducks/ansible-vim')
   call minpac#add('junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' })
   call minpac#add('junegunn/fzf.vim')
-  call minpac#add('rust-lang/rust.vim')
   call minpac#add('racer-rust/vim-racer')
   call minpac#add('lifepillar/vim-mucomplete')
   call minpac#add('stephpy/vim-yaml')
+  call minpac#add('pearofducks/ansible-vim')
+  call minpac#add('rust-lang/rust.vim')
   call minpac#add('fatih/vim-go', { 'do': ':GoInstallBinaries' })
 endfunction
-
 
 let minpac_readme=expand('~/.vim/pack/minpac/opt/minpac/README.md')
 if !filereadable(minpac_readme)
@@ -116,10 +117,12 @@ if !filereadable(minpac_readme)
   call InstallPackages()
   call minpac#update()
   packloadall
+  silent! helptags ALL
 
 else
   call minpac#init()
   call InstallPackages()
+  silent! helptags ALL
 
 endif
 
@@ -304,18 +307,50 @@ endfunction
 
 command! ProjectFiles execute 'Files' s:find_git_root()
 
-" syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" ale
+let g:liteline#extensions#ale#enabled = 1
 
-let g:syntastic_check_on_open            = 1
-let g:syntastic_check_on_wq              = 0
-let g:syntastic_python_checkers          = ['flake8']
-let g:syntastic_python_flake8_args       = '--ignore=E501,E128,E221,E722,E201,E202,E251,E225,E226,W391,W605,E126,E123,E241,E305,E302'
+let b:ale_linters                     = ['flake8']
+let b:ale_fix_on_save                 = 1
+
+let g:ale_sign_error                  = '●'
+let g:ale_sign_warning                = '.'
+let g:ale_python_flake8_options       = '--ignore=E501,E128,E221,E722,E201,E202,E251,E225,E226,W391,W605,E126,E123,E241,E305,E302'
+
+function! LinterStatus() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
+
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+
+    return l:counts.total == 0 ? 'OK' : printf(
+    \   "%dW %dE",
+    \   all_non_errors,
+    \   all_errors
+    \)
+endfunction
+
+set statusline=%{LinterStatus()}
+
+let g:ale_completion_enabled = 1
 
 " lightline
 set laststatus=2
+
+let g:lightline = {
+      \ 'colorscheme': 'jellybeans',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
+      \   'right': [ [ 'lineinfo' ],
+      \              [ 'percent' ],
+      \              [ 'fileformat', 'fileencoding', 'filetype', 'linter' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead',
+      \   'linter': 'LinterStatus'
+      \ }
+      \ }
 
 " mucomplete options
 set completeopt-=preview
@@ -334,10 +369,10 @@ let g:mucomplete#can_complete = {
   \    }
   \  }
 let g:mucomplete#chains = {
-	    \ 'default' : ['path', 'omni', 'keyn', 'dict', 'uspl'],
-	    \ 'vim'     : ['path', 'cmd', 'keyn'],
-	    \ 'rust'     : ['omni', 'keyn'],
-	    \ 'go'     : ['omni']
+	    \ 'default': ['path', 'omni', 'keyn', 'dict', 'uspl'],
+	    \ 'vim':     ['path', 'cmd', 'keyn'],
+	    \ 'rust':    ['omni', 'keyn'],
+	    \ 'go':      ['omni']
 	    \ }
 
 " jedi
