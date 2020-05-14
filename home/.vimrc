@@ -307,7 +307,10 @@ command! ProjectFiles execute 'Files' s:find_git_root()
 " ale
 let g:liteline#extensions#ale#enabled = 1
 
-let b:ale_linters                     = ['flake8']
+let g:ale_rust_rls_executable = 'rust-analyzer'
+let b:ale_fixers = ['rustfmt']
+
+let b:ale_linters                     = ['rls', 'flake8']
 let b:ale_fix_on_save                 = 1
 
 let g:ale_sign_error                  = '●'
