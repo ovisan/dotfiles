@@ -86,9 +86,7 @@ function! InstallPackages()
   call minpac#add('tpope/vim-surround')
   call minpac#add('tpope/vim-commentary')
   call minpac#add('suan/vim-instant-markdown')
-  " call minpac#add('scrooloose/syntastic')
   call minpac#add('dense-analysis/ale')
-  " call minpac#add('maximbaz/lightline-ale')
   call minpac#add('mbbill/undotree')
   call minpac#add('itchyny/lightline.vim')
   call minpac#add('junegunn/vim-easy-align') "Alignment plugin
@@ -271,8 +269,7 @@ endfunction
 
 " rust
 set hidden
-let g:racer_cmd                    = "/usr/local/bin/racer"
-let $RUST_SRC_PATH                 = "/usr/local/share/rust/rust_src"
+let g:racer_cmd = "/Users/ovidiuvisan/.cargo/bin/racer"
 let g:racer_experimental_completer = 1
 let g:racer_insert_paren           = 1
 augroup Racer
