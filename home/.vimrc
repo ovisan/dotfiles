@@ -306,11 +306,16 @@ command! ProjectFiles execute 'Files' s:find_git_root()
 
 " ale
 let g:liteline#extensions#ale#enabled = 1
+
+" Only run linters named in ale_linters settings.
+let g:ale_linters_explicit = 1
+
 let g:ale_linters = {'python': ['flake8'], 'rust': ['rls']}
 let g:ale_python_flake8_options       = '--ignore=E501,E128,E221,E722,E201,E202,E251,E225,E226,W391,W605,E126,E123,E241,E305,E302'
 
 let g:ale_rust_rls_executable = 'rust-analyzer'
-let b:ale_fixers = ['rustfmt', "yapf", "autopep8"]
+let g:ale_fixers = {'rust': ['rustfmt'], 'python': ['yapf', 'autopep8']}
+let g:ale_rust_cargo_use_check = 1
 
 let b:ale_fix_on_save                 = 1
 
