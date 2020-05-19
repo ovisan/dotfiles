@@ -38,24 +38,24 @@ set undofile
 nnoremap <silent> <Leader>w :%s/\s\+$//e<CR>
 " count word under cursor
 map <Leader>c *<C-O>:%s///gn<CR>
-" rename word under cursor
-nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
+" rename word under cursor from current line to EOF
+nnoremap <Leader>s :.,$s/\<<C-r><C-w>\>/
 
 
 " map leader key
 let mapleader = '\'
 
 " closing matching characters and skipping over the closing characters
-inoremap <expr> " strpart(getline('.'), col('.')-1, 1) == "\"" ? "\<Right>" : "\"\"\<Left>"
-inoremap <expr> ' strpart(getline('.'), col('.')-1, 1) == "\'" ? "\<Right>" : "\'\'\<Left>"
-inoremap ( ()<Left>
-inoremap <expr> )  strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
-inoremap [ []<Left>
-inoremap <expr> ]  strpart(getline('.'), col('.')-1, 1) == "]" ? "\<Right>" : "]"
-inoremap { {}<Left>
-inoremap <expr> }  strpart(getline('.'), col('.')-1, 1) == "}" ? "\<Right>" : "}"
-inoremap {<CR> {<CR>}<ESC>O
-inoremap {;<CR> {<CR>};<ESC>O
+" inoremap <expr> " strpart(getline('.'), col('.')-1, 1) == "\"" ? "\<Right>" : "\"\"\<Left>"
+" inoremap <expr> ' strpart(getline('.'), col('.')-1, 1) == "\'" ? "\<Right>" : "\'\'\<Left>"
+" inoremap ( ()<Left>
+" inoremap <expr> )  strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
+" inoremap [ []<Left>
+" inoremap <expr> ]  strpart(getline('.'), col('.')-1, 1) == "]" ? "\<Right>" : "]"
+" inoremap { {}<Left>
+" inoremap <expr> }  strpart(getline('.'), col('.')-1, 1) == "}" ? "\<Right>" : "}"
+" inoremap {<CR> {<CR>}<ESC>O
+" inoremap {;<CR> {<CR>};<ESC>O
 
 " automatic paste toggle function
 let &t_SI .= "\<Esc>[?2004h"
@@ -306,16 +306,16 @@ command! ProjectFiles execute 'Files' s:find_git_root()
 
 " ale
 let g:liteline#extensions#ale#enabled = 1
+let g:ale_linters = {'python': ['flake8'], 'rust': ['rls']}
+let g:ale_python_flake8_options       = '--ignore=E501,E128,E221,E722,E201,E202,E251,E225,E226,W391,W605,E126,E123,E241,E305,E302'
 
 let g:ale_rust_rls_executable = 'rust-analyzer'
-let b:ale_fixers = ['rustfmt']
+let b:ale_fixers = ['rustfmt', "yapf", "autopep8"]
 
-let b:ale_linters                     = ['rls', 'flake8']
 let b:ale_fix_on_save                 = 1
 
 let g:ale_sign_error                  = '●'
 let g:ale_sign_warning                = '.'
-let g:ale_python_flake8_options       = '--ignore=E501,E128,E221,E722,E201,E202,E251,E225,E226,W391,W605,E126,E123,E241,E305,E302'
 
 function! LinterStatus() abort
     let l:counts = ale#statusline#Count(bufnr(''))
@@ -331,8 +331,6 @@ function! LinterStatus() abort
 endfunction
 
 set statusline=%{LinterStatus()}
-
-let g:ale_completion_enabled = 1
 
 " lightline
 set laststatus=2
