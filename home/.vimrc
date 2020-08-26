@@ -19,8 +19,9 @@ set tabstop=2 expandtab shiftwidth=2 softtabstop=2
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.tmp,tags,*.hpi
 
 " set cursor as line when insert and block in normal mode
-let &t_SI = "\e[6 q"
-let &t_EI = "\e[2 q"
+let &t_SI.="\e[5 q" "SI = INSERT mode
+let &t_SR.="\e[4 q" "SR = REPLACE mode
+let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
 " move between splits
 map <C-left> <C-W>h
