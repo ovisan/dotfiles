@@ -18,6 +18,10 @@ set tabstop=2 expandtab shiftwidth=2 softtabstop=2
 " ignore list
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.tmp,tags,*.hpi
 
+" set cursor as line when insert and block in normal mode
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[2 q"
+
 " move between splits
 map <C-left> <C-W>h
 map <C-right> <C-W>l
@@ -98,6 +102,7 @@ function! InstallPackages()
   call minpac#add('pearofducks/ansible-vim')
   call minpac#add('rust-lang/rust.vim')
   call minpac#add('fatih/vim-go', { 'do': ':GoInstallBinaries' })
+  call minpac#add('davidhalter/jedi-vim')
 endfunction
 
 let minpac_readme=expand('~/.vim/pack/minpac/opt/minpac/README.md')
