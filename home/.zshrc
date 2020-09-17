@@ -167,7 +167,7 @@ export LANG=en_US.UTF-8
 # limitations under the License.
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='rg --colors "match:fg:red" --colors "match:bg:yellow" --colors "match:style:bold" --files --hidden --follow --glob "!git/*"'
+export FZF_DEFAULT_COMMAND='rg --colors "match:fg:red" --colors "match:bg:yellow" --colors "match:style:bold" --files --hidden --follow --glob "!.git/*"'
 export FZF_DEFAULT_OPTS="--preview 'bat --color always {}' --color=dark,hl:#FF0000,hl+:#F7FA45 --height 80% --multi --reverse --bind ctrl-f:page-down,ctrl-b:page-up,alt-up:preview-up,alt-down:preview-down"
 export EDITOR='vim'
 export SKIM_DEFAULT_OPTIONS="--preview 'bat --color always {}' --color=dark,hl:#FF0000,hl+:#F7FA45 --preview-window right:70% --height 80% --bind ctrl-f:page-down,ctrl-b:page-up,alt-up:preview-up,alt-down:preview-down"
