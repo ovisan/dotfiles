@@ -1,0 +1,35 @@
+apiVersion: ""
+generated: "0001-01-01T00:00:00Z"
+repositories:
+- caFile: ""
+  certFile: ""
+  insecure_skip_tls_verify: false
+  keyFile: ""
+  name: elastic
+  password: ""
+  url: https://helm.elastic.co
+  username: ""
+- caFile: ""
+  certFile: ""
+  insecure_skip_tls_verify: false
+  keyFile: ""
+  name: stable
+  password: ""
+  url: https://kubernetes-charts.storage.googleapis.com
+  username: ""
+- caFile: ""
+  certFile: ""
+  insecure_skip_tls_verify: false
+  keyFile: ""
+  name: jaegertracing
+  password: ""
+  url: https://jaegertracing.github.io/helm-charts
+  username: ""
+- caFile: ""
+  certFile: ""
+  insecure_skip_tls_verify: false
+  keyFile: ""
+  name: podinfo
+  password: ""
+  url: https://stefanprodan.github.io/podinfo
+  username: ""

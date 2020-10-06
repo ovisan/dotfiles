@@ -14,6 +14,7 @@ set complete+=kspell
 
 " tabs and spaces
 set tabstop=2 expandtab shiftwidth=2 softtabstop=2
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 " ignore list
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.tmp,tags,*.hpi
@@ -99,11 +100,11 @@ function! InstallPackages()
   call minpac#add('junegunn/fzf.vim')
   call minpac#add('racer-rust/vim-racer')
   call minpac#add('lifepillar/vim-mucomplete')
-  call minpac#add('stephpy/vim-yaml')
   call minpac#add('pearofducks/ansible-vim')
   call minpac#add('rust-lang/rust.vim')
   call minpac#add('fatih/vim-go', { 'do': ':GoInstallBinaries' })
   call minpac#add('davidhalter/jedi-vim')
+  call minpac#add('neoclide/coc.nvim', {'branch': 'release'})
 endfunction
 
 let minpac_readme=expand('~/.vim/pack/minpac/opt/minpac/README.md')
@@ -315,6 +316,8 @@ let g:liteline#extensions#ale#enabled = 1
 
 " Only run linters named in ale_linters settings.
 let g:ale_linters_explicit = 1
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_lint_on_text_changed = 'never'
 
 let g:ale_linters = {'python': ['flake8'], 'rust': ['rls']}
 let g:ale_python_flake8_options       = '--ignore=E501,E128,E221,E722,E201,E202,E251,E225,E226,W391,W605,E126,E123,E241,E305,E302'
@@ -325,8 +328,9 @@ let g:ale_rust_cargo_use_check = 1
 
 let b:ale_fix_on_save                 = 1
 
-let g:ale_sign_error                  = '●'
-let g:ale_sign_warning                = '.'
+let g:ale_sign_error = '✘'
+let g:ale_sign_warning = '⚠'
+
 
 function! LinterStatus() abort
     let l:counts = ale#statusline#Count(bufnr(''))
