@@ -88,7 +88,6 @@ function! InstallPackages()
   call minpac#add('tpope/vim-repeat')
   call minpac#add('tpope/vim-abolish')
   call minpac#add('tpope/vim-speeddating') "Enhances the default vim increment
-  call minpac#add('tpope/vim-fugitive')
   call minpac#add('tpope/vim-surround')
   call minpac#add('tpope/vim-commentary')
   call minpac#add('suan/vim-instant-markdown')
