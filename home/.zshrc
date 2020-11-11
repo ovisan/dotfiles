@@ -4,6 +4,8 @@
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
+# export NO_PROXY=localhost,127.0.0.1/8,::1
+
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
@@ -63,12 +65,43 @@ plugins=(
   git
   git-extras
   gnu-utils
-  osx
   docker
-  tmux
-  tmuxinator
   fzf
+  zsh-completions
+  archlinux
+  colorize
+  docker-compose
+  docker-machine
+  git-flow
+  git-hubflow
+  git-prompt
+  github
+  gpg-agent
+  helm
+  history
+  jsontools
+  man
+  pass
+  ripgrep
+  rsync
+  rust
+  sudo
+  supervisor
+  terraform
+  systemd
+  vault
+  vi-mode
+  vim-interaction
+  vundle
+  zsh-interactive-cd
+  zsh_reload
+  zsh-autosuggestions
+  kubectl
 )
+
+autoload -U compinit && compinit
+
+zstyle ':completion:*' list-colors
 
 export FZF_BASE="$HOME/.fzf"
 
@@ -167,10 +200,10 @@ export LANG=en_US.UTF-8
 # limitations under the License.
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='rg --colors "match:fg:red" --colors "match:bg:yellow" --colors "match:style:bold" --files --hidden --follow --glob "!.git/*"'
+export FZF_DEFAULT_COMMAND='rg --colors "match:fg:red" --colors "match:bg:yellow" --colors "match:style:bold" --files --hidden --follow --glob "!git/*"'
 export FZF_DEFAULT_OPTS="--preview 'bat --color always {}' --color=dark,hl:#FF0000,hl+:#F7FA45 --height 80% --multi --reverse --bind ctrl-f:page-down,ctrl-b:page-up,alt-up:preview-up,alt-down:preview-down"
 export EDITOR='vim'
-export SKIM_DEFAULT_OPTIONS="--preview 'bat --color always {}' --color=dark,hl:#FF0000,hl+:#F7FA45 --preview-window right:70% --height 80% --bind ctrl-f:page-down,ctrl-b:page-up,alt-up:preview-up,alt-down:preview-down"
+export SKIM_DEFAULT_OPTIONS="--tiebreak score,index,-begin --preview 'bat --color always {}' --color=dark,current_bg:24 --preview-window right:70% --height 80% --bind ctrl-f:page-down,ctrl-b:page-up,alt-up:preview-up,alt-down:preview-down"
 
 fe() {
   local files
@@ -208,24 +241,6 @@ cdf() {
    local dir
    file=$(fzf +m -q "$1" --preview 'bat --color=always --line-range :500 {}') && dir=$(dirname "$file") && cd "$dir"
 }
-
-cf() {
-  local file
-
-  file="$(locate -Ai -0 $@ | grep -z -vE '~$' | fzf --read0 -0 -1)"
-
-  if [[ -n $file ]]
-  then
-     if [[ -d $file ]]
-     then
-        cd -- $file
-     else
-        cd -- ${file:h}
-     fi
-  fi
-}
-alias fcf='cf'
-
 
 fkill() {
   local pid
