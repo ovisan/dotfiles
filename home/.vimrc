@@ -15,6 +15,7 @@ set complete+=kspell
 " tabs and spaces
 set tabstop=2 expandtab shiftwidth=2 softtabstop=2
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType gotpl setlocal ts=2 sts=2 sw=2 expandtab
 
 " ignore list
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.tmp,tags,*.hpi
@@ -79,57 +80,45 @@ function! XTermPasteBegin()
 "Setting the highlight colors
 hi Search ctermfg=Yellow ctermbg=Red cterm=bold,underline
 
-" Try to load minpac.
-packadd minpac
 
-function! InstallPackages()
-  call minpac#add('nanotech/jellybeans.vim', {'do': 'colorscheme jellybeans'})
-  call minpac#add('airblade/vim-gitgutter')
-  call minpac#add('tpope/vim-repeat')
-  call minpac#add('tpope/vim-abolish')
-  call minpac#add('tpope/vim-speeddating') "Enhances the default vim increment
-  call minpac#add('tpope/vim-surround')
-  call minpac#add('tpope/vim-commentary')
-  call minpac#add('tpope/vim-vinegar')
-  call minpac#add('suan/vim-instant-markdown')
-  call minpac#add('dense-analysis/ale')
-  call minpac#add('mbbill/undotree')
-  call minpac#add('itchyny/lightline.vim')
-  call minpac#add('junegunn/vim-easy-align') "Alignment plugin
-  call minpac#add('junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' })
-  call minpac#add('junegunn/fzf.vim')
-  call minpac#add('racer-rust/vim-racer')
-  call minpac#add('lifepillar/vim-mucomplete')
-  call minpac#add('pearofducks/ansible-vim')
-  call minpac#add('rust-lang/rust.vim')
-  call minpac#add('fatih/vim-go', { 'do': ':GoInstallBinaries' })
-  call minpac#add('davidhalter/jedi-vim')
-  call minpac#add('neoclide/coc.nvim', {'branch': 'release'})
-endfunction
-
-let minpac_readme=expand('~/.vim/pack/minpac/opt/minpac/README.md')
-if !filereadable(minpac_readme)
-  " set packpath for all OS
-  set packpath^=~/.vim
-
-  silent !mkdir -p ~/.vim/pack/minpack/opt
-  silent !git clone https://github.com/k-takata/minpac.git ~/.vim/pack/minpac/opt/minpac
-
-  packadd minpac
-  call minpac#init()
-  call minpac#add('k-takata/minpac', {'type': 'opt'})
-
-  call InstallPackages()
-  call minpac#update()
-  packloadall
-  silent! helptags ALL
-
-else
-  call minpac#init()
-  call InstallPackages()
-  silent! helptags ALL
-
+" Auto install vim-plug
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
+
+" Specify a directory for plugins
+" - For Neovim: stdpath('data') . '/plugged'
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
+
+Plug 'nanotech/jellybeans.vim', {'do': 'colorscheme jellybeans'}
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-speeddating' "Enhances the default vim increment
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-vinegar'
+Plug 'suan/vim-instant-markdown'
+Plug 'dense-analysis/ale'
+Plug 'mbbill/undotree'
+Plug 'itchyny/lightline.vim'
+Plug 'junegunn/vim-easy-align' "Alignment plugin
+Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
+Plug 'jremmen/vim-ripgrep'
+Plug 'racer-rust/vim-racer'
+Plug 'lifepillar/vim-mucomplete'
+Plug 'pearofducks/ansible-vim'
+Plug 'rust-lang/rust.vim'
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+Plug 'davidhalter/jedi-vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'francoiscabrol/ranger.vim'
+
+" Initialize plugin system
+call plug#end()
 
 " Variable for vundle to handle git
 let $GIT_SSL_NO_VERIFY = 'true'
@@ -251,6 +240,13 @@ set foldlevel=1         "this is just what i use
 " enable repeat in visual mode
 vnoremap . :norm.<CR>
 
+" ranger
+let g:ranger_map_keys = 0
+map <leader>c :Ranger<CR>
+
+" easyalign
+xmap <leader>a <Plug>(EasyAlign)
+nmap <leader>a <Plug>(EasyAlign)
 
 " undotree
 nnoremap <silent> <Leader>u :UndotreeToggle<CR>
@@ -289,27 +285,21 @@ augroup Racer
 augroup END
 
 
-" fzf
+" ripgrep
 nnoremap <leader>f :Rg<Cr>
-nmap <leader>; :Buffers<CR>
-nmap <leader><leader>o :ProjectFiles<CR>
-nmap <leader>t :Tags<CR>
-nmap <leader>o :GFiles<CR>
+
+" nmap <leader>; :Buffers<CR>
+nmap <leader><leader>o :SK ~<CR>
+" nmap <leader>t :Tags<CR>
+" nmap <leader>o :GFiles<CR>
+nmap <leader>o :SK<CR>
 let g:fzf_action = {
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit'
       \ }
 autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
-
 let g:fzf_tags_command = 'ctags -R'
-
-
 imap <c-x><c-l> <plug>(fzf-complete-line)
-function! s:find_git_root()
-  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
-endfunction
-
-command! ProjectFiles execute 'Files' s:find_git_root()
 
 " ale
 let g:liteline#extensions#ale#enabled = 1
