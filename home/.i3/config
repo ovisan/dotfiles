@@ -13,7 +13,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below. ISO 10646 = Unicode
-font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
 # clear in small sizes. However, if you need a lot of unicode glyphs or
 # right-to-left text rendering, you should instead use pango for rendering and
@@ -25,23 +25,27 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 for_window [class="Plugin-container" instance="plugin-container"] floating enable; border none; focus mode_toggle
 
 # setting custom font
-font Xft:DejaVu\ Sans\ 9
+# font Xft:DejaVu\ Sans\ Mono\ 10
+font pango: monospace 12
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
 # bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec sakura
+bindsym $mod+Return exec st -f 'Monospace:size=14'
+
+bindsym $mod+Mod1+v exec clipmenu -i -fn Terminus:size=10 -nb '#002b36' -nf '#839496' -sb '#455154' -sf '#9dabaf'
 
 # kill focused window
 bindsym $mod+Shift+q kill
 bindsym $mod+x kill
 
 # start dmenu (a program launcher)
- bindsym $mod+d exec rofi -show run -font "DejaVu Sans Mono Book 18" -fg "#505050" -bg "#000000" -hlfg "#ffb964" -hlbg "#000000" -lines 20
- bindsym $mod+n exec rofi -show window -font "DejaVu Sans Mono Book 18" -fg "#505050" -bg "#000000" -hlfg "#ffb964" -hlbg "#000000" -lines 20
- bindsym $mod+c exec rofi -show ssh -font "DejaVu Sans Mono Book 18" -fg "#505050" -bg "#000000" -hlfg "#ffb964" -hlbg "#000000" -lines 20 -terminal "lxterminal -e"
+bindsym $mod+space exec dmenu_run
+ # bindsym $mod+d exec rofi -show run -font "DejaVu Sans Mono Book 18" -fg "#505050" -bg "#000000" -hlfg "#ffb964" -hlbg "#000000" -lines 20
+ # bindsym $mod+n exec rofi -show window -font "DejaVu Sans Mono Book 18" -fg "#505050" -bg "#000000" -hlfg "#ffb964" -hlbg "#000000" -lines 20
+ # bindsym $mod+c exec rofi -show ssh -font "DejaVu Sans Mono Book 18" -fg "#505050" -bg "#000000" -hlfg "#ffb964" -hlbg "#000000" -lines 20 -terminal "lxterminal -e"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -98,10 +102,10 @@ bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+# bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+# bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -120,31 +124,30 @@ new_float pixel 1
 # switch to workspace
 bindsym $mod+1 workspace 1:www
 bindsym $mod+2 workspace 2:terminal
-bindsym $mod+3 workspace 3:chat
+bindsym $mod+3 workspace 3:
 bindsym $mod+4 workspace 4:
 bindsym $mod+5 workspace 5:
 bindsym $mod+6 workspace 6:
 bindsym $mod+7 workspace 7:
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
-bindsym $mod+0 workspace 10
+bindsym $mod+8 workspace 8:
+bindsym $mod+9 workspace 9:
+bindsym $mod+0 workspace 10:
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1:www
 bindsym $mod+Shift+2 move container to workspace 2:terminal
-bindsym $mod+Shift+3 move container to workspace 3:chat
+bindsym $mod+Shift+3 move container to workspace 3:
 bindsym $mod+Shift+4 move container to workspace 4:
 bindsym $mod+Shift+5 move container to workspace 5:
 bindsym $mod+Shift+6 move container to workspace 6:
 bindsym $mod+Shift+7 move container to workspace 7:
-bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9
-bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+8 move container to workspace 8:
+bindsym $mod+Shift+9 move container to workspace 9:
+bindsym $mod+Shift+0 move container to workspace 10:
 
 # custom clients on workspaces
 assign [class="Google-chrome*"]  1:www
-assign [class="sakura"] 2:terminal
-assign [class="HipChat"] 3:chat
+assign [class="st"] 2:terminal
 
 # auto jump back
 workspace_auto_back_and_forth yes
@@ -198,6 +201,7 @@ bindsym $mod+r mode "resize"
 bar {
   status_command i3status
   position top
+  separator_symbol ":"
 }
 
 # pulse audio volume control
@@ -233,8 +237,7 @@ exec xrandr --output DP2-2 --primary --output DP2-2 --auto --rotate normal --lef
 exec setxkbmap -option caps:escape
 exec feh --bg-scale ~/Pictures/linux_dark_wallpaper_by_alienvoid-d48wsty.jpg
 exec pnmixer
-exec clipit
 exec nm-applet
 exec xset m 4/2 0
-exec hipchat
-exec redshift &
+exec clipmenud
+exec VBoxClient-all

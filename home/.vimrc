@@ -240,6 +240,9 @@ set foldlevel=1         "this is just what i use
 " enable repeat in visual mode
 vnoremap . :norm.<CR>
 
+" skim
+let $SKIM_DEFAULT_COMMAND = ''
+
 " ranger
 let g:ranger_map_keys = 0
 map <leader>c :Ranger<CR>
@@ -297,9 +300,6 @@ let g:fzf_action = {
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit'
       \ }
-autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
-let g:fzf_tags_command = 'ctags -R'
-imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " ale
 let g:liteline#extensions#ale#enabled = 1
