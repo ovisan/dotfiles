@@ -26,7 +26,7 @@ for_window [class="Plugin-container" instance="plugin-container"] floating enabl
 
 # setting custom font
 # font Xft:DejaVu\ Sans\ Mono\ 10
-font pango: monospace 12
+font pango: monospace 14
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
