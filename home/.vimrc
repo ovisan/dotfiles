@@ -1,4 +1,5 @@
 ﻿filetype plugin on
+set clipboard=unnamedplus
 set nocompatible
 filetype off
 set backspace=indent,eol,start
