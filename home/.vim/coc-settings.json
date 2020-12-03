@@ -1,0 +1,24 @@
+{
+  "languageserver": {
+      "golang": {
+        "command": "gopls",
+        "rootPatterns": ["go.mod"],
+        "filetypes": ["go"]
+      },
+      "terraform": {
+        "command": "terraform-lsp",
+        "filetypes": ["terraform", "tf"],
+        "initializationOptions": {},
+        "settings": {}
+      }
+  },
+
+  "yaml.schemas": {
+      "kubernetes": "/*.yaml",
+      "https://json.schemastore.org/ansible-playbook": ["playbooks/*"],
+      "https://json.schemastore.org/ansible-role-2.9": ["role/*"],
+      "https://json.schemastore.org/ansible-inventory": ["inventory/inventory*"],
+      "ansible.json": "/opt/ansible-schemas/*.yaml"
+  }
+
+}
