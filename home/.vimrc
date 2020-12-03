@@ -94,7 +94,7 @@ endif
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
 
-Plug 'nanotech/jellybeans.vim', {'do': 'colorscheme jellybeans'}
+Plug 'christophermca/meta5'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
@@ -108,6 +108,7 @@ Plug 'mbbill/undotree'
 Plug 'itchyny/lightline.vim'
 Plug 'junegunn/vim-easy-align' "Alignment plugin
 Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
+Plug 'lotabout/skim.vim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'racer-rust/vim-racer'
 Plug 'lifepillar/vim-mucomplete'
@@ -156,7 +157,7 @@ set matchtime=3
 set background=dark
 
 " set colorscheme
-colorscheme jellybeans
+colorscheme meta5
 
 " Use system's clipboard
 set clipboard=unnamed
