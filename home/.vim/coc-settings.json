@@ -15,10 +15,13 @@
 
   "yaml.schemas": {
       "kubernetes": "/*.yaml",
+      "url": "globPattern",
+      "Kubernetes": "globPattern",
       "https://json.schemastore.org/ansible-playbook": ["playbooks/*"],
       "https://json.schemastore.org/ansible-role-2.9": ["role/*"],
       "https://json.schemastore.org/ansible-inventory": ["inventory/inventory*"],
       "ansible.json": "/opt/ansible-schemas/*.yaml"
-  }
+  },
 
+  "diagnostic.displayByAle": true
 }
