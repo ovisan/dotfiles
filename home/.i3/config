@@ -25,7 +25,7 @@ set $mod Mod4
 for_window [class="Plugin-container" instance="plugin-container"] floating enable; border none; focus mode_toggle
 
 # setting custom font
-# font Xft:DejaVu\ Sans\ Mono\ 10
+# font pango: monospace 14
 font pango: monospace 14
 
 # Use Mouse+$mod to drag floating windows to their wanted position
@@ -33,16 +33,16 @@ floating_modifier $mod
 
 # start a terminal
 # bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec st -f 'Monospace:size=14'
+bindsym $mod+Return exec st -f 'monospace:size=14'
 
-bindsym $mod+Mod1+v exec clipmenu -i -fn Terminus:size=10 -nb '#002b36' -nf '#839496' -sb '#455154' -sf '#9dabaf'
+bindsym $mod+Mod1+v exec clipmenu -i -fn Terminus:size=10 -nb '#002b36' -nf '#839496' -sb '#455154' -sf '#9dabaf' -l 20
 
 # kill focused window
 bindsym $mod+Shift+q kill
 bindsym $mod+x kill
 
 # start dmenu (a program launcher)
-bindsym $mod+space exec dmenu_run
+bindsym $mod+space exec dmenu_run -fn 'monospace-14'
  # bindsym $mod+d exec rofi -show run -font "DejaVu Sans Mono Book 18" -fg "#505050" -bg "#000000" -hlfg "#ffb964" -hlbg "#000000" -lines 20
  # bindsym $mod+n exec rofi -show window -font "DejaVu Sans Mono Book 18" -fg "#505050" -bg "#000000" -hlfg "#ffb964" -hlbg "#000000" -lines 20
  # bindsym $mod+c exec rofi -show ssh -font "DejaVu Sans Mono Book 18" -fg "#505050" -bg "#000000" -hlfg "#ffb964" -hlbg "#000000" -lines 20 -terminal "lxterminal -e"
