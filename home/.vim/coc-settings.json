@@ -1,4 +1,11 @@
 {
+  "diagnostic.enable": true,
+  "yaml.format.enable": true,
+  "yaml.format.singleQuote": true,
+  "yaml.validate": true,
+  "yaml.hover": true,
+  "yaml.completion": true,
+  "yaml.trace.server": "verbose",
   "languageserver": {
       "golang": {
         "command": "gopls",
@@ -12,16 +19,37 @@
         "settings": {}
       }
   },
+  "diagnostic.displayByAle": true,
 
   "yaml.schemas": {
-      "kubernetes": "/*.yaml",
-      "url": "globPattern",
-      "Kubernetes": "globPattern",
-      "https://json.schemastore.org/ansible-playbook": ["playbooks/*"],
-      "https://json.schemastore.org/ansible-role-2.9": ["role/*"],
-      "https://json.schemastore.org/ansible-inventory": ["inventory/inventory*"],
-      "ansible.json": "/opt/ansible-schemas/*.yaml"
-  },
-
-  "diagnostic.displayByAle": true
+      "Kubernetes": ["*.yml"],
+      "http://json.schemastore.org/ansible-role-2.9": ["tasks/*.yaml", "tasks/*.yml"],
+      "http://json.schemastore.org/ansible-inventory": ["inventory*"],
+      "helm": {
+          "$schema": "http://json-schema.org/schema#",
+          "type": "object",
+          "required": [
+            "image"
+          ],
+          "properties": {
+            "image": {
+              "type": "object",
+              "required": [
+                "repository",
+                "pullPolicy"
+              ],
+              "properties": {
+                "repository": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9-_]+$"
+                },
+                "pullPolicy": {
+                  "type": "string",
+                  "pattern": "^(Always|Never|IfNotPresent)$"
+                }
+              }
+            }
+          }
+        }
+    }
 }
