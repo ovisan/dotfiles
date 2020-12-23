@@ -1,4 +1,4 @@
-﻿filetype plugin on
+filetype plugin on
 set clipboard=unnamedplus
 set nocompatible
 filetype off
@@ -15,8 +15,9 @@ set complete+=kspell
 
 " tabs and spaces
 set tabstop=2 expandtab shiftwidth=2 softtabstop=2
+au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-autocmd FileType gotpl setlocal ts=2 sts=2 sw=2 expandtab
+autocmd BufNewFile,BufRead *.gotmpl set syntax=yaml
 
 " ignore list
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.tmp,tags,*.hpi
@@ -116,7 +117,6 @@ Plug 'racer-rust/vim-racer'
 " Plug 'pearofducks/ansible-vim'
 Plug 'rust-lang/rust.vim'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-Plug 'davidhalter/jedi-vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'francoiscabrol/ranger.vim'
 
@@ -244,7 +244,11 @@ set foldlevel=1         "this is just what i use
 vnoremap . :norm.<CR>
 
 " coc
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-pairs', 'coc-fzf-preview', 'coc-json', 'coc-go', 'coc-jedi', 'coc-lists', 'coc-python', 'coc-rls', 'coc-rust-analyzer', 'coc-sh', 'coc-snippets', 'coc-yaml', 'coc-yank']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-pairs', 'coc-json', 'coc-go', 'coc-jedi', 'coc-lists', 'coc-python', 'coc-rls', 'coc-rust-analyzer', 'coc-sh', 'coc-snippets', 'coc-yaml', 'coc-yank']
+
+ let g:coc_filetype_map = {
+ \ 'yaml.ansible': 'yaml',
+ \ }
 
 " TextEdit might fail if hidden is not set.
 set hidden
@@ -523,11 +527,4 @@ let g:lightline = {
       \   'linter': 'LinterStatus'
       \ }
       \ }
-
-" jedi
-let g:jedi#popup_on_dot           = 1  " It may be 1 as well
-let g:jedi#use_splits_not_buffers = "left"
-let g:jedi#popup_select_first     = 0
-let g:jedi#show_call_signatures   = "1"
-let g:jedi#completions_enabled = 0
 
