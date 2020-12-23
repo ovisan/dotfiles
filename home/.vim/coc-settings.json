@@ -24,6 +24,7 @@
   "yaml.schemas": {
       "Kubernetes": ["*.yml"],
       "http://json.schemastore.org/ansible-role-2.9": ["tasks/*.yaml", "tasks/*.yml"],
+      "http://json.schemastore.org/ansible-playbook": ["playbooks/*.yaml","playbooks/*.yml", "playbook*.yaml", "playbook*.yml"],
       "http://json.schemastore.org/ansible-inventory": ["inventory*"],
       "helm": {
           "$schema": "http://json-schema.org/schema#",
