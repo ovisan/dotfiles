@@ -37,7 +37,7 @@ set undodir=~/.vim/history
 set undofile
 
 " source $MYVIMRC reloads the saved $MYVIMRC
-:nmap <Leader>s :source $MYVIMRC
+:nmap <Leader>r :source $MYVIMRC
 
 " opens $MYVIMRC for editing, or use :tabedit $MYVIMRC
 :nmap <Leader>v :e $MYVIMRC
@@ -53,18 +53,6 @@ nnoremap <Leader>s :.,$s/\<<C-r><C-w>\>/
 
 " map leader key
 let mapleader = '\'
-
-" closing matching characters and skipping over the closing characters
-" inoremap <expr> " strpart(getline('.'), col('.')-1, 1) == "\"" ? "\<Right>" : "\"\"\<Left>"
-" inoremap <expr> ' strpart(getline('.'), col('.')-1, 1) == "\'" ? "\<Right>" : "\'\'\<Left>"
-" inoremap ( ()<Left>
-" inoremap <expr> )  strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
-" inoremap [ []<Left>
-" inoremap <expr> ]  strpart(getline('.'), col('.')-1, 1) == "]" ? "\<Right>" : "]"
-" inoremap { {}<Left>
-" inoremap <expr> }  strpart(getline('.'), col('.')-1, 1) == "}" ? "\<Right>" : "}"
-" inoremap {<CR> {<CR>}<ESC>O
-" inoremap {;<CR> {<CR>};<ESC>O
 
 " automatic paste toggle function
 let &t_SI .= "\<Esc>[?2004h"
@@ -95,9 +83,7 @@ endif
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
 
-Plug 'christophermca/meta5'
 Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'jacoborus/tender.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
@@ -110,15 +96,13 @@ Plug 'dense-analysis/ale'
 Plug 'mbbill/undotree'
 Plug 'itchyny/lightline.vim'
 Plug 'junegunn/vim-easy-align' "Alignment plugin
-Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
-Plug 'lotabout/skim.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'racer-rust/vim-racer'
-" Plug 'pearofducks/ansible-vim'
 Plug 'rust-lang/rust.vim'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'francoiscabrol/ranger.vim'
 
 " Initialize plugin system
 call plug#end()
@@ -154,11 +138,10 @@ set wildmode=longest,list
 
 "speed up matching
 set matchtime=3
-"selection colors for dark background
-set background=dark
 
 " set colorscheme
-colorscheme dracula
+colorscheme darkblue
+" colorscheme dracula
 
 " Use system's clipboard
 set clipboard=unnamed
@@ -244,7 +227,7 @@ set foldlevel=1         "this is just what i use
 vnoremap . :norm.<CR>
 
 " coc
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-pairs', 'coc-json', 'coc-go', 'coc-jedi', 'coc-lists', 'coc-python', 'coc-rls', 'coc-rust-analyzer', 'coc-sh', 'coc-snippets', 'coc-yaml', 'coc-yank']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-pairs', 'coc-json', 'coc-go', 'coc-jedi', 'coc-lists', 'coc-python', 'coc-rls', 'coc-rust-analyzer', 'coc-sh', 'coc-yaml', 'coc-yank']
 
  let g:coc_filetype_map = {
  \ 'yaml.ansible': 'yaml',
@@ -412,12 +395,27 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
-" skim
-let $SKIM_DEFAULT_COMMAND = ''
+" fzf
 
-" ranger
-let g:ranger_map_keys = 0
-map <leader>c :Ranger<CR>
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
+" nmap <leader>; :Buffers<CR>
+" nmap <leader>t :Tags<CR>
+nmap <leader><leader>o :GFiles<CR>
+nmap <leader>o :RG<CR>
+let g:fzf_action = {
+      \ 'ctrl-s': 'split',
+      \ 'ctrl-v': 'vsplit'
+      \ }
+
 
 " easyalign
 xmap <leader>a <Plug>(EasyAlign)
@@ -462,16 +460,6 @@ augroup END
 
 " ripgrep
 nnoremap <leader>f :Rg<Cr>
-
-" nmap <leader>; :Buffers<CR>
-nmap <leader><leader>o :SK ~<CR>
-" nmap <leader>t :Tags<CR>
-" nmap <leader>o :GFiles<CR>
-nmap <leader>o :SK<CR>
-let g:fzf_action = {
-      \ 'ctrl-s': 'split',
-      \ 'ctrl-v': 'vsplit'
-      \ }
 
 " ale
 let g:ale_disable_lsp = 1
