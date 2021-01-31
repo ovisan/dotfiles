@@ -18,39 +18,13 @@
         "initializationOptions": {},
         "settings": {}
       }
-  },
-  "diagnostic.displayByAle": true,
-
-  "yaml.schemas": {
-      "Kubernetes": ["*.yml"],
-      "http://json.schemastore.org/ansible-role-2.9": ["tasks/*.yaml", "tasks/*.yml"],
-      "http://json.schemastore.org/ansible-playbook": ["playbooks/*.yaml","playbooks/*.yml", "playbook*.yaml", "playbook*.yml"],
-      "http://json.schemastore.org/ansible-inventory": ["inventory*"],
-      "helm": {
-          "$schema": "http://json-schema.org/schema#",
-          "type": "object",
-          "required": [
-            "image"
-          ],
-          "properties": {
-            "image": {
-              "type": "object",
-              "required": [
-                "repository",
-                "pullPolicy"
-              ],
-              "properties": {
-                "repository": {
-                  "type": "string",
-                  "pattern": "^[a-z0-9-_]+$"
-                },
-                "pullPolicy": {
-                  "type": "string",
-                  "pattern": "^(Always|Never|IfNotPresent)$"
-                }
-              }
-            }
-          }
-        }
-    }
-}
+    },
+  // explorer
+  "explorer.width": 30,
+  "explorer.icon.enableNerdfont": false,
+  "explorer.previewAction.onHover": false,
+  "explorer.keyMappings.global": {
+    "<cr>": ["expandable?", "expand", "open"],
+    "v": "open:vsplit"
+  }
+ }
