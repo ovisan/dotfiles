@@ -1,4 +1,4 @@
-filetype plugin on
+﻿filetype plugin on
 set clipboard=unnamedplus
 set nocompatible
 filetype off
@@ -83,7 +83,6 @@ endif
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
 
-Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-abolish'
@@ -227,11 +226,12 @@ set foldlevel=1         "this is just what i use
 vnoremap . :norm.<CR>
 
 " coc
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-pairs', 'coc-json', 'coc-go', 'coc-jedi', 'coc-lists', 'coc-python', 'coc-rls', 'coc-rust-analyzer', 'coc-sh', 'coc-yaml', 'coc-yank']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-pairs', 'coc-json', 'coc-go', 'coc-jedi', 'coc-lists', 'coc-python', 'coc-rls', 'coc-rust-analyzer', 'coc-sh', 'coc-yaml', 'coc-yank', 'coc-explorer']
+nmap <leader>e :CocCommand explorer<CR>
 
- let g:coc_filetype_map = {
- \ 'yaml.ansible': 'yaml',
- \ }
+let g:coc_filetype_map = {
+\ 'yaml.ansible': 'yaml',
+\ }
 
 " TextEdit might fail if hidden is not set.
 set hidden
@@ -409,7 +409,7 @@ command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 " nmap <leader>; :Buffers<CR>
 " nmap <leader>t :Tags<CR>
-nmap <leader><leader>o :GFiles<CR>
+nmap <leader><leader>o :Files<CR>
 nmap <leader>o :RG<CR>
 let g:fzf_action = {
       \ 'ctrl-s': 'split',
