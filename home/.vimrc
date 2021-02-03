@@ -12,12 +12,22 @@ set vb t_vb=
 set spellcapcheck=
 " spelling on autocomplete
 set complete+=kspell
-
+" Buffer navigation
+map gn :bn<cr>
+map gp :bp<cr>
+map gd :bd<cr>
 " tabs and spaces
 set tabstop=2 expandtab shiftwidth=2 softtabstop=2
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd BufNewFile,BufRead *.gotmpl set syntax=yaml
+
+" highlight whitespaces https://vim.fandom.com/wiki/Highlight_unwanted_spaces
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
 
 " ignore list
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.tmp,tags,*.hpi
@@ -227,7 +237,7 @@ vnoremap . :norm.<CR>
 
 " coc
 let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-pairs', 'coc-json', 'coc-go', 'coc-jedi', 'coc-lists', 'coc-python', 'coc-rls', 'coc-rust-analyzer', 'coc-sh', 'coc-yaml', 'coc-yank', 'coc-explorer']
-nmap <leader>e :CocCommand explorer<CR>
+nmap <leader>e :CocCommand explorer --toggle --sources=buffer+,file+<CR>
 
 let g:coc_filetype_map = {
 \ 'yaml.ansible': 'yaml',
