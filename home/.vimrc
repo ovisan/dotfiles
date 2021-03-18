@@ -1,11 +1,74 @@
 ﻿filetype plugin on
+syntax enable                           " Enables syntax highlighing
+set hidden                              " Required to keep multiple buffers open multiple buffers
+set nowrap                              " Display long lines as just one line
+set encoding=utf-8                      " The encoding displayed
+set pumheight=10                        " Makes popup menu smaller
+set fileencoding=utf-8                  " The encoding written to file
+set ruler                               " Show the cursor position all the time
+set cmdheight=2                         " More space for displaying messages
+set iskeyword+=-                        " treat dash separated words as a word text object"
+set mouse=a                             " Enable your mouse
+set splitbelow                          " Horizontal splits will automatically be below
+set splitright                          " Vertical splits will automatically be to the right
+set t_Co=256                            " Support 256 colors
+set conceallevel=0                      " So that I can see `` in markdown files
+set tabstop=2                           " Insert 2 spaces for a tab
+set shiftwidth=2                        " Change the number of space characters inserted for indentation
+set smarttab                            " Makes tabbing smarter will realize you have 2 vs 4
+set expandtab                           " Converts tabs to spaces
+set smartindent                         " Makes indenting smart
+set autoindent                          " Good auto indent
+set laststatus=0                        " Always display the status line
+set number                              " Line numbers
+" set cursorline                          " Enable highlighting of the current line
+set background=dark                     " tell vim what the background color looks like
+set showtabline=2                       " Always show tabs
+set noshowmode                          " We don't need to see things like -- INSERT -- anymore
+set updatetime=300                      " Faster completion
+set timeoutlen=500                      " By default timeoutlen is 1000 ms
+set formatoptions-=cro                  " Stop newline continution of comments
 set clipboard=unnamedplus
 set nocompatible
+set hidden
 filetype off
 set backspace=indent,eol,start
 set bg=dark
-set t_Co=256
 set updatetime=100
+set list
+
+set wildmenu
+set hlsearch
+set incsearch
+set ignorecase smartcase
+set smartindent
+
+set linespace=0
+set autoread
+set wildmode=longest,list
+
+" map leader key
+let mapleader = ' '
+
+" Use alt + hjkl to resize windows
+nnoremap <M-up>    : resize -2<CR>
+nnoremap <M-down>  : resize +2<CR>
+nnoremap <M-right> : vertical resize -2<CR>
+nnoremap <M-left>  : vertical resize +2<CR>
+
+" delete without saving to clipboard
+nnoremap <leader>d "_d
+xnoremap <leader>d "_d
+
+" TAB in general mode will move to text buffer
+nnoremap <TAB> :bnext<CR>
+" SHIFT-TAB will go back
+nnoremap <S-TAB> :bprevious<CR>
+
+" Better tabbing
+vnoremap < <gv
+vnoremap > >gv
+
 " disable beeping
 set vb t_vb=
 " disable capitalize spell checking
@@ -32,10 +95,10 @@ autocmd BufWinLeave * call clearmatches()
 " ignore list
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.tmp,tags,*.hpi
 
-" set cursor as line when insert and block in normal mode
-let &t_SI.="\e[5 q" "SI = INSERT mode
-let &t_SR.="\e[4 q" "SR = REPLACE mode
-let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
+" set cursor as line when insert and block in normal mode, not needed in nvim
+" let &t_SI.="\e[5 q" "SI = INSERT mode
+" let &t_SR.="\e[4 q" "SR = REPLACE mode
+" let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 
 " move between splits
 map <C-left> <C-W>h
@@ -59,10 +122,6 @@ nnoremap <silent> <Leader>w :%s/\s\+$//e<CR>
 map <Leader>c *<C-O>:%s///gn<CR>
 " rename word under cursor from current line to EOF
 nnoremap <Leader>s :.,$s/\<<C-r><C-w>\>/
-
-
-" map leader key
-let mapleader = '\'
 
 " automatic paste toggle function
 let &t_SI .= "\<Esc>[?2004h"
@@ -94,66 +153,33 @@ endif
 call plug#begin('~/.vim/plugged')
 
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-speeddating' "Enhances the default vim increment
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-fugitive' "Git
+Plug 'tpope/vim-rhubarb' "Git browser
 Plug 'suan/vim-instant-markdown'
 Plug 'dense-analysis/ale'
 Plug 'mbbill/undotree'
 Plug 'itchyny/lightline.vim'
-Plug 'junegunn/vim-easy-align' "Alignment plugin
+Plug 'godlygeek/tabular' "Alignment plugin
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'jremmen/vim-ripgrep'
-Plug 'racer-rust/vim-racer'
-Plug 'rust-lang/rust.vim'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'preservim/tagbar'
+Plug 'justinmk/vim-sneak'
 
 " Initialize plugin system
 call plug#end()
 
-" Variable for vundle to handle git
-let $GIT_SSL_NO_VERIFY = 'true'
-
-
 """"""""""""""""""""""""""""""""""""
-" Set the PATH variable internally to point to gocode binary, and that is
-" installed in the $GOPATH/bin by go get. This way gocode will be sure to run
-" from go installed anywhere in the system.
-let $PATH .= ":".$GOPATH."/bin"
-
-"display indent guides (the space is needed after the line to work properly)
-set list
-set listchars=tab:\|\ 
-
-set wildmenu
-set hlsearch
-set incsearch
-set ignorecase smartcase
-
-set autoindent
-set smartindent
-
-syntax on
-set encoding=utf-8
-set number
-set linespace=0
-set autoread
-set wildmode=longest,list
-
 "speed up matching
 set matchtime=3
 
 " set colorscheme
-colorscheme darkblue
-" colorscheme dracula
-
-" Use system's clipboard
-set clipboard=unnamed
+colorscheme default
 
 " Edit anyway if there is a swap file
 autocmd SwapExists * :let v:swapchoice='e'
@@ -220,6 +246,15 @@ nnoremap <expr> , !empty(filter(tabpagebuflist(), 'getbufvar(v:val,"&buftype")==
 " auto source vimrc
 autocmd! bufwritepost .vimrc source %
 
+" Sneak
+map z <Plug>Sneak_s
+map Z <Plug>Sneak_S
+map f <Plug>Sneak_f
+map F <Plug>Sneak_F
+map t <Plug>Sneak_t
+map T <Plug>Sneak_T
+let g:sneak#s_next = 1
+let g:sneak#label = 1
 
 " mappings
 nnoremap <silent> <Leader>t :TagbarToggle <CR>
@@ -419,8 +454,8 @@ command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 " nmap <leader>; :Buffers<CR>
 " nmap <leader>t :Tags<CR>
-nmap <leader><leader>o :Files<CR>
-nmap <leader>o :RG<CR>
+nmap <leader>o :Files<CR>
+nmap <leader><leader>o :RG<CR>
 let g:fzf_action = {
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit'
@@ -454,7 +489,6 @@ function! ToggleVExplorer()
 endfunction
 
 " rust
-set hidden
 let g:racer_cmd = "/Users/ovidiuvisan/.cargo/bin/racer"
 let g:racer_experimental_completer = 1
 let g:racer_insert_paren           = 1
@@ -467,9 +501,12 @@ augroup Racer
     autocmd FileType rust nmap <buffer> <leader>gd <Plug>(rust-doc)
 augroup END
 
-
 " ripgrep
 nnoremap <leader>f :Rg<Cr>
+
+" vim-commentary
+nnoremap <space>/ :Commentary<CR>
+vnoremap <space>/ :Commentary<CR>
 
 " ale
 let g:ale_disable_lsp = 1
