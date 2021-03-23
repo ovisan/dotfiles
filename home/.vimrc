@@ -167,7 +167,6 @@ Plug 'jremmen/vim-ripgrep'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'justinmk/vim-sneak'
-Plug 'plasticboy/vim-markdown'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'} "Multiple cursors
 
 " Initialize plugin system
