@@ -152,13 +152,11 @@ endif
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
 
+Plug 'tomtom/tcomment_vim' "comments
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-fugitive' "Git
 Plug 'tpope/vim-rhubarb' "Git browser
-Plug 'suan/vim-instant-markdown'
+Plug 'tpope/vim-surround'
 Plug 'dense-analysis/ale'
 Plug 'mbbill/undotree'
 Plug 'itchyny/lightline.vim'
@@ -168,8 +166,9 @@ Plug 'junegunn/fzf.vim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'preservim/tagbar'
 Plug 'justinmk/vim-sneak'
+Plug 'plasticboy/vim-markdown'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'} "Multiple cursors
 
 " Initialize plugin system
 call plug#end()
@@ -248,7 +247,7 @@ autocmd! bufwritepost .vimrc source %
 
 " Sneak
 map z <Plug>Sneak_s
-map Z <Plug>Sneak_S
+map z <Plug>Sneak_s
 map f <Plug>Sneak_f
 map F <Plug>Sneak_F
 map t <Plug>Sneak_t
@@ -271,7 +270,7 @@ set foldlevel=1         "this is just what i use
 vnoremap . :norm.<CR>
 
 " coc
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-pairs', 'coc-json', 'coc-go', 'coc-jedi', 'coc-lists', 'coc-python', 'coc-rls', 'coc-rust-analyzer', 'coc-sh', 'coc-yaml', 'coc-yank', 'coc-explorer', 'coc-tabnine']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-pairs', 'coc-json', 'coc-go', 'coc-jedi', 'coc-lists', 'coc-python', 'coc-rls', 'coc-rust-analyzer', 'coc-sh', 'coc-yaml', 'coc-yank', 'coc-explorer']
 nmap <leader>e :CocCommand explorer --toggle --sources=buffer+,file+<CR>
 
 let g:coc_filetype_map = {
@@ -441,7 +440,6 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 " fzf
-
 function! RipgrepFzf(query, fullscreen)
   let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
   let initial_command = printf(command_fmt, shellescape(a:query))
@@ -460,11 +458,6 @@ let g:fzf_action = {
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit'
       \ }
-
-
-" easyalign
-xmap <leader>a <Plug>(EasyAlign)
-nmap <leader>a <Plug>(EasyAlign)
 
 " undotree
 nnoremap <silent> <Leader>u :UndotreeToggle<CR>
@@ -488,25 +481,8 @@ function! ToggleVExplorer()
   endif
 endfunction
 
-" rust
-let g:racer_cmd = "/Users/ovidiuvisan/.cargo/bin/racer"
-let g:racer_experimental_completer = 1
-let g:racer_insert_paren           = 1
-augroup Racer
-    autocmd!
-    autocmd FileType rust nmap <buffer> gd         <Plug>(rust-def)
-    autocmd FileType rust nmap <buffer> gs         <Plug>(rust-def-split)
-    autocmd FileType rust nmap <buffer> gx         <Plug>(rust-def-vertical)
-    autocmd FileType rust nmap <buffer> gt         <Plug>(rust-def-tab)
-    autocmd FileType rust nmap <buffer> <leader>gd <Plug>(rust-doc)
-augroup END
-
 " ripgrep
 nnoremap <leader>f :Rg<Cr>
-
-" vim-commentary
-nnoremap <space>/ :Commentary<CR>
-vnoremap <space>/ :Commentary<CR>
 
 " ale
 let g:ale_disable_lsp = 1
