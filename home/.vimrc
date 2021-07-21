@@ -35,7 +35,6 @@ filetype off
 set backspace=indent,eol,start
 set bg=dark
 set updatetime=100
-set list
 
 set wildmenu
 set hlsearch
