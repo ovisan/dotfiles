@@ -1,0 +1,87 @@
+# You can edit this file by hand, but it's recommended not to do that.
+
+# Marks:
+'H
+	/home/ovisan/
+	..
+1601042294
+'b
+	/home/ovisan/bin/
+	..
+1601042294
+'h
+	/home/ovisan/
+	..
+1601042294
+
+# Bookmarks:
+
+# TUI:
+ar
+q0
+v2
+ov
+m-1
+l2
+r2
+
+# Left window history (oldest to newest):
+d/home/ovisan/code/tocode
+	..
+0
+d/home/ovisan/code
+	signing-service
+8
+d/home/ovisan/code/signing-service
+	..
+0
+d/home/ovisan/code
+	tocode
+11
+d
+
+# Right window history (oldest to newest):
+D/home/ovisan/code/tocode
+	ansible
+1
+D/home/ovisan/code/tocode/ansible
+	..
+0
+D/home/ovisan/code/tocode
+	ansible
+1
+D
+
+# Command line history (oldest to newest):
+:h
+:delete
+:move
+:2
+:q
+
+# Search history (oldest to newest):
+/h
+
+# Prompt history (oldest to newest):
+
+# Local filter history (oldest to newest):
+
+# Registers:
+""/home/ovisan/.local/share/vifm/Trash/000_ovi
+
+# Directory stack (oldest to newest):
+
+# Trash content:
+t/home/ovisan/.local/share/vifm/Trash/000_ovi
+	/home/ovisan/code/ovi
+
+# State:
+f
+i1
+[.1
+[F
+F
+I1
+].1
+]F
+s0

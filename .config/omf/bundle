@@ -1,0 +1,9 @@
+package config
+package spark
+package vcs
+package weather
+theme agnoster
+theme bobthefish
+theme chain
+theme default
+theme spacefish

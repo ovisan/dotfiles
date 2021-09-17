@@ -1,0 +1,30 @@
+{
+  "diagnostic.enable": true,
+  "yaml.format.enable": true,
+  "yaml.format.singleQuote": true,
+  "yaml.validate": true,
+  "yaml.hover": true,
+  "yaml.completion": true,
+  "yaml.trace.server": "verbose",
+  "languageserver": {
+      "golang": {
+        "command": "gopls",
+        "rootPatterns": ["go.mod"],
+        "filetypes": ["go"]
+      },
+      "terraform": {
+        "command": "terraform-lsp",
+        "filetypes": ["terraform", "tf"],
+        "initializationOptions": {},
+        "settings": {}
+      }
+    },
+  // explorer
+  "explorer.width": 30,
+  "explorer.icon.enableNerdfont": false,
+  "explorer.previewAction.onHover": false,
+  "explorer.keyMappings.global": {
+    "<cr>": ["expandable?", "expand", "open"],
+    "v": "open:vsplit"
+  }
+ }
