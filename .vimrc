@@ -168,6 +168,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'justinmk/vim-sneak'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'} "Multiple cursors
 Plug 'hashivim/vim-terraform'
+Plug 'pearofducks/ansible-vim'
 
 " Initialize plugin system
 call plug#end()
