@@ -49,6 +49,9 @@ set wildmode=longest,list
 " map leader key
 let mapleader = ' '
 
+" use ESC to exit terminal insert mode
+tnoremap <Esc> <C-\><C-n>
+nmap <C-t> :30split\|terminal<CR>
 " Use alt + hjkl to resize windows
 nnoremap <M-up>    : resize -2<CR>
 nnoremap <M-down>  : resize +2<CR>
