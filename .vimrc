@@ -154,6 +154,7 @@ endif
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
 
+Plug 'vim-syntastic/syntastic'
 Plug 'tomtom/tcomment_vim' "comments
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive' "Git
@@ -248,7 +249,17 @@ nnoremap <expr> , !empty(filter(tabpagebuflist(), 'getbufvar(v:val,"&buftype")==
 " auto source vimrc
 autocmd! bufwritepost .vimrc source %
 
-" Sneak
+" Syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_enable_signs=1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+
+" Sneak - easy motion
 map z <Plug>Sneak_s
 map z <Plug>Sneak_s
 map f <Plug>Sneak_f
