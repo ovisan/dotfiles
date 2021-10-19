@@ -49,14 +49,26 @@ set wildmode=longest,list
 " map leader key
 let mapleader = ' '
 
+" screen 
+if match($TERM, "screen")!=-1
+    set term=xterm-256color
+  endif
+
+" fix colorscheme in screen
+if &term =~ '256color'
+    " disable Background Color Erase (BCE) so that color schemes
+      " render properly when inside 256-color GNU screen.
+        set t_ut=
+      endif
+
 " use ESC to exit terminal insert mode
 tnoremap <Esc> <C-\><C-n>
 nmap <C-t> :30split\|terminal<CR>
 " Use alt + hjkl to resize windows
-nnoremap <M-up>    : resize -2<CR>
-nnoremap <M-down>  : resize +2<CR>
-nnoremap <M-right> : vertical resize -2<CR>
-nnoremap <M-left>  : vertical resize +2<CR>
+" nnoremap <M-up>    : resize -2<CR>
+" nnoremap <M-down>  : resize +2<CR>
+" nnoremap <M-right> : vertical resize -2<CR>
+" nnoremap <M-left>  : vertical resize +2<CR>
 
 " delete without saving to clipboard
 nnoremap <leader>d "_d
@@ -155,7 +167,7 @@ endif
 call plug#begin('~/.vim/plugged')
 
 Plug 'vim-syntastic/syntastic'
-Plug 'tomtom/tcomment_vim' "comments
+Plug 'tomtom/tcomment_vim' " comments
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive' "Git
 Plug 'tpope/vim-rhubarb' "Git browser
@@ -171,8 +183,8 @@ Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'justinmk/vim-sneak'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'} "Multiple cursors
-Plug 'hashivim/vim-terraform'
-Plug 'pearofducks/ansible-vim'
+" syntax highliting for multiple types
+Plug 'sheerun/vim-polyglot'
 
 " Initialize plugin system
 call plug#end()
@@ -194,7 +206,6 @@ function! ExecuteMacroOverVisualRange()
   echo "@".getcmdline()
   execute ":'<,'>normal @".nr2char(getchar())
 endfunction
-
 
 "QuickFix and Location list window toggle
 function! GetBufferList()
