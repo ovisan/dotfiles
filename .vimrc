@@ -21,7 +21,7 @@ set smartindent                         " Makes indenting smart
 set autoindent                          " Good auto indent
 set laststatus=0                        " Always display the status line
 set number                              " Line numbers
-" set cursorline                          " Enable highlighting of the current line
+set cursorline                          " Enable highlighting of the current line
 set background=dark                     " tell vim what the background color looks like
 set showtabline=2                       " Always show tabs
 set noshowmode                          " We don't need to see things like -- INSERT -- anymore
@@ -34,7 +34,6 @@ set hidden
 filetype off
 set backspace=indent,eol,start
 set bg=dark
-set updatetime=100
 
 set wildmenu
 set hlsearch
@@ -48,11 +47,6 @@ set wildmode=longest,list
 
 " map leader key
 let mapleader = ' '
-
-" screen 
-if match($TERM, "screen")!=-1
-    set term=xterm-256color
-  endif
 
 " fix colorscheme in screen
 if &term =~ '256color'
@@ -95,8 +89,6 @@ map gp :bp<cr>
 map gd :bd<cr>
 " tabs and spaces
 set tabstop=2 expandtab shiftwidth=2 softtabstop=2
-au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd BufNewFile,BufRead *.gotmpl set syntax=yaml
 
 " highlight whitespaces https://vim.fandom.com/wiki/Highlight_unwanted_spaces
@@ -295,12 +287,12 @@ set foldlevel=1         "this is just what i use
 vnoremap . :norm.<CR>
 
 " coc
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-pairs', 'coc-json', 'coc-go', 'coc-jedi', 'coc-lists', 'coc-python', 'coc-rls', 'coc-rust-analyzer', 'coc-sh', 'coc-yaml', 'coc-yank', 'coc-explorer']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-pairs', 'coc-json', 'coc-go', 'coc-jedi', 'coc-lists', 'coc-python', 'coc-rls', 'coc-rust-analyzer', 'coc-sh', 'coc-yank', 'coc-explorer']
 nmap <leader>e :CocCommand explorer --toggle --sources=buffer+,file+<CR>
 
-let g:coc_filetype_map = {
-\ 'yaml.ansible': 'yaml',
-\ }
+" let g:coc_filetype_map = {
+" \ 'yaml.ansible': 'yaml',
+" \ }
 
 " TextEdit might fail if hidden is not set.
 set hidden
