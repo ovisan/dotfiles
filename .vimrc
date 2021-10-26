@@ -253,6 +253,8 @@ nnoremap <expr> , !empty(filter(tabpagebuflist(), 'getbufvar(v:val,"&buftype")==
 autocmd! bufwritepost .vimrc source %
 
 " Syntastic
+" disable checker on start (it's slow)
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -287,7 +289,7 @@ set foldlevel=1         "this is just what i use
 vnoremap . :norm.<CR>
 
 " coc
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-pairs', 'coc-json', 'coc-go', 'coc-jedi', 'coc-lists', 'coc-python', 'coc-rls', 'coc-rust-analyzer', 'coc-sh', 'coc-yank', 'coc-explorer']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-pairs', 'coc-json', 'coc-go', 'coc-jedi', 'coc-lists', 'coc-python', 'coc-rls', 'coc-rust-analyzer', 'coc-sh', 'coc-yank', 'coc-explorer', '@yaegassy/coc-ansible', 'coc-markdownlint']
 nmap <leader>e :CocCommand explorer --toggle --sources=buffer+,file+<CR>
 
 " let g:coc_filetype_map = {
