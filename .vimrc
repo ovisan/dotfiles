@@ -36,6 +36,7 @@ set hidden
 filetype off
 set backspace=indent,eol,start
 set bg=dark
+set inccommand=split                    " Show search and replace separate preview window
 
 set wildmenu
 set hlsearch
