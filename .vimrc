@@ -51,6 +51,9 @@ set wildmode=longest,list
 " map leader key
 let mapleader = ' '
 
+" noh disable
+map <esc> :noh <CR>
+
 " fix colorscheme in screen
 if &term =~ '256color'
     " disable Background Color Erase (BCE) so that color schemes
