@@ -290,7 +290,7 @@ autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_
 " vim-indent-guides
 let g:indent_guides_enable_on_vim_startup = 1
 set ts=4 sw=4 et
-let g:indent_guides_start_level=2
+let g:indent_guides_start_level=1
 let g:indent_guides_guide_size=1
 hi IndentGuidesOdd  ctermbg=234
 hi IndentGuidesEven ctermbg=235
