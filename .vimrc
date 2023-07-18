@@ -54,6 +54,7 @@ let mapleader = ' '
 
 set guifont=Monaco:h14
 
+
 " noh disable
 map <esc> :noh <CR>
 
@@ -193,6 +194,7 @@ Plug 'aklt/plantuml-syntax'
 Plug 'tyru/open-browser.vim'
 Plug 'weirongxu/plantuml-previewer.vim'
 Plug 'preservim/nerdtree'
+Plug 'preservim/vim-indent-guides'
 
 " Initialize plugin system
 call plug#end()
@@ -282,6 +284,16 @@ autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
 " If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
 autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
     \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+
+
+" Plugin configuration
+" vim-indent-guides
+let g:indent_guides_enable_on_vim_startup = 1
+set ts=4 sw=4 et
+let g:indent_guides_start_level=2
+let g:indent_guides_guide_size=1
+hi IndentGuidesOdd  ctermbg=234
+hi IndentGuidesEven ctermbg=235
 
 " Sneak - easy motion
 map z <Plug>Sneak_s
