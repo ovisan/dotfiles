@@ -1,3 +1,8 @@
+-- Set font
+vim.o.guifont = "FiraCode Nerd Font:h15"
+
+local opts = { noremap = true, silent = true }
+
 vim.opt.hidden = true
 vim.opt.ruler = true
 
@@ -46,10 +51,26 @@ vim.g.mapleader = " "
 -- define paste
 vim.keymap.set('i', '<D-v>', '<MiddleMouse>')
 vim.keymap.set('i', '<S-Insert>', '<MiddleMouse>')
+
 -- disable hightliting on escape
 vim.keymap.set('n', '<esc>', ':noh<CR>')
 
-vim.o.inccommand = nosplit
+-- Stay in indent mode
+vim.keymap.set("v", "<", "<gv", opts)
+vim.keymap.set("v", ">", ">gv", opts)
+
+-- Move text up and down
+vim.keymap.set("v", "J", ":m .+1<CR>==", opts)
+vim.keymap.set("v", "K", ":m .-2<CR>==", opts)
+
+-- Visual Block --
+-- Move text up and down
+vim.keymap.set("x", "J", ":move '>+1<CR>gv-gv", opts)
+vim.keymap.set("x", "K", ":move '<-2<CR>gv-gv", opts)
+
+-- Delete whitespaces
+vim.keymap.set('n', '<Leader>w', ':%s/\\s\\+$//e<CR>', opts)
+
 
 -- Highlight on yank
 vim.cmd [[
@@ -66,6 +87,22 @@ vim.cmd [[
    autocmd BufWritePost init.lua PackerCompile
  augroup end
  ]]
+
+-- file backup - history
+vim.cmd('silent !mkdir ~/.vim/history > /dev/null 2>&1')
+vim.o.undodir = "~/.vim/history"
+vim.o.undofile = true
+
+-- highlight whitespaces https://vim.fandom.com/wiki/Highlight_unwanted_spaces
+-- vim.cmd [[
+--   augroup Whitespaces
+--     autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+--     autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+--     autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+--     autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+--     autocmd BufWinLeave * call clearmatches()
+--   augroup end
+-- ]]
 
 --
 -- ensure the packer plugin manager is installed
@@ -167,6 +204,9 @@ require("packer").startup(function(use)
     requires = {'kyazdani42/nvim-web-devicons',
                 opt = true}
   }
+  use {"akinsho/toggleterm.nvim", tag = '*', config = function()
+    require("toggleterm").setup()
+  end}
   -- Beautiful colorscheme
   use 'navarasu/onedark.nvim'
 end)
@@ -203,16 +243,58 @@ end
 
 
 -- Plugin config
+-- toggleterm
+require("toggleterm").setup({
+  size = 20,
+  open_mapping = [[<leader>t]],
+  hide_numbers = true,
+  shade_filetypes = {},
+  shade_terminals = true,
+  shading_factor = 2,
+  start_in_insert = true,
+  insert_mappings = true,
+  persist_size = true,
+  direction = "float",
+  close_on_exit = true,
+  shell = vim.o.shell,
+  float_opts = {
+    border = "curved",
+    winblend = 0,
+    highlights = {
+      border = "Normal",
+      background = "Normal",
+    },
+  },
+})
+-- open lazygit
+local Terminal  = require('toggleterm.terminal').Terminal
+local lazygit = Terminal:new({ cmd = "lazygit", hidden = true })
 
+function _lazygit_toggle()
+  lazygit:toggle()
+end
+
+vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
+
+local newterm = Terminal:new({ hidden = false })
+
+-- open new terminal
+function _newterm_toggle()
+  newterm:toggle()
+end
+
+vim.api.nvim_set_keymap("n", "<leader>t", "<cmd>lua _newterm_toggle()<CR>", {noremap = true, silent = true})
 
 -- colorscheme
-vim.opt.termguicolors = false
-
 require("onedark").setup({
   style = "darker",
 })
-require('onedark').load()
 
+if vim.g.neovide then
+  require('onedark').load()
+else
+  vim.cmd.colorscheme("koehler")
+end
 -- nvim-treesitter
 require('nvim-treesitter.configs').setup {
   ensure_installed = {"python", "rust", "c", "cpp", "bash", "go", "html"},
