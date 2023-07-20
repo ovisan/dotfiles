@@ -195,6 +195,7 @@ Plug 'tyru/open-browser.vim'
 Plug 'weirongxu/plantuml-previewer.vim'
 Plug 'preservim/nerdtree'
 Plug 'preservim/vim-indent-guides'
+Plug 'rust-lang/rust.vim'
 
 " Initialize plugin system
 call plug#end()
@@ -270,7 +271,7 @@ nnoremap <expr> , !empty(filter(tabpagebuflist(), 'getbufvar(v:val,"&buftype")==
 " auto source vimrc
 autocmd! bufwritepost .vimrc source %
 
-" NERDTree
+" nerdtree
 " Start NERDTree. If a file is specified, move the cursor to its window.
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * NERDTree | if argc() > 0 || exists("s:std_in") | wincmd p | endif
@@ -330,10 +331,6 @@ nmap <leader>e :CocCommand explorer --toggle --sources=buffer+,file+<CR>
 " TextEdit might fail if hidden is not set.
 set hidden
 
-" Some servers have issues with backup files, see #649.
-set nobackup
-set nowritebackup
-
 " Give more space for displaying messages.
 set cmdheight=2
 
@@ -360,9 +357,6 @@ highlight CocMenuSel ctermfg=Black ctermbg=LightGreen guifg=Black guibg=LightGre
 " May need for Vim (not Neovim) since coc.nvim calculates byte offset by count
 " utf-8 byte sequence
 set encoding=utf-8
-" Some servers have issues with backup files, see #649
-set nobackup
-set nowritebackup
 
 " Having longer updatetime (default is 4000 ms = 4s) leads to noticeable
 " delays and poor user experience
