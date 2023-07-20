@@ -1,10 +1,16 @@
 -- Set font
 vim.o.guifont = "FiraCode Nerd Font:h15"
 
+-- Set MacOS keys
+vim.g.neovide_input_macos_alt_is_meta = true
+
 local opts = { noremap = true, silent = true }
 
 vim.opt.hidden = true
 vim.opt.ruler = true
+
+--  set pwd to the opened file
+vim.opt.autochdir = true
 
 -- Do not show current vim mode since it is already shown by Lualine
 vim.o.showmode = false
@@ -246,7 +252,7 @@ end
 -- toggleterm
 require("toggleterm").setup({
   size = 20,
-  open_mapping = [[<leader>t]],
+  open_mapping = [[<M-\>]],
   hide_numbers = true,
   shade_filetypes = {},
   shade_terminals = true,
@@ -274,16 +280,7 @@ function _lazygit_toggle()
   lazygit:toggle()
 end
 
-vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
-
-local newterm = Terminal:new({ hidden = false })
-
--- open new terminal
-function _newterm_toggle()
-  newterm:toggle()
-end
-
-vim.api.nvim_set_keymap("n", "<leader>t", "<cmd>lua _newterm_toggle()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<M-g>", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
 
 -- colorscheme
 require("onedark").setup({
