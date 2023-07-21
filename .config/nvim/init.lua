@@ -250,7 +250,7 @@ end
 -- toggleterm
 require("toggleterm").setup({
   size = 20,
-  open_mapping = [[<leader>\]],
+  open_mapping = [[<M-\>]],
   autochdir = true,
   hide_numbers = true,
   shade_filetypes = {},
@@ -280,7 +280,7 @@ function _lazygit_toggle()
   lazygit:toggle()
 end
 
-vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<M-g>", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
 
 -- colorscheme
 require("onedark").setup({
