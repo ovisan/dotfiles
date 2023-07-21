@@ -77,7 +77,6 @@ vim.keymap.set("x", "K", ":move '<-2<CR>gv-gv", opts)
 -- Delete whitespaces
 vim.keymap.set('n', '<Leader>w', ':%s/\\s\\+$//e<CR>', opts)
 
-
 -- Highlight on yank
 vim.cmd [[
 augroup YankHighlight
@@ -188,7 +187,6 @@ require("packer").startup(function(use)
   use("aklt/plantuml-syntax")
   use("tyru/open-browser.vim")
   use("weirongxu/plantuml-previewer.vim")
-  use("preservim/vim-indent-guides")
   use("rust-lang/rust.vim")
   -- Indent guides
   use("lukas-reineke/indent-blankline.nvim")
@@ -252,7 +250,8 @@ end
 -- toggleterm
 require("toggleterm").setup({
   size = 20,
-  open_mapping = [[<M-\>]],
+  open_mapping = [[<leader>\]],
+  autochdir = true,
   hide_numbers = true,
   shade_filetypes = {},
   shade_terminals = true,
@@ -274,13 +273,14 @@ require("toggleterm").setup({
 })
 -- open lazygit
 local Terminal  = require('toggleterm.terminal').Terminal
-local lazygit = Terminal:new({ cmd = "lazygit", hidden = true })
+local lazygit = Terminal:new({ cmd = "lazygit", hidden = true, direction = "float" })
 
 function _lazygit_toggle()
+  lazygit.dir = vim.fn.expand("%:p:h") -- current working directory for the active buffer
   lazygit:toggle()
 end
 
-vim.api.nvim_set_keymap("n", "<M-g>", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
 
 -- colorscheme
 require("onedark").setup({
@@ -334,6 +334,8 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end
 })
 
+vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>')
+
 
 -- telescope
 local builtin = require('telescope.builtin')
@@ -350,11 +352,13 @@ require('nvim-autopairs').setup{}
 -- indent_blankline
 vim.opt.list = true
 vim.opt.listchars:append "space: "
+-- vim.opt.listchars:append "eol:↴"
 
 require("indent_blankline").setup {
     space_char_blankline = " ",
     show_current_context = true,
     show_current_context_start = true,
+    show_end_of_line = false,
 }
 
 
