@@ -111,7 +111,6 @@ vim.o.undofile = true
 
 --
 -- ensure the packer plugin manager is installed
---
 local ensure_packer = function()
   local fn = vim.fn
   local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
@@ -276,7 +275,8 @@ local Terminal  = require('toggleterm.terminal').Terminal
 local lazygit = Terminal:new({ cmd = "lazygit", hidden = true, direction = "float" })
 
 function _lazygit_toggle()
-  lazygit.dir = vim.fn.expand("%:p:h") -- current working directory for the active buffer
+  -- current working directory and active buffer
+  lazygit.dir = vim.fn.expand("%:p:h")
   lazygit:toggle()
 end
 
@@ -294,14 +294,18 @@ else
 end
 -- nvim-treesitter
 require('nvim-treesitter.configs').setup {
-  ensure_installed = {"python", "rust", "c", "cpp", "bash", "go", "html"},
+  ensure_installed = {"python", "rust", "c", "cpp", "bash", "awk", "cmake", "diff", "jq", "go", "html", "yaml", "json", "toml", "markdown", "lua"},
   highlight = {
     enable = true, -- false will disable the whole extension
   },
 }
 
 -- nvim-tree
-require('nvim-tree').setup{}
+require('nvim-tree').setup({
+    view = {
+      width = 35,
+    },
+  })
 
 local function open_nvim_tree(data)
 
@@ -352,6 +356,9 @@ require('nvim-autopairs').setup{}
 -- indent_blankline
 vim.opt.list = true
 vim.opt.listchars:append "space: "
+vim.g.indent_blankline_use_treesitter = "v:true"
+vim.g.indent_blankline_use_treesitter_scope = "true"
+-- add supported languages to nvim-tree.lua plugin
 -- vim.opt.listchars:append "eol:↴"
 
 require("indent_blankline").setup {
