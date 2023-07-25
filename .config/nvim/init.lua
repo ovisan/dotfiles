@@ -4,6 +4,9 @@ vim.o.guifont = "FiraCode Nerd Font:h15"
 -- Set MacOS keys
 vim.g.neovide_input_macos_alt_is_meta = true
 
+-- yank copies to clipboard
+vim.opt.clipboard = "unnamedplus"
+
 local opts = { noremap = true, silent = true }
 
 vim.opt.hidden = true
