@@ -1,7 +1,7 @@
 # Use custom format
 format = '''
 [┌───────────────────>](bold green)
-[│](bold green)$directory$rust$package$git_branch$git_status
+[│](bold green)$directory$rust$package$git_branch$git_status$git_state$git_commit
 [└─>](bold green) '''
 
 # Get editor completions based on the config schema
@@ -17,4 +17,3 @@ success_symbol = '[➜](bold green)' # The 'success_symbol' segment is being set
 # Disable the package module, hiding it from the prompt completely
 [battery]
 disabled = true
-
