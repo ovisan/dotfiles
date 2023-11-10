@@ -88,18 +88,14 @@ autocmd TextYankPost * silent! lua vim.highlight.on_yank()
 augroup end
 ]]
 
--- Lazyload
-vim.cmd [[
- augroup Packer
-   autocmd!
-   autocmd BufWritePost init.lua PackerCompile
- augroup end
- ]]
-
 -- file backup - history
 vim.cmd('silent !mkdir ~/.vim/history > /dev/null 2>&1')
 vim.o.undodir = "~/.vim/history"
 vim.o.undofile = true
+
+local options = {
+  termguicolors = true
+}
 
 -- highlight whitespaces https://vim.fandom.com/wiki/Highlight_unwanted_spaces
 -- vim.cmd [[
@@ -112,193 +108,114 @@ vim.o.undofile = true
 --   augroup end
 -- ]]
 
---
--- ensure the packer plugin manager is installed
-local ensure_packer = function()
-  local fn = vim.fn
-  local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-  if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
-    vim.cmd([[packadd packer.nvim]])
-    return true
-  end
-  return false
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
 end
+vim.opt.rtp:prepend(lazypath)
 
-local packer_bootstrap = ensure_packer()
+vim.opt.termguicolors = true
 
-require("packer").startup(function(use)
-  -- Packer can manage itself
-  use("wbthomason/packer.nvim")
+-- Colorscheme
+vim.cmd([[colorscheme habamax]])
 
-  -- LSP Client
-  use 'neovim/nvim-lspconfig'
-
-  -- Language Server installer
-  use {
-    'williamboman/nvim-lsp-installer',
-    requires = 'neovim/nvim-lspconfig',
-  }
-
-  -- Visualize lsp progress
-  use({
+require("lazy").setup({
+  "neovim/nvim-lspconfig",
+  {
     "j-hui/fidget.nvim",
-    tag = 'legacy',
-    config = function()
-      require("fidget").setup()
-    end
-  })
-
-  -- Autocompletion plugin
-  use {
-    'hrsh7th/nvim-cmp',
-    requires = {
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline',
-    }
-  }
-
-  -- snippets
-  use {
-    'hrsh7th/cmp-vsnip', requires = {
-      'hrsh7th/vim-vsnip',
-      'rafamadriz/friendly-snippets',
-    }
-  }
-
-  -- Adds extra functionality over rust analyzer
-  use("simrat39/rust-tools.nvim")
-
-  -- Optional
-  use("nvim-lua/popup.nvim")
-  use("tomtom/tcomment_vim")
-  use("airblade/vim-gitgutter")
-  use("tpope/vim-fugitive")
-  use("tpope/vim-rhubarb")
-  use("tpope/vim-surround")
-  use("mbbill/undotree")
-  use("itchyny/lightline.vim")
-  use("godlygeek/tabular")
-  use("junegunn/fzf")
-  use("junegunn/fzf.vim")
-  use("jremmen/vim-ripgrep")
-  use("sheerun/vim-polyglot")
-  use("aklt/plantuml-syntax")
-  use("tyru/open-browser.vim")
-  use("weirongxu/plantuml-previewer.vim")
-  use("rust-lang/rust.vim")
-  -- Indent guides
-  use("lukas-reineke/indent-blankline.nvim")
-  -- Fast incrementalparsing library
-  use("nvim-treesitter/nvim-treesitter")
-  use({
-    "nvim-treesitter/nvim-treesitter-textobjects",
-    after = "nvim-treesitter",
-    requires = "nvim-treesitter/nvim-treesitter",
-  })
-  use("windwp/nvim-autopairs")
-  use {
-   'nvim-tree/nvim-tree.lua',
-   requires = {
-     'nvim-tree/nvim-web-devicons', -- optional
-   },
-  }
-  use {
-    'nvim-telescope/telescope.nvim',                 -- fuzzy finder
-    requires = { {'nvim-lua/plenary.nvim'} }
-  }
-  use {
-    'nvim-lualine/lualine.nvim',                     -- statusline
-    requires = {'kyazdani42/nvim-web-devicons',
-                opt = true}
-  }
-  use {"akinsho/toggleterm.nvim", tag = '*', config = function()
-    require("toggleterm").setup()
-  end}
-  -- Beautiful colorscheme
-  use 'navarasu/onedark.nvim'
-end)
-
--- the first run will install packer and our plugins
-if packer_bootstrap then
-  require("packer").sync()
-  return
-end
-
--- Plugin configuration
--- LSP and LS Installer
-require('lspconfig')
-local lsp_installer = require("nvim-lsp-installer")
-
--- The required servers
-local servers = {
-  "bashls",
-  "pyright",
-  "rust_analyzer",
-  "sumneko_lua",
-  "html",
-  "clangd",
-  "vimls",
-}
-
-for _, name in pairs(servers) do
-  local server_is_found, server = lsp_installer.get_server(name)
-  if server_is_found and not server:is_installed() then
-    print("Installing " .. name)
-    server:install()
-  end
-end
-
-
--- Plugin config
--- toggleterm
-require("toggleterm").setup({
-  size = 20,
-  open_mapping = [[<M-\>]],
-  autochdir = true,
-  hide_numbers = true,
-  shade_filetypes = {},
-  shade_terminals = true,
-  shading_factor = 2,
-  start_in_insert = true,
-  insert_mappings = true,
-  persist_size = true,
-  direction = "float",
-  close_on_exit = true,
-  shell = vim.o.shell,
-  float_opts = {
-    border = "curved",
-    winblend = 0,
-    highlights = {
-      border = "Normal",
-      background = "Normal",
+    tag = "legacy",
+    opts = {
+      -- options
     },
   },
+  "nvim-treesitter/nvim-treesitter",
+  "HiPhish/rainbow-delimiters.nvim",
+  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
+  -- Autocompletion plugin
+  {
+    "hrsh7th/nvim-cmp",
+    -- load cmp on InsertEnter
+    event = "InsertEnter",
+    -- these dependencies will only be loaded when cmp loads
+    -- dependencies are always lazy-loaded unless specified otherwise
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
+    },
+  },
+  -- snippets
+  {
+    "hrsh7th/cmp-vsnip",
+    dependencies = {
+      "hrsh7th/vim-vsnip",
+      "rafamadriz/friendly-snippets",
+    },
+  },
+
+  {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      dependencies = { 
+        "nvim-treesitter/nvim-treesitter",
+      },
+  },
+
+  "windwp/nvim-autopairs",
+  {
+     "nvim-tree/nvim-tree.lua",
+     dependencies = {
+       'nvim-tree/nvim-web-devicons',
+     },
+  },
+  {
+     "nvim-telescope/telescope.nvim",                 -- fuzzy finder
+     dependencies = {
+       "nvim-lua/plenary.nvim",
+      },
+  },
+  {
+      "nvim-lualine/lualine.nvim",                     -- statusline
+      depenencies = {
+        "kyazdani42/nvim-web-devicons",
+      },
+  },
+  {'akinsho/toggleterm.nvim', version = "*", config = true},
+
+
+  -- Adds extra functionality over rust analyzer
+  "simrat39/rust-tools.nvim",
+
+  -- Optional
+  "nvim-lua/popup.nvim",
+  "tomtom/tcomment_vim",
+  "airblade/vim-gitgutter",
+  "tpope/vim-fugitive",
+  "tpope/vim-rhubarb",
+  "tpope/vim-surround",
+  "mbbill/undotree",
+  "itchyny/lightline.vim",
+  "godlygeek/tabular",
+  "junegunn/fzf",
+  "junegunn/fzf.vim",
+  "jremmen/vim-ripgrep",
+  "sheerun/vim-polyglot",
+  "aklt/plantuml-syntax",
+  "tyru/open-browser.vim",
+  "weirongxu/plantuml-previewer.vim",
+  "rust-lang/rust.vim"
 })
--- open lazygit
-local Terminal  = require('toggleterm.terminal').Terminal
-local lazygit = Terminal:new({ cmd = "lazygit", hidden = true, direction = "float" })
 
-function _lazygit_toggle()
-  -- current working directory and active buffer
-  lazygit.dir = vim.fn.expand("%:p:h")
-  lazygit:toggle()
-end
 
-vim.api.nvim_set_keymap("n", "<M-g>", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
+-- Plugin configuration
 
--- colorscheme
-require("onedark").setup({
-  style = "darker",
-})
-
-if vim.g.neovide then
-  require('onedark').load()
-else
-  vim.cmd.colorscheme("koehler")
-end
 -- nvim-treesitter
 require('nvim-treesitter.configs').setup {
   ensure_installed = {"python", "rust", "c", "cpp", "bash", "awk", "cmake", "diff", "jq", "go", "html", "yaml", "json", "toml", "markdown", "lua"},
@@ -354,6 +271,71 @@ require'nvim-treesitter.configs'.setup {
     },
   },
 }
+-- rainbow_delimiters
+-- This module contains a number of default definitions
+local rainbow_delimiters = require 'rainbow-delimiters'
+
+vim.g.rainbow_delimiters = {
+    strategy = {
+        [''] = rainbow_delimiters.strategy['global'],
+        vim = rainbow_delimiters.strategy['local'],
+    },
+    query = {
+        [''] = 'rainbow-delimiters',
+        lua = 'rainbow-blocks',
+    },
+    highlight = {
+        'RainbowDelimiterRed',
+        'RainbowDelimiterYellow',
+        'RainbowDelimiterBlue',
+        'RainbowDelimiterOrange',
+        'RainbowDelimiterGreen',
+        'RainbowDelimiterViolet',
+        'RainbowDelimiterCyan',
+    },
+}
+
+-- indent_blankline
+require("ibl").setup()
+
+-- fzf-lua
+vim.keymap.set("n", "<C-f>",
+  "<cmd>lua require('fzf-lua').files()<CR>", { silent = true })
+-- toggleterm
+require("toggleterm").setup({
+  size = 20,
+  open_mapping = [[<M-\>]],
+  autochdir = true,
+  hide_numbers = true,
+  shade_filetypes = {},
+  shade_terminals = true,
+  shading_factor = 2,
+  start_in_insert = true,
+  insert_mappings = true,
+  persist_size = true,
+  direction = "float",
+  close_on_exit = true,
+  shell = vim.o.shell,
+  float_opts = {
+    border = "curved",
+    winblend = 0,
+    highlights = {
+      border = "Normal",
+      background = "Normal",
+    },
+  },
+})
+-- open lazygit
+local Terminal  = require('toggleterm.terminal').Terminal
+local lazygit = Terminal:new({ cmd = "lazygit", hidden = true, direction = "float" })
+
+function _lazygit_toggle()
+  -- current working directory and active buffer
+  lazygit.dir = vim.fn.expand("%:p:h")
+  lazygit:toggle()
+end
+
+vim.api.nvim_set_keymap("n", "<M-g>", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
 
 -- nvim-tree
 require('nvim-tree').setup({
@@ -407,22 +389,6 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 require('lualine').setup{}
 -- nvim-autopairs
 require('nvim-autopairs').setup{}
-
--- indent_blankline
-vim.opt.list = true
-vim.opt.listchars:append "space: "
-vim.g.indent_blankline_use_treesitter = "v:true"
-vim.g.indent_blankline_use_treesitter_scope = "true"
--- add supported languages to nvim-tree.lua plugin
--- vim.opt.listchars:append "eol:↴"
-
-require("indent_blankline").setup {
-    space_char_blankline = " ",
-    show_current_context = true,
-    show_current_context_start = true,
-    show_end_of_line = false,
-}
-
 
 -- Plugin config end
 
