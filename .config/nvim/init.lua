@@ -316,7 +316,6 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 -- open lazygit
 local Terminal  = require('toggleterm.terminal').Terminal
 local lazygit = Terminal:new({ cmd = "lazygit", hidden = true, direction = "float" })
-
 function _lazygit_toggle()
   -- current working directory and active buffer
   lazygit.dir = vim.fn.expand("%:p:h")
@@ -324,6 +323,10 @@ function _lazygit_toggle()
 end
 
 vim.api.nvim_set_keymap("n", "<M-g>", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
+
+
+-- open ToggleTerm
+local terminalinstance = require("toggleterm").setup{open_mapping = [[<leader>t]]}
 
 -- nvim-tree
 require('nvim-tree').setup({
