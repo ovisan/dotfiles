@@ -188,6 +188,17 @@ require("lazy").setup({
       },
   },
   {'akinsho/toggleterm.nvim', version = "*", config = true},
+  {
+    "telescope.nvim",
+    dependencies = {
+      "nvim-telescope/telescope-fzf-native.nvim",
+      "nvim-lua/plenary.nvim", 
+      build = "make",
+      config = function()
+        require("telescope").load_extension("fzf")
+      end,
+    },
+  },
 
 
   -- Adds extra functionality over rust analyzer
@@ -203,9 +214,6 @@ require("lazy").setup({
   "mbbill/undotree",
   "itchyny/lightline.vim",
   "godlygeek/tabular",
-  "junegunn/fzf",
-  "junegunn/fzf.vim",
-  "jremmen/vim-ripgrep",
   "sheerun/vim-polyglot",
   "aklt/plantuml-syntax",
   "tyru/open-browser.vim",
@@ -298,33 +306,13 @@ vim.g.rainbow_delimiters = {
 -- indent_blankline
 require("ibl").setup()
 
--- fzf-lua
-vim.keymap.set("n", "<C-f>",
-  "<cmd>lua require('fzf-lua').files()<CR>", { silent = true })
--- toggleterm
-require("toggleterm").setup({
-  size = 20,
-  open_mapping = [[<M-\>]],
-  autochdir = true,
-  hide_numbers = true,
-  shade_filetypes = {},
-  shade_terminals = true,
-  shading_factor = 2,
-  start_in_insert = true,
-  insert_mappings = true,
-  persist_size = true,
-  direction = "float",
-  close_on_exit = true,
-  shell = vim.o.shell,
-  float_opts = {
-    border = "curved",
-    winblend = 0,
-    highlights = {
-      border = "Normal",
-      background = "Normal",
-    },
-  },
-})
+-- telescope
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+
 -- open lazygit
 local Terminal  = require('toggleterm.terminal').Terminal
 local lazygit = Terminal:new({ cmd = "lazygit", hidden = true, direction = "float" })
