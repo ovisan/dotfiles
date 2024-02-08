@@ -326,7 +326,7 @@ vim.api.nvim_set_keymap("n", "<M-g>", "<cmd>lua _lazygit_toggle()<CR>", {noremap
 
 
 -- open ToggleTerm
-local terminalinstance = require("toggleterm").setup{open_mapping = [[<leader>t]]}
+local terminalinstance = require("toggleterm").setup{open_mapping = [[<leader>tt]]}
 
 -- nvim-tree
 require('nvim-tree').setup({
