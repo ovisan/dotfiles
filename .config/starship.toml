@@ -1,19 +1,56 @@
-# Use custom format
-format = '''
-[┌───────────────────>](bold green)
-[│](bold green)$directory$rust$package$git_branch$git_status$git_state$git_commit
-[└─>](bold green) '''
-
 # Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
 # Inserts a blank line between shell prompts
-add_newline = true
+# add_newline = true
+
+# Use custom format
+format = '''$directory$package$rust$git_branch$git_status$git_state$git_commit$cmd_duration
+$character
+'''
+
+# Wait 50 milliseconds for starship to check files under the current directory.
+scan_timeout = 50
+
+[aws]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[azure]
+disabled = true
+
+[python]
+detect_extensions = []
+detect_files = []
+
+[rust]
+detect_extensions = []
+detect_files = ["Cargo.toml"]
 
 # Replace the '❯' symbol in the prompt with '➜'
 [character] # The name of the module we are configuring is 'character'
 success_symbol = '[➜](bold green)' # The 'success_symbol' segment is being set to '➜' with the color 'bold green'
+error_symbol = "[x](bold red)"
+vimcmd_symbol = "[<](bold green)"
+vimcmd_visual_symbol = "[<](bold yellow)"
+vimcmd_replace_symbol = "[<](bold purple)"
+vimcmd_replace_one_symbol = "[<](bold purple)"
+
 
 # Disable the package module, hiding it from the prompt completely
 [battery]
 disabled = true
+
+# Output the command duration if over 2 seconds
+[cmd_duration]
+disabled= false
+min_time = 1_000 # 1 second
+show_milliseconds = false
+
+[directory]
+truncation_length = 10
+home_symbol = '~'
+read_only = " "
+truncate_to_repo = true # truncates directory to root folder if in github repo
