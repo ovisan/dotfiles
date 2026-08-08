@@ -31,7 +31,7 @@ require("lazy").setup("plugins", {
         "gzip",
         "matchit",
         "matchparen",
-        "netrwPlugin",
+        -- keep netrwPlugin so nvim-tree can cleanly hijack it (avoids E216 FileExplorer)
         "tarPlugin",
         "tohtml",
         "tutor",

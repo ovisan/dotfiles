@@ -42,6 +42,9 @@ return {
       },
     },
     config = function(_, opts)
+      -- nvim-tree clears the FileExplorer augroup; create it first so
+      -- `autocmd! FileExplorer *` does not emit E216 when netrw is disabled.
+      vim.api.nvim_create_augroup("FileExplorer", { clear = true })
       require("nvim-tree").setup(opts)
 
       -- Open tree on startup for real files / empty buffers

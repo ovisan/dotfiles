@@ -1,7 +1,19 @@
-# Lazygit — https://github.com/jesseduffield/lazygit
-# Aligns with Catppuccin Mocha + nvim as editor
+# Lazygit 0.64+ — Catppuccin Mocha + nvim
+# https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
+# Use default keybindings (most stable across versions).
 
 gui:
+  nerdFontsVersion: "3"
+  showIcons: true
+  showFileTree: true
+  showRandomTip: false
+  mouseEvents: true
+  sidePanelWidth: 0.333
+  expandFocusedSidePanel: true
+  commandLogSize: 8
+  showBottomLine: true
+  showPanelJumps: true
+  border: rounded
   theme:
     activeBorderColor:
       - "#89b4fa"
@@ -25,47 +37,34 @@ gui:
       - "#f38ba8"
     defaultFgColor:
       - "#cdd6f4"
-  nerdFontsVersion: "3"
-  showIcons: true
-  showFileTree: true
-  showRandomTip: false
-  mouseEvents: true
-  skipDiscardChangeWarning: false
-  skipStashWarning: false
-  sidePanelWidth: 0.333
-  expandFocusedSidePanel: true
-  commandLogSize: 8
-  showBottomLine: true
-  showPanelJumps: true
-  animateExplosion: true
-  border: rounded
 
 git:
-  paging:
-    colorArg: always
-    pager: bat --paging=always --style=plain --theme="Catppuccin Mocha"
+  # Pager for diffs (lazygit 0.64+: git.diffRenderers)
+  diffRenderers:
+    - colorArg: always
+      command: bat --paging=always --style=plain --theme="Catppuccin Mocha"
+  autoFetch: true
+  autoRefresh: true
+  parseEmoji: true
+  log:
+    order: topo-order
+    showGraph: always
+    showWholeGraph: false
+  branchLogCmd: "git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --"
+  allBranchesLogCmds:
+    - "git log --graph --all --color=always --abbrev-commit --decorate --date=relative --pretty=medium"
   commit:
     signOff: false
     autoWrapCommitMessage: true
   merging:
     manualCommit: false
-    args: ""
-  log:
-    order: topo-order
-    showGraph: always
-    showWholeGraph: false
-  autoFetch: true
-  autoRefresh: true
-  branchLogCmd: git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --
-  allBranchesLogCmds:
-    - git log --graph --all --color=always --abbrev-commit --decorate --date=relative --pretty=medium
   overrideGpg: false
   disableForcePushing: false
 
 os:
-  editPreset: nvim
-  open: open {{filename}}
-  openLink: open {{link}}
+  editPreset: "nvim"
+  open: "open {{filename}}"
+  openLink: "open {{link}}"
 
 refresher:
   refreshInterval: 10
@@ -73,117 +72,6 @@ refresher:
 
 update:
   method: never
-  days: 14
 
 notARepository: skip
-
 promptToReturnFromSubprocess: true
-
-keybinding:
-  universal:
-    quit: q
-    quit-alt1: <c-c>
-    return: <esc>
-    quitWithoutChangingDirectory: Q
-    togglePanel: <tab>
-    prevItem: <up>
-    nextItem: <down>
-    prevItem-alt: k
-    nextItem-alt: j
-    prevPage: ","
-    nextPage: "."
-    gotoTop: <
-    gotoBottom: ">"
-    scrollLeft: H
-    scrollRight: L
-    prevBlock: <left>
-    nextBlock: <right>
-    prevBlock-alt: h
-    nextBlock-alt: l
-    jumpToBlock: ["1", "2", "3", "4", "5"]
-    nextMatch: n
-    prevMatch: N
-    optionMenu: x
-    optionMenu-alt1: "?"
-    select: <space>
-    goInto: <enter>
-    openRecentRepos: <c-r>
-    remove: d
-    new: n
-    edit: e
-    openFile: o
-    scrollUpMain: <pgup>
-    scrollDownMain: <pgdown>
-    scrollUpMain-alt1: K
-    scrollDownMain-alt1: J
-    executeCustomCommand: ":"
-    createRebaseOptionsMenu: m
-    pushFiles: P
-    pullFiles: p
-    refresh: R
-    createPatchOptionsMenu: <c-p>
-    nextTab: "]"
-    prevTab: "["
-    nextScreenMode: "+"
-    prevScreenMode: _
-    undo: z
-    redo: <c-z>
-    filteringMenu: <c-s>
-    diffingMenu: W
-    diffingMenu-alt: <c-e>
-    copyToClipboard: <c-o>
-    submitEditorText: <enter>
-    extrasMenu: "@"
-    toggleWhitespaceInDiffView: <c-w>
-    increaseContextInDiffView: "}"
-    decreaseContextInDiffView: "{"
-  files:
-    commitChanges: c
-    commitChangesWithoutHook: w
-    amendLastCommit: A
-    commitChangesWithEditor: C
-    ignoreFile: i
-    refreshFiles: r
-    stashAllChanges: s
-    viewStashOptions: S
-    toggleStagedAll: a
-    viewResetOptions: D
-    fetch: f
-    toggleTreeView: "`"
-    openMergeTool: M
-    openStatusFilter: <c-b>
-  branches:
-    createPullRequest: o
-    viewPullRequestOptions: O
-    checkoutBranchByName: c
-    forceCheckoutBranch: F
-    rebaseBranch: r
-    renameBranch: R
-    mergeIntoCurrentBranch: M
-    viewGitFlowOptions: i
-    fastForward: f
-    createTag: T
-    pushTag: P
-    setUpstream: u
-    fetchRemote: f
-  commits:
-    squashDown: s
-    renameCommit: r
-    renameCommitWithEditor: R
-    viewResetOptions: g
-    markCommitAsFixup: f
-    createFixupCommit: F
-    squashAboveCommits: S
-    moveDownCommit: <c-j>
-    moveUpCommit: <c-k>
-    amendToCommit: A
-    pickCommit: p
-    revertCommit: t
-    cherryPickCopy: C
-    pasteCommits: V
-    tagCommit: T
-    checkoutCommit: <space>
-    resetCherryPick: <c-R>
-    copyCommitAttributeToClipboard: y
-    openLogMenu: <c-l>
-    viewBisectOptions: b
