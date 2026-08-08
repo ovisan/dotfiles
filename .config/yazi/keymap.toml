@@ -21,6 +21,12 @@ prepend_keymap = [
   # Mac tags
   { on = [ "t", "a" ], run = "plugin mactag add", desc = "Add tag" },
   { on = [ "t", "r" ], run = "plugin mactag remove", desc = "Remove tag" },
+  # Disk usage of selection or cwd
+  { on = [ ".", "s" ], run = "plugin what-size", desc = "Calc size of selection or cwd" },
+  # chmod selected
+  { on = [ "c", "m" ], run = "plugin chmod", desc = "Chmod selected" },
+  # Toggle preview / parent pane
+  { on = [ "T" ], run = "plugin toggle-pane max-preview", desc = "Maximize preview" },
   # Navigation jumps
   { on = [ "g", "h" ], run = "cd ~", desc = "Go home" },
   { on = [ "g", "d" ], run = "cd ~/Downloads", desc = "Go Downloads" },
