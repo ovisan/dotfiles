@@ -1,0 +1,104 @@
+{
+  "version": 3,
+  "skills": {
+    "firecrawl-agent": {
+      "source": "firecrawl/cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/firecrawl/cli.git",
+      "skillPath": "skills/firecrawl-agent/SKILL.md",
+      "skillFolderHash": "29360bd1059d7b06f70507e8c5387dc0f98c0de0",
+      "installedAt": "2026-04-04T13:14:31.579Z",
+      "updatedAt": "2026-04-04T13:14:31.579Z"
+    },
+    "firecrawl": {
+      "source": "firecrawl/cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/firecrawl/cli.git",
+      "skillPath": "skills/firecrawl-cli/SKILL.md",
+      "skillFolderHash": "c9653b0d9276d106234c78b72953187ede0e3e63",
+      "pluginName": "firecrawl",
+      "installedAt": "2026-04-04T13:14:31.713Z",
+      "updatedAt": "2026-04-04T13:14:31.713Z"
+    },
+    "firecrawl-crawl": {
+      "source": "firecrawl/cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/firecrawl/cli.git",
+      "skillPath": "skills/firecrawl-crawl/SKILL.md",
+      "skillFolderHash": "38776bb4cebf0d0c0609d263a83a074e21d3eddf",
+      "installedAt": "2026-04-04T13:14:31.822Z",
+      "updatedAt": "2026-04-04T13:14:31.822Z"
+    },
+    "firecrawl-download": {
+      "source": "firecrawl/cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/firecrawl/cli.git",
+      "skillPath": "skills/firecrawl-download/SKILL.md",
+      "skillFolderHash": "97201334b570f50b420d3f2ef394f60e1138694d",
+      "installedAt": "2026-04-04T13:14:31.931Z",
+      "updatedAt": "2026-04-04T13:14:31.931Z"
+    },
+    "firecrawl-instruct": {
+      "source": "firecrawl/cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/firecrawl/cli.git",
+      "skillPath": "skills/firecrawl-instruct/SKILL.md",
+      "skillFolderHash": "06fd83e98352b4aa43358189cf5643640621826e",
+      "installedAt": "2026-04-04T13:14:32.037Z",
+      "updatedAt": "2026-04-04T13:14:32.037Z"
+    },
+    "firecrawl-map": {
+      "source": "firecrawl/cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/firecrawl/cli.git",
+      "skillPath": "skills/firecrawl-map/SKILL.md",
+      "skillFolderHash": "4165557b7602a86934e9fdd071483fdb46606f8b",
+      "installedAt": "2026-04-04T13:14:32.140Z",
+      "updatedAt": "2026-04-04T13:14:32.140Z"
+    },
+    "firecrawl-scrape": {
+      "source": "firecrawl/cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/firecrawl/cli.git",
+      "skillPath": "skills/firecrawl-scrape/SKILL.md",
+      "skillFolderHash": "859ccb66de6d9e87e5dfcaba82179b3ae51b4974",
+      "installedAt": "2026-04-04T13:14:32.241Z",
+      "updatedAt": "2026-04-04T13:14:32.241Z"
+    },
+    "firecrawl-search": {
+      "source": "firecrawl/cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/firecrawl/cli.git",
+      "skillPath": "skills/firecrawl-search/SKILL.md",
+      "skillFolderHash": "7f2e5e7697caf18b66ea2e4b29417c4f7d027375",
+      "installedAt": "2026-04-04T13:14:32.343Z",
+      "updatedAt": "2026-04-04T13:14:32.343Z"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "3013fdeb8a11b10b1eb795ec3ae8bfca38f7c26d",
+      "installedAt": "2026-04-04T13:16:32.417Z",
+      "updatedAt": "2026-04-04T13:16:32.417Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "antigravity",
+    "cline",
+    "codex",
+    "cursor",
+    "deepagents",
+    "firebender",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode",
+    "warp"
+  ]
+}
