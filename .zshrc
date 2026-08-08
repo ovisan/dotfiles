@@ -124,7 +124,8 @@ export FZF_DEFAULT_OPTS="
 # --------------------------------------------------
 # Listing
 alias ls='eza --icons --group-directories-first'
-alias ll='eza -l --icons --group-directories-first --git --header'
+# -la so hidden files show (e.g. pure-dotfile dirs like this repo root)
+alias ll='eza -la --icons --group-directories-first --git --header'
 alias la='eza -la --icons --group-directories-first --git --header'
 alias lt='eza --tree --level=2 --icons --group-directories-first'
 alias lta='eza --tree --level=3 --icons -a --group-directories-first'
