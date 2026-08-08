@@ -13,3 +13,10 @@
 # Local-only overrides
 .gitconfig.local
 .config/git/config.local
+
+# Agent secrets — never commit
+.hermes/
+**/auth.json
+**/.env
+**/.env.*
+!**/.env.example
