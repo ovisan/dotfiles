@@ -1,0 +1,111 @@
+# Ghostty config — curated defaults for macOS (Ghostty 1.3+)
+# Reload: Cmd+Shift+,   |   Open config: Cmd+,
+# Docs:   ghostty +show-config --default --docs
+# Themes: ghostty +list-themes
+# Fonts:  ghostty +list-fonts
+
+# ── Theme & colors ──────────────────────────────────────────────
+# Popular modern dark theme; swap for: TokyoNight, Gruvbox Dark,
+# Dracula, Rose Pine, Nord, Kanagawa Wave, Catppuccin Macchiato, …
+theme = Catppuccin Mocha
+
+# Display P3 for richer colors on modern Mac displays
+window-colorspace = display-p3
+
+# Slight translucency + blur (macOS only). Set opacity to 1 to disable.
+background-opacity = 0.92
+background-blur = 20
+
+# Bump contrast when text/bg are too close (1 = off, try 1.1–1.5)
+minimum-contrast = 1.1
+
+# ── Font ────────────────────────────────────────────────────────
+# Ghostty embeds JetBrains Mono + Nerd Fonts; this uses your installed face.
+font-family = JetBrainsMono Nerd Font Mono
+font-size = 14
+font-thicken = true
+font-thicken-strength = 1
+
+# Programming ligatures (calt). Disable with: font-feature = -calt
+# font-feature = calt
+
+# Slightly taller cells — easier reading for long sessions
+adjust-cell-height = 10%
+
+# ── Cursor ──────────────────────────────────────────────────────
+cursor-style = bar
+cursor-style-blink = true
+# Shell integration still switches to a bar at the prompt
+cursor-click-to-move = true
+
+# ── Window & chrome ─────────────────────────────────────────────
+macos-titlebar-style = transparent
+window-padding-x = 8
+window-padding-y = 6
+window-padding-balance = true
+window-padding-color = background
+window-theme = auto
+window-save-state = always
+window-inherit-working-directory = true
+window-inherit-font-size = true
+window-new-tab-position = current
+window-show-tab-bar = auto
+
+# Comfortable default size (grid cells); 0 = system default
+window-width = 140
+window-height = 40
+
+# Keep tabs/splits readable
+unfocused-split-opacity = 0.85
+
+# ── Mouse & selection ───────────────────────────────────────────
+mouse-hide-while-typing = true
+copy-on-select = true
+clipboard-trim-trailing-spaces = true
+clipboard-paste-protection = true
+link-url = true
+link-previews = true
+
+# ── Scrollback ──────────────────────────────────────────────────
+# ~10MB default; 50MB is a solid power-user buffer (memory-backed)
+scrollback-limit = 50000000
+scrollbar = system
+
+# ── Shell integration ───────────────────────────────────────────
+shell-integration = detect
+# cursor: bar at prompt · title: cwd in title · sudo: auth via terminal
+shell-integration-features = cursor,sudo,title
+
+# ── macOS behavior ──────────────────────────────────────────────
+# Option as Alt (readline/emacs/vim bindings: M-f, M-b, etc.)
+macos-option-as-alt = true
+macos-window-shadow = true
+macos-auto-secure-input = true
+
+# ── Safety & lifecycle ──────────────────────────────────────────
+confirm-close-surface = true
+quit-after-last-window-closed = false
+auto-update-channel = stable
+
+# ── Working directory ───────────────────────────────────────────
+working-directory = home
+
+# ── Extra keybinds ──────────────────────────────────────────────
+# Defaults already include:
+#   Cmd+D / Cmd+Shift+D   split right / down
+#   Cmd+Opt+Arrows        focus split
+#   Cmd+Ctrl+Arrows       resize split
+#   Cmd+Ctrl+=            equalize splits
+#   Cmd+Shift+Enter       zoom split
+#   Cmd+F                 search scrollback
+#   Cmd+Shift+P           command palette
+#   Cmd+T / Cmd+N         new tab / window
+#   Cmd+Shift+,           reload config
+#
+# Alternate equalize shortcut (easier to hit than Cmd+Ctrl+=)
+keybind = super+shift+e=equalize_splits
+# Quick config reload
+keybind = super+shift+comma=reload_config
+# Clear screen + scrollback
+keybind = super+k=clear_screen
+

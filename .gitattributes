@@ -1,0 +1,23 @@
+* text=auto eol=lf
+
+*.sh   text eol=lf
+*.bash text eol=lf
+*.zsh  text eol=lf
+*.fish text eol=lf
+
+*.md   text diff=markdown
+*.json text
+*.yml  text
+*.yaml text
+*.toml text
+*.kdl  text
+
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.pdf  binary
+*.zip  binary
+*.gz   binary
+*.7z   binary

@@ -1,0 +1,38 @@
+# Yazi keymaps — smart plugins + vim-friendly bindings
+
+[mgr]
+prepend_keymap = [
+  # Smart enter: enter dir or open file
+  { on = [ "l" ], run = "plugin smart-enter", desc = "Enter dir / open file" },
+  { on = [ "<Enter>" ], run = "plugin smart-enter", desc = "Enter dir / open file" },
+  # Smart paste: paste into hovered dir if directory
+  { on = [ "p" ], run = "plugin smart-paste", desc = "Smart paste" },
+  # Smart filter
+  { on = [ "F" ], run = "plugin smart-filter", desc = "Smart filter" },
+  # Jump to char
+  { on = [ "f" ], run = "plugin jump-to-char", desc = "Jump to char" },
+  # Diff selected files
+  { on = [ "D" ], run = "plugin diff", desc = "Diff selected" },
+  # Mount manager
+  { on = [ "M" ], run = "plugin mount", desc = "Mount manager" },
+  # Zoom preview
+  { on = [ "+" ], run = "plugin zoom 1", desc = "Zoom in" },
+  { on = [ "-" ], run = "plugin zoom -1", desc = "Zoom out" },
+  # Mac tags
+  { on = [ "t", "a" ], run = "plugin mactag add", desc = "Add tag" },
+  { on = [ "t", "r" ], run = "plugin mactag remove", desc = "Remove tag" },
+  # Navigation jumps
+  { on = [ "g", "h" ], run = "cd ~", desc = "Go home" },
+  { on = [ "g", "d" ], run = "cd ~/Downloads", desc = "Go Downloads" },
+  { on = [ "g", "c" ], run = "cd ~/code", desc = "Go code" },
+  { on = [ "g", "o" ], run = "cd ~/Documents", desc = "Go Documents" },
+  { on = [ "g", "t" ], run = "cd /tmp", desc = "Go /tmp" },
+  # Toggle hidden
+  { on = [ "." ], run = "hidden toggle", desc = "Toggle hidden" },
+  # Shell
+  { on = [ ";" ], run = "shell --interactive", desc = "Shell" },
+  { on = [ ":" ], run = "shell --block --interactive", desc = "Shell (block)" },
+  # Quit
+  { on = [ "q" ], run = "quit", desc = "Quit" },
+  { on = [ "Q" ], run = "quit --no-cwd-file", desc = "Quit without cwd" },
+]

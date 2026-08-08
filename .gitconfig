@@ -1,0 +1,137 @@
+# Git global config — curated for macOS + modern CLIs
+# Override email if needed:  git config --global user.email "you@example.com"
+
+[user]
+	name = Ovidiu Visan
+	# email = you@example.com
+
+[init]
+	defaultBranch = main
+
+[core]
+	editor = nvim
+	pager = bat --paging=always --style=plain
+	excludesfile = ~/.gitignore_global
+	autocrlf = input
+	ignorecase = true
+	untrackedCache = true
+	fsmonitor = true
+	attributesfile = ~/.gitattributes
+
+[include]
+	path = ~/.config/git/config.local
+
+[color]
+	ui = auto
+
+[color "branch"]
+	current = yellow bold
+	local = green
+	remote = cyan
+
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+
+[color "status"]
+	added = green
+	changed = yellow
+	untracked = cyan
+
+[diff]
+	algorithm = histogram
+	colorMoved = default
+	mnemonicPrefix = true
+	renames = true
+	tool = nvimdiff
+
+[difftool]
+	prompt = false
+
+[difftool "nvimdiff"]
+	cmd = nvim -d \"$LOCAL\" \"$REMOTE\"
+
+[merge]
+	conflictstyle = zdiff3
+	ff = false
+	tool = nvimdiff
+
+[mergetool]
+	keepBackup = false
+	prompt = false
+
+[mergetool "nvimdiff"]
+	cmd = nvim -d \"$LOCAL\" \"$REMOTE\" \"$MERGED\" -c 'wincmd w' -c 'wincmd J'
+
+[pull]
+	rebase = true
+	ff = only
+
+[push]
+	autoSetupRemote = true
+	default = current
+	followTags = true
+
+[fetch]
+	prune = true
+	pruneTags = true
+	parallel = 0
+
+[rebase]
+	autoStash = true
+	autoSquash = true
+	updateRefs = true
+
+[rerere]
+	enabled = true
+	autoupdate = true
+
+[branch]
+	sort = -committerdate
+	autoSetupMerge = simple
+	autoSetupRebase = always
+
+[tag]
+	sort = version:refname
+	gpgSign = false
+
+[status]
+	submoduleSummary = true
+	showStash = true
+
+[help]
+	autocorrect = 20
+
+[commit]
+	verbose = true
+
+[log]
+	date = iso
+
+[column]
+	ui = auto
+
+[credential]
+	helper = osxkeychain
+
+[alias]
+	st = status -sb
+	co = checkout
+	br = branch
+	ci = commit
+	cm = commit -m
+	ca = commit --amend --no-edit
+	df = diff
+	ds = diff --staged
+	lg = log --oneline --graph --decorate -20
+	ll = log --oneline --graph --decorate --all -40
+	last = log -1 HEAD --stat
+	unstage = restore --staged
+	undo = reset --soft HEAD~1
+	discard = restore
+	cleanup = "!git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs -r git branch -D"
+	root = rev-parse --show-toplevel
+	aliases = "!git config --get-regexp '^alias\\.' | sed 's/^alias\\.//'"
+	wip = "!git add -A && git commit -m 'wip: snapshot'"

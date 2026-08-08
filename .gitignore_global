@@ -1,2 +1,66 @@
+# OS
+.DS_Store
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+Thumbs.db
+Desktop.ini
+
+# Editors / IDEs
 *.swp
+*.swo
+*~
 *.tmp
+*.bak
+.idea/
+.vscode/
+*.code-workspace
+.zed/
+*.sublime-*
+
+# Language / tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.venv/
+venv/
+node_modules/
+.npm/
+.pnpm-store/
+dist/
+build/
+target/
+*.egg-info/
+.coverage
+htmlcov/
+.cargo-cache/
+.gradle/
+.terraform/
+*.tfstate*
+.direnv/
+.envrc.local
+.env
+.env.*
+!.env.example
+
+# Secrets & keys (never commit)
+*.pem
+*.key
+id_rsa
+id_ed25519
+*.p12
+*.pfx
+credentials.json
+secrets.yaml
+secrets.yml
+
+# Logs / caches
+*.log
+.cache/
+.turbo/
+.next/
+.nuxt/

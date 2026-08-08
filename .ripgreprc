@@ -1,0 +1,23 @@
+# ripgrep defaults — https://github.com/BurntSushi/ripgrep
+# Enable with: export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+
+--smart-case
+--hidden
+--glob=!.git/*
+--glob=!node_modules/*
+--glob=!target/*
+--glob=!dist/*
+--glob=!.venv/*
+--glob=!*.min.js
+--glob=!*.lock
+--glob=!package-lock.json
+--glob=!Cargo.lock
+--glob=!*.map
+--max-columns=250
+--max-columns-preview
+--colors=line:fg:yellow
+--colors=line:style:bold
+--colors=path:fg:cyan
+--colors=path:style:bold
+--colors=match:fg:magenta
+--colors=match:style:bold

@@ -1,0 +1,16 @@
+# fd global ignore patterns (used when searching from home, etc.)
+.git/
+node_modules/
+target/
+dist/
+build/
+.venv/
+venv/
+__pycache__/
+.cache/
+.npm/
+.cargo/
+Library/
+.Trash/
+*.pyc
+.DS_Store

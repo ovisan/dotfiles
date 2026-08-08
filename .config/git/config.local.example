@@ -1,0 +1,9 @@
+# Copy to ~/.config/git/config.local and fill in:
+#   cp ~/.config/git/config.local.example ~/.config/git/config.local
+
+[user]
+	email = you@example.com
+	# signingkey = YOUR_GPG_OR_SSH_KEY
+
+# [commit]
+# 	gpgsign = true

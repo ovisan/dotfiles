@@ -1,2 +1,15 @@
-.config/nvim/~/.vim/history
-~/.vim/history
+# Never track machine-local / generated junk
+.config/coc/
+.config/pulse/
+.config/configstore/
+.config/dconf/
+.config/helm/
+.config/zed/prompts/
+.config/nvim/.luarc.json
+*.mdb
+*.cookie
+.DS_Store
+
+# Local-only overrides
+.gitconfig.local
+.config/git/config.local
