@@ -131,6 +131,9 @@ alias lt='eza --tree --level=2 --icons --group-directories-first'
 alias lta='eza --tree --level=3 --icons -a --group-directories-first'
 alias lll='eza -la --icons --group-directories-first --git --header --total-size'
 
+# Fuzzy-find a file and open it in $EDITOR
+alias fe='fzf --bind "enter:become($EDITOR {})"'
+
 # Core tools
 alias cat='bat --style=plain --paging=never'
 alias batp='bat --paging=always'
