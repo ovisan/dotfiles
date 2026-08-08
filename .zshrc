@@ -11,8 +11,8 @@ setopt CORRECT                  # Autocorrect commands
 setopt NO_BEEP                  # Disable terminal beep
 
 # History size
-HISTSIZE=50000
-SAVEHIST=50000
+HISTSIZE=200000
+SAVEHIST=200000
 HISTFILE=~/.zsh_history
 
 # --------------------------------------------------
