@@ -49,7 +49,7 @@ play = [
 
 [open]
 rules = [
-  { mime = "inode/directory", use = ["edit", "open", "reveal"] },
+  { url = "*/", use = ["edit", "open", "reveal"] },
   { mime = "text/*", use = ["edit", "reveal"] },
   { mime = "image/*", use = ["open", "reveal"] },
   { mime = "video/*", use = ["play", "reveal"] },
@@ -63,8 +63,7 @@ rules = [
   { mime = "application/x-bzip*", use = ["extract", "reveal"] },
   { mime = "application/x-7z-compressed", use = ["extract", "reveal"] },
   { mime = "application/x-rar", use = ["extract", "reveal"] },
-  { mime = "{application,audio,video,image,text}/*", use = ["open", "reveal"] },
-  { mime = "*", use = ["open", "reveal"] },
+  { url = "*", use = ["open", "reveal"] },
 ]
 
 [tasks]
@@ -76,12 +75,10 @@ image_bound = [0, 0]
 suppress_preload = false
 
 [plugin]
-prepend_preloaders = [
-  { name = "*", run = "git" },
-]
+# git.yazi fetchers (Yazi 26.x requires url + group)
 prepend_fetchers = [
-  { id = "git", name = "*", run = "git" },
-  { id = "git", name = "*/", run = "git" },
+  { id = "git", url = "*", run = "git", group = "git" },
+  { id = "git", url = "*/", run = "git", group = "git" },
 ]
 
 [input]

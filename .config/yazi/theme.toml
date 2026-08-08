@@ -104,10 +104,22 @@ rules = [
   { mime = "{audio,video}/*", fg = "#f9e2af" },
   { mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,x-tar,x-bzip*}", fg = "#f5c2e7" },
   { mime = "application/{pdf,doc,rtf}", fg = "#f38ba8" },
-  { name = "*", is = "orphan", fg = "#f38ba8" },
-  { name = "*", is = "exec", fg = "#a6e3a1" },
-  { name = "*", is = "dummy", fg = "#585b70" },
-  { name = "*/", is = "dummy", fg = "#585b70" },
-  { name = "*", fg = "#cdd6f4" },
-  { name = "*/", fg = "#89b4fa" },
+  # is= must be paired with url or mime (Yazi 26.x)
+  { url = "*", is = "orphan", fg = "#f38ba8" },
+  { url = "*", is = "exec", fg = "#a6e3a1" },
+  { url = "*", is = "dummy", fg = "#585b70" },
+  { url = "*/", is = "dummy", fg = "#585b70" },
+  { url = "*", fg = "#cdd6f4" },
+  { url = "*/", fg = "#89b4fa" },
 ]
+
+# git.yazi status colors
+[git]
+modified = { fg = "#89b4fa" }
+added = { fg = "#a6e3a1" }
+untracked = { fg = "#f9e2af" }
+ignored = { fg = "#585b70" }
+deleted = { fg = "#f38ba8", bold = true }
+updated = { fg = "#94e2d5" }
+unknown = { fg = "#9399b2" }
+
