@@ -43,7 +43,12 @@ if [[ -d ${HOMEBREW_PREFIX:-/opt/homebrew}/share/zsh-completions ]]; then
 fi
 
 autoload -Uz compinit
-# Speed up compinit: only rebuild dump once a day
+# Homebrew often leaves share/ group-writable → "insecure directories" from compinit.
+# Strip group/other write so completions load without the warning/prompt.
+if [[ -d ${HOMEBREW_PREFIX:-/opt/homebrew}/share ]]; then
+  chmod -f g-w,o-w "${HOMEBREW_PREFIX:-/opt/homebrew}/share" 2>/dev/null || true
+fi
+# Speed up compinit: full rebuild at most once a day
 if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
   compinit
 else
