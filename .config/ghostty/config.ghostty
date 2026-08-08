@@ -12,9 +12,9 @@ theme = Catppuccin Mocha
 # Display P3 for richer colors on modern Mac displays
 window-colorspace = display-p3
 
-# Slight translucency + blur (macOS only). Set opacity to 1 to disable.
-background-opacity = 0.92
-background-blur = 20
+# Fully opaque (no translucency). Raise blur only if opacity < 1.
+background-opacity = 1
+background-blur = 0
 
 # Bump contrast when text/bg are too close (1 = off, try 1.1–1.5)
 minimum-contrast = 1.1
