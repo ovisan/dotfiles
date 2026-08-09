@@ -18,11 +18,21 @@ return {
       "hrsh7th/cmp-nvim-lsp",
     },
     opts = {
-      -- rust_analyzer is managed by rustaceanvim (exclude from auto-enable)
-      ensure_installed = {
+      -- filled in config (some servers need external toolchains, e.g. gopls → go)
+      ensure_installed = {},
+      automatic_enable = {
+        -- rust_analyzer is managed by rustaceanvim
+        exclude = { "rust_analyzer" },
+      },
+    },
+    config = function(_, opts)
+      require("mason").setup({ ui = { border = "rounded" } })
+
+      -- Only auto-install servers whose install deps we actually have.
+      -- gopls requires the Go toolchain (`go`); without it Mason errors on VimEnter.
+      local ensure = {
         "lua_ls",
         "pyright",
-        "gopls",
         "bashls",
         "jsonls",
         "yamlls",
@@ -30,13 +40,12 @@ return {
         "marksman",
         "ts_ls",
         "clangd",
-      },
-      automatic_enable = {
-        exclude = { "rust_analyzer" },
-      },
-    },
-    config = function(_, opts)
-      require("mason").setup({ ui = { border = "rounded" } })
+      }
+      if vim.fn.executable("go") == 1 then
+        table.insert(ensure, "gopls")
+      end
+      opts.ensure_installed = ensure
+
       require("mason-lspconfig").setup(opts)
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
