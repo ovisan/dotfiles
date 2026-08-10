@@ -63,13 +63,12 @@ vimcmd_replace_one_symbol = "[❮](bold purple)"
 
 [directory]
 style = "bold blue"
-truncation_length = 4
-truncate_to_repo = true
+# Always show the full path (never collapse to just the repo name like "mdc")
+truncation_length = 0
+truncate_to_repo = false
 home_symbol = "~"
 read_only = " 󰌾"
 read_only_style = "red"
-repo_root_style = "bold blue"
-repo_root_format = "[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) "
 
 [git_branch]
 symbol = " "
