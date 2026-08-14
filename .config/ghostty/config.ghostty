@@ -108,4 +108,6 @@ keybind = super+shift+e=equalize_splits
 keybind = super+shift+comma=reload_config
 # Clear screen + scrollback
 keybind = super+k=clear_screen
+# Rename current tab (overrides OSC title until cleared)
+keybind = super+r=prompt_tab_title
 
