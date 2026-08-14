@@ -51,6 +51,9 @@ window-inherit-font-size = true
 window-new-tab-position = current
 window-show-tab-bar = auto
 
+# Tab/window titles: 13pt UI face. Unset, Tahoe native tabs render smaller.
+window-title-font-family = Lucida Grande
+
 # Comfortable default size (grid cells); 0 = system default
 window-width = 140
 window-height = 40
