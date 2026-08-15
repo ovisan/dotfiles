@@ -138,8 +138,33 @@ return {
           end
         end, opts("Toggle auto preview"))
 
-        vim.keymap.set("n", "<Right>", api.node.expand, opts("Expand Directory"))
-        vim.keymap.set("n", "<Left>", api.node.collapse, opts("Collapse Directory"))
+        -- Finder-style: Right expands a closed folder only.
+        -- api.node.expand on a file expands its parent (and siblings), which is wrong.
+        local function expand_dir()
+          local ok, node = pcall(api.tree.get_node_under_cursor)
+          if not ok or not node or node.name == ".." then
+            return
+          end
+          if node.type == "directory" and not node.open then
+            api.node.open.edit()
+          end
+        end
+
+        -- Left collapses an open folder; on a file or closed folder, jump to parent.
+        local function collapse_dir()
+          local ok, node = pcall(api.tree.get_node_under_cursor)
+          if not ok or not node then
+            return
+          end
+          if node.type == "directory" and node.open then
+            api.node.open.edit()
+          else
+            api.node.navigate.parent()
+          end
+        end
+
+        vim.keymap.set("n", "<Right>", expand_dir, opts("Expand Directory"))
+        vim.keymap.set("n", "<Left>", collapse_dir, opts("Collapse Directory"))
 
         -- :q / :quit from the tree should leave Neovim, not just hide the sidebar
         vim.cmd("cabbrev <buffer> <expr> q (getcmdtype() == ':' && getcmdline() ==# 'q') ? 'qa' : 'q'")
