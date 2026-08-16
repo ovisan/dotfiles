@@ -1,4 +1,4 @@
-" .vimrc — stock Vim over SSH first; plugins load only if already installed.
+" .vimrc — stock Vim over SSH first; plugins install on startup when online.
 if &compatible
   set nocompatible
 endif
@@ -78,7 +78,9 @@ set smartindent
 set iskeyword+=-
 set conceallevel=0
 set pumheight=10
-silent! set shortmess+=cI
+set nomore
+set report=9999
+silent! set shortmess+=aoOTIFcw
 silent! set belloff=all
 set visualbell
 set t_vb=
@@ -148,6 +150,29 @@ endif
 if has('termguicolors') && ($COLORTERM ==# 'truecolor' || $COLORTERM ==# '24bit')
   set termguicolors
 endif
+
+" t_ut= and the colorscheme paint the terminal; put it back on exit.
+let s:term_reset = "\<Esc>[0m\<Esc>[39m\<Esc>[49m\<Esc>[?25h"
+      \ . "\<Esc>]104\x07\<Esc>]110\x07\<Esc>]111\x07"
+if &t_te !~# "\<Esc>\[0m"
+  let &t_te .= s:term_reset
+endif
+
+function! s:RestoreTerminal() abort
+  if &term ==# '' || &term ==# 'dumb'
+    return
+  endif
+  if exists('*echoraw')
+    call echoraw(s:term_reset)
+  else
+    silent! execute 'set t_te=' . &t_te
+  endif
+endfunction
+
+augroup vimrc_term_restore
+  autocmd!
+  autocmd VimLeave * call s:RestoreTerminal()
+augroup END
 
 filetype plugin indent on
 if !exists('g:syntax_on')
@@ -293,16 +318,198 @@ endfunction
 command! -nargs=1 FindFile call s:FindFiles(<q-args>)
 
 " ---------------------------------------------------------------------------
-" Plugins — never auto-download on a remote host
+" Plugins — download only when something is missing AND the network is up
 " ---------------------------------------------------------------------------
-" First-time install (needs network):
-"   curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-"     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-"   vim +PlugInstall +qa
 let s:plug = expand('~/.vim/autoload/plug.vim')
-if filereadable(s:plug)
+
+function! s:HasDownloader() abort
+  return executable('git') || executable('curl') || executable('wget')
+endfunction
+
+function! s:WarnInstallTools(...) abort
+  if exists('s:warned_tools')
+    return
+  endif
+  let s:warned_tools = 1
+  let l:msg = [
+        \ 'vimrc: cannot download plugins.',
+        \ 'git, curl and wget are not installed.',
+        \ '',
+        \ 'Install one of them, then restart Vim:',
+        \ '  Debian/Ubuntu:  apt-get update && apt-get install -y git curl ca-certificates',
+        \ '  RHEL/Fedora:    dnf install -y git curl ca-certificates',
+        \ '  Alpine:         apk add git curl ca-certificates',
+        \ ]
+  silent! call writefile(l:msg, '/dev/stderr')
+  silent! cquit!
+endfunction
+
+function! s:HasInternet() abort
+  if exists('s:online')
+    return s:online
+  endif
+  if $VIMRC_OFFLINE !=# ''
+    let s:online = 0
+    return 0
+  endif
+  if !s:HasDownloader()
+    let s:online = 0
+    return 0
+  endif
+  let s:online = 0
+  if executable('curl')
+    call system('curl -fsS --connect-timeout 2 --max-time 3 -o /dev/null https://github.com')
+    let s:online = v:shell_error == 0
+  elseif executable('wget')
+    call system('wget -q --timeout=3 --tries=1 -O /dev/null https://github.com')
+    let s:online = v:shell_error == 0
+  elseif executable('git')
+    " git can fetch plugins; treat as online and let clone fail if not
+    let s:online = 1
+  endif
+  return s:online
+endfunction
+
+function! s:EnsurePlug() abort
+  if filereadable(s:plug)
+    return 1
+  endif
+  if !s:HasDownloader()
+    call s:WarnInstallTools()
+    return 0
+  endif
+  if !s:HasInternet()
+    echom 'vimrc: offline, skipping vim-plug download'
+    return 0
+  endif
+  if !isdirectory(s:vimdir . '/autoload')
+    call mkdir(s:vimdir . '/autoload', 'p', 0700)
+  endif
+  let l:url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  call s:InstallProgress('vimrc: installing vim-plug')
+  if executable('curl')
+    call system('curl -fLo ' . shellescape(s:plug) . ' --connect-timeout 5 --max-time 30 ' . shellescape(l:url))
+  elseif executable('wget')
+    call system('wget -q --timeout=30 --tries=1 -O ' . shellescape(s:plug) . ' ' . shellescape(l:url))
+  elseif executable('git')
+    let l:tmp = tempname()
+    call system('git clone --depth 1 --quiet https://github.com/junegunn/vim-plug ' . shellescape(l:tmp))
+    if filereadable(l:tmp . '/plug.vim')
+      call system('cp ' . shellescape(l:tmp . '/plug.vim') . ' ' . shellescape(s:plug))
+    endif
+    call system('rm -rf ' . shellescape(l:tmp))
+  endif
+  if !filereadable(s:plug)
+    echom 'vimrc: failed to download vim-plug'
+    return 0
+  endif
+  return 1
+endfunction
+
+function! s:PluginsMissing() abort
+  if !exists('g:plugs')
+    return 1
+  endif
+  for l:spec in values(g:plugs)
+    if !isdirectory(expand(l:spec.dir))
+      return 1
+    endif
+  endfor
+  return 0
+endfunction
+
+function! s:InstallProgress(msg) abort
   try
-    call plug#begin(s:vimdir . '/plugged')
+    call writefile([a:msg], '/dev/tty')
+  catch
+    echo a:msg
+    redraw
+  endtry
+endfunction
+
+function! s:ClonePlugin(name, spec) abort
+  let l:dir = expand(a:spec.dir)
+  if isdirectory(l:dir)
+    return 1
+  endif
+  let l:uri = get(a:spec, 'uri', '')
+  if l:uri ==# ''
+    return 0
+  endif
+  let l:uri = substitute(l:uri, '^https://git::@github\.com', 'https://github.com', '')
+  if executable('git')
+    let $GIT_TERMINAL_PROMPT = 0
+    call system('git clone --depth 1 --single-branch --quiet ' . shellescape(l:uri) . ' ' . shellescape(l:dir))
+    return v:shell_error == 0 && isdirectory(l:dir)
+  endif
+  if !executable('curl') || !executable('tar')
+    echom 'vimrc: need git or curl+tar to install ' . a:name
+    return 0
+  endif
+  let l:repo = substitute(l:uri, '\.git$', '', '')
+  let l:tmp = tempname()
+  let l:tgz = l:tmp . '.tgz'
+  let l:ok = 0
+  for l:ref in ['master', 'main']
+    call system('curl -fsSL --connect-timeout 5 --max-time 60 -o ' . shellescape(l:tgz) . ' ' . shellescape(l:repo . '/archive/refs/heads/' . l:ref . '.tar.gz'))
+    if v:shell_error != 0
+      continue
+    endif
+    call mkdir(l:dir, 'p', 0700)
+    call system('tar -xzf ' . shellescape(l:tgz) . ' -C ' . shellescape(l:dir) . ' --strip-components=1')
+    if v:shell_error == 0 && isdirectory(l:dir)
+      let l:ok = 1
+      break
+    endif
+    call system('rm -rf ' . shellescape(l:dir))
+  endfor
+  call delete(l:tgz)
+  return l:ok
+endfunction
+
+function! s:InstallMissingPlugins() abort
+  if exists('s:installing') || !s:PluginsMissing()
+    return
+  endif
+  if !s:HasDownloader()
+    call s:WarnInstallTools()
+    return
+  endif
+  if !s:HasInternet()
+    echom 'vimrc: offline, skipping plugin install'
+    return
+  endif
+  let s:installing = 1
+  let l:home = exists('g:plug_home') ? g:plug_home : (s:vimdir . '/plugged')
+  if !isdirectory(l:home)
+    call mkdir(l:home, 'p', 0700)
+  endif
+  let l:todo = []
+  for [l:name, l:spec] in items(g:plugs)
+    if !isdirectory(expand(l:spec.dir))
+      call add(l:todo, l:name)
+    endif
+  endfor
+  let l:total = len(l:todo)
+  let l:i = 0
+  let l:old_ch = &cmdheight
+  let &cmdheight = min([l:total + 2, 16])
+  for l:name in l:todo
+    let l:i += 1
+    call s:InstallProgress(printf('vimrc: installing %s (%d/%d)', l:name, l:i, l:total))
+    call s:ClonePlugin(l:name, g:plugs[l:name])
+  endfor
+  call s:InstallProgress('vimrc: plugin install done')
+  let &cmdheight = l:old_ch
+  unlet! s:installing
+  let s:reloaded_after_install = 1
+  execute 'silent! source' fnameescape($MYVIMRC)
+  silent! redraw!
+endfunction
+
+if s:EnsurePlug()
+  try
+    silent! call plug#begin(s:vimdir . '/plugged')
     Plug 'tomtom/tcomment_vim'
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-fugitive'
@@ -312,9 +519,11 @@ if filereadable(s:plug)
     Plug 'justinmk/vim-sneak'
     Plug 'sheerun/vim-polyglot'
     Plug 'preservim/nerdtree'
-    Plug 'airblade/vim-gitgutter'
     Plug 'aklt/plantuml-syntax'
     Plug 'rust-lang/rust.vim'
+    if executable('git')
+      Plug 'airblade/vim-gitgutter'
+    endif
 
     if executable('fzf')
       Plug 'junegunn/fzf'
@@ -325,7 +534,10 @@ if filereadable(s:plug)
     if executable('node')
       Plug 'neoclide/coc.nvim', {'branch': 'release'}
     endif
-    call plug#end()
+    silent! call plug#end()
+    if !exists('s:reloaded_after_install')
+      call s:InstallMissingPlugins()
+    endif
   catch
     filetype plugin indent on
     if !exists('g:syntax_on')
@@ -734,6 +946,7 @@ function! s:OpenExplorerOnEnter(...) abort
       silent! Lexplore
     endif
   endif
+  silent! redraw!
 endfunction
 
 augroup vimrc_explorer_keys
