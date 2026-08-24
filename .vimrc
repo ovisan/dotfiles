@@ -11,6 +11,11 @@ endif
 set encoding=utf-8
 scriptencoding utf-8
 
+" Ghostty/kitty/wezterm TERM has no terminfo on RHEL → arrows become A/B/C/D.
+if !has('nvim') && !has('gui_running') && &term =~# 'ghostty\|kitty\|wezterm\|alacritty\|foot\|unknown'
+  silent! set term=xterm-256color
+endif
+
 let mapleader = ' '
 let maplocalleader = ' '
 
@@ -98,7 +103,11 @@ set complete+=kspell
 set completeopt=menu,menuone,longest
 set timeoutlen=400
 set ttimeout
-set ttimeoutlen=50
+" 50ms is too tight over SSH; Esc-prefixed CSI arrows then leak as A/B/C/D.
+set ttimeoutlen=100
+if !has('nvim')
+  set esckeys
+endif
 set updatetime=300
 set nrformats-=octal
 
@@ -191,14 +200,15 @@ function! s:StatusMode() abort
   return get({'n':'N','i':'I','R':'R','v':'V','V':'VL',"\<C-v>":'VB','c':'C','t':'T'}, mode(), mode())
 endfunction
 
-set statusline=
-set statusline+=%#StatusLineTerm#\ %{<SID>StatusMode()}\ %*
-set statusline+=\ %f
-set statusline+=%{<SID>GitBranch()}
-set statusline+=\ %h%m%r%w
-set statusline+=%=
-set statusline+=%y\ %{&fileencoding}\ %{&fileformat}
-set statusline+=\ %l:%c\ %p%%\ 
+" <SID> inside %{...} is evaluated later, outside script context (E120).
+" Bake the SNR prefix in now so the statusline calls <SNR>NN_Func().
+let &statusline = '%#StatusLineTerm# %{' . expand('<SID>') . 'StatusMode()} %*'
+      \ . ' %f'
+      \ . '%{' . expand('<SID>') . 'GitBranch()}'
+      \ . ' %h%m%r%w'
+      \ . '%='
+      \ . '%y %{&fileencoding} %{&fileformat}'
+      \ . ' %l:%c %p%% ' 
 
 " -----------------------------------------------------------------------------
 " Netrw (built-in file tree)
@@ -216,7 +226,9 @@ nnoremap <silent> <leader>o :Lexplore %:p:h<CR>
 " -----------------------------------------------------------------------------
 " Keymaps (aligned with the nvim config where it is safe)
 " -----------------------------------------------------------------------------
-nnoremap <silent> <Esc> :nohlsearch<CR>
+" Do not map bare <Esc> in Vim: arrow keys are Esc [ A/B/C/D (and Esc O A).
+" Neovim maps <Esc> for this; <C-l> is already window-right below.
+nnoremap <silent> <leader>/ :nohlsearch<CR>
 nnoremap <silent> <leader>w :%s/\s\+$//e<CR>
 nnoremap <leader>p "_dP
 xnoremap <leader>p "_dP
@@ -366,18 +378,28 @@ endfunction
 
 xnoremap @ :<C-u>call <SID>ExecuteMacroOverVisualRange()<CR>
 
-" Bracketed paste (Vim over SSH): do not indent pasted blocks.
-if &t_BE ==# '' && !has('nvim')
-  let &t_SI .= "\<Esc>[?2004h"
-  let &t_EI .= "\<Esc>[?2004l"
-  inoremap <special> <expr> <Esc>[200~ <SID>PasteBegin()
+" Bracketed paste: use Vim 8+ termcap. Do not inoremap <Esc>[... on Vim 7 —
+" that mapping prefix makes insert-mode arrows leak as A/B/C/D.
+if !has('nvim') && exists('&t_BE') && &t_BE ==# ''
+  let &t_BE = "\<Esc>[?2004h"
+  let &t_BD = "\<Esc>[?2004l"
+  if exists('&t_PS')
+    let &t_PS = "\<Esc>[200~"
+    let &t_PE = "\<Esc>[201~"
+  endif
 endif
 
-function! s:PasteBegin() abort
-  set pastetoggle=<Esc>[201~
-  set paste
-  return ''
-endfunction
+" Teach Vim CSI + SS3 cursor keys when host terminfo is incomplete (RHEL).
+if !has('nvim') && !has('gui_running')
+  silent! execute "set <Up>=\<Esc>[A"
+  silent! execute "set <Down>=\<Esc>[B"
+  silent! execute "set <Right>=\<Esc>[C"
+  silent! execute "set <Left>=\<Esc>[D"
+  silent! execute "set <xUp>=\<Esc>OA"
+  silent! execute "set <xDown>=\<Esc>OB"
+  silent! execute "set <xRight>=\<Esc>OC"
+  silent! execute "set <xLeft>=\<Esc>OD"
+endif
 
 " -----------------------------------------------------------------------------
 " Autocommands
