@@ -64,6 +64,9 @@ unfocused-split-opacity = 0.85
 # ── Mouse & selection ───────────────────────────────────────────
 mouse-hide-while-typing = true
 copy-on-select = clipboard
+# Cmd+C (copy_to_clipboard) drops the highlight. Ghostty does not
+# clear on copy-on-select; click or Escape after a mouse copy.
+selection-clear-on-copy = true
 clipboard-trim-trailing-spaces = true
 clipboard-paste-protection = true
 link-url = true
