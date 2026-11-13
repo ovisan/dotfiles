@@ -2,6 +2,10 @@
 # Safe to copy to a Linux server. Each modern tool is used only when it
 # is installed; otherwise the plain command stays in place.
 # Login shells load this via ~/.bash_profile (which also loads ~/.profile).
+#
+# Without starship (typical on RHEL), the prompt shows user@host, the
+# directory, the git branch, and a non-zero exit code.
+# DOTFILES_GIT_PROMPT=0 hides the branch. =branch skips the dirty marker.
 
 # Re-source with `reload`. A second accidental source returns here.
 if [[ -n "${DOTFILES_BASHRC_LOADED:-}" && -z "${DOTFILES_BASHRC_RELOAD:-}" ]]; then
@@ -12,6 +16,13 @@ DOTFILES_BASHRC_LOADED=1
 _have() {
   command -v "$1" >/dev/null 2>&1
 }
+
+# RHEL system umask, prompt hooks, and /etc/profile.d. `return` inside
+# /etc/bashrc leaves this file. macOS /etc/bashrc is left alone.
+if [[ -r /etc/redhat-release && -r /etc/bashrc ]]; then
+  # shellcheck disable=SC1091
+  source /etc/bashrc
+fi
 
 # --------------------------------------------------
 # 1. Homebrew (Apple Silicon + Intel). No-op on Linux.
@@ -82,7 +93,9 @@ _path_prepend() {
   PATH="$result"
 }
 
-# grok installer
+# User installs and the grok installer. Later prepends stay in front.
+_path_prepend "$HOME/bin"
+_path_prepend "$HOME/.local/bin"
 _path_prepend "$HOME/.grok/bin"
 
 # bun
@@ -155,11 +168,9 @@ export FZF_DEFAULT_OPTS="
   --prompt='❯ '
   --pointer='◆'
   --marker='✓'
-  --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8
-  --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc
-  --color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8
-  --color=selected-bg:#45475a
-  --color=border:#6c7086,label:#cdd6f4
+  --color=fg:231,bg:-1,hl:228,fg+:231,bg+:-1,hl+:123
+  --color=info:213,prompt:123,pointer:213,marker:120,spinner:213,header:228
+  --color=border:123,label:231,selected-bg:236
   --bind='ctrl-/:toggle-preview'
   --bind='ctrl-a:select-all'
   --bind='ctrl-d:deselect-all'
@@ -195,6 +206,23 @@ _dotfiles_load_fzf
 # --------------------------------------------------
 # 5. Aliases — better defaults
 # --------------------------------------------------
+# Terminal themes recolor the 16 ANSI slots, so blue and yellow go dark.
+# These are the same fixed xterm colors as the Vim palette:
+# 231 white, 123 cyan, 228 yellow, 213 magenta, 120 green, 203 red.
+_dotfiles_c256=0
+if [[ -z ${NO_COLOR:-} && ${TERM:-} != dumb ]]; then
+  case ${TERM:-}:${COLORTERM:-} in
+    *256color*:*|*:truecolor|*:24bit) _dotfiles_c256=1 ;;
+  esac
+fi
+if [[ ${_dotfiles_c256} -eq 1 ]]; then
+  export LS_COLORS='di=38;5;123:ln=38;5;213:so=38;5;228:pi=38;5;228:ex=38;5;120:bd=38;5;228:cd=38;5;228:su=38;5;203:sg=38;5;203:tw=38;5;123:ow=38;5;123:mi=38;5;203:or=38;5;203:*.tar=38;5;203:*.tgz=38;5;203:*.gz=38;5;203:*.bz2=38;5;203:*.xz=38;5;203:*.zip=38;5;203:*.7z=38;5;203:*.jpg=38;5;213:*.jpeg=38;5;213:*.png=38;5;213:*.gif=38;5;213:*.webp=38;5;213:*.mp4=38;5;213:*.mkv=38;5;213:'
+  export GREP_COLORS='ms=38;5;228:mc=38;5;228:fn=38;5;123:ln=38;5;120:bn=38;5;120:se=38;5;231'
+else
+  export LS_COLORS='di=1;97:ln=1;97:so=1;97:pi=1;97:ex=1;97:bd=1;97:cd=1;97:su=1;97:sg=1;97:tw=1;97:ow=1;97:mi=1;97:or=1;97:'
+  export GREP_COLORS='ms=1;97:mc=1;97:fn=1;97:ln=1;97:bn=1;97:se=1;97'
+fi
+
 # Listing. eza when present; GNU or BSD ls otherwise.
 if _have eza; then
   alias ls='eza --icons --group-directories-first'
@@ -210,7 +238,7 @@ else
   elif command ls -G -d . >/dev/null 2>&1; then
     alias ls='ls -G'
   fi
-  alias ll='ls -alF'
+  alias ll='ls -alFh'
   alias la='ls -A'
   alias lt='ls -R'
 fi
@@ -288,6 +316,8 @@ alias bashconfig='$EDITOR ~/.bashrc'
 alias zshconfig='$EDITOR ~/.zshrc'
 _have brew && alias brewup='brew update && brew upgrade && brew cleanup'
 alias path='echo $PATH | tr ":" "\n"'
+# Broken third-party repos (NodeSource, GitLab) must not abort dnf.
+_have dnf && alias dnfs='sudo dnf --setopt=skip_if_unavailable=true'
 if _have lsof; then
   if _have rg; then
     alias ports='lsof -i -P | rg LISTEN'
@@ -422,6 +452,127 @@ note() {
   echo "$*" >> "$HOME/notes/$(date +%Y-%m-%d).md"
 }
 
+# cd to the repository root
+cdg() {
+  local root
+  root=$(git rev-parse --show-toplevel 2>/dev/null) || return 1
+  cd -- "$root"
+}
+
+# Walk up to a parent directory by its basename.  bd src
+bd() {
+  local name=${1:?directory name} dir=$PWD base
+  while [[ "$dir" != / ]]; do
+    dir=$(dirname "$dir")
+    base=$(basename "$dir")
+    if [[ "$base" == "$name" ]]; then
+      cd -- "$dir"
+      return 0
+    fi
+  done
+  printf 'no parent named %s\n' "$name" >&2
+  return 1
+}
+
+# up 3  ==  cd ../../..
+up() {
+  local n=${1:-1} i path=""
+  [[ "$n" =~ ^[0-9]+$ ]] || {
+    printf 'up: need a number\n' >&2
+    return 1
+  }
+  for ((i = 0; i < n; i++)); do
+    path+="../"
+  done
+  cd -- "$path"
+}
+
+# Fuzzy-pick a directory under $PWD and cd into it.
+cdf() {
+  local dir preview='ls -la {}'
+  _have fzf || return 1
+  _have eza && preview='eza -la --icons {}'
+  if _have fd; then
+    dir=$(fd --type d --hidden --follow --exclude .git . 2>/dev/null | fzf --preview "$preview")
+  elif _have fdfind; then
+    dir=$(fdfind --type d --hidden --follow --exclude .git . 2>/dev/null | fzf --preview "$preview")
+  else
+    dir=$(command find . -type d -not -path '*/.git/*' 2>/dev/null | fzf --preview "$preview")
+  fi
+  [[ -n "$dir" ]] && cd -- "$dir"
+}
+
+# Search file contents, preview the match, open it in $EDITOR.
+rgf() {
+  local out file line
+  _have fzf || return 1
+  if _have rg; then
+    out=$(command rg --line-number --no-heading --color=never --smart-case "$@" \
+      | fzf --delimiter : \
+        --preview 'bat --style=numbers --color=always --highlight-line {2} {1} 2>/dev/null || sed -n "1,80p" {1}') || return 1
+  else
+    out=$(command grep -RIn --color=never "$@" . \
+      | fzf) || return 1
+  fi
+  file=${out%%:*}
+  line=${out#*:}
+  line=${line%%:*}
+  [[ -n "$file" ]] && "$EDITOR" "+${line}" "$file"
+}
+
+# Disk usage. dust when it exists, GNU du otherwise.
+dus() {
+  if _have dust; then
+    dust "$@"
+  else
+    command du -xh --max-depth=1 "${@:-.}" | sort -h
+  fi
+}
+
+# Process search that still works when grep is aliased to rg.
+psg() {
+  if _have rg; then
+    command ps aux | command rg -i "$@"
+  else
+    command ps aux | command grep -i "$@"
+  fi
+}
+
+hg() {
+  if _have rg; then
+    history | command rg "$@"
+  else
+    history | command grep "$@"
+  fi
+}
+
+# Follow a unit, or the whole journal when called with no argument.
+jctl() {
+  command -v journalctl >/dev/null 2>&1 || {
+    printf 'journalctl is not installed\n' >&2
+    return 1
+  }
+  if [[ -n ${1:-} ]]; then
+    journalctl -fu "$1"
+  else
+    journalctl -f
+  fi
+}
+
+# git clone, then cd into the new directory.
+clone() {
+  local url=${1:?url} dest
+  if [[ -n ${2:-} ]]; then
+    git clone -- "$url" "$2" || return
+    cd -- "$2"
+    return
+  fi
+  git clone -- "$url" || return
+  dest=$(basename "$url")
+  dest=${dest%.git}
+  cd -- "$dest"
+}
+
 # --------------------------------------------------
 # 8. Completions
 # --------------------------------------------------
@@ -510,6 +661,77 @@ _dotfiles_prompt_append() {
   fi
 }
 
+_dotfiles_prompt_prepend() {
+  local fn=$1 item current
+  if [[ "$(declare -p PROMPT_COMMAND 2>/dev/null)" == declare\ -a* ]]; then
+    for item in "${PROMPT_COMMAND[@]}"; do
+      [[ "$item" == "$fn" ]] && return 0
+    done
+    PROMPT_COMMAND=("$fn" "${PROMPT_COMMAND[@]}")
+    return 0
+  fi
+  current="${PROMPT_COMMAND-}"
+  case ";${current};" in
+    *";${fn};"*) return 0 ;;
+  esac
+  if [[ -z "$current" ]]; then
+    PROMPT_COMMAND="$fn"
+  else
+    PROMPT_COMMAND="${fn};${current}"
+  fi
+}
+
+# Saved before later PROMPT_COMMAND hooks replace $?.
+_dotfiles_capture_exit() {
+  DOTFILES_LAST_EXIT=$?
+}
+
+# Branch, plus * when the work tree is dirty. Quiet outside a repository.
+_dotfiles_git_prompt() {
+  local mode=${DOTFILES_GIT_PROMPT:-1} branch dirty=""
+  [[ "$mode" == 0 ]] && return 0
+  branch=$(GIT_OPTIONAL_LOCKS=0 git symbolic-ref --short HEAD 2>/dev/null) || \
+    branch=$(GIT_OPTIONAL_LOCKS=0 git rev-parse --short HEAD 2>/dev/null) || return 0
+  # Prompt expansion would run a branch name that contains $() or backticks.
+  branch=${branch//[^A-Za-z0-9._+/-]/?}
+  if [[ "$mode" != branch ]]; then
+    if [[ -n $(GIT_OPTIONAL_LOCKS=0 git status --porcelain -uno --ignore-submodules=dirty 2>/dev/null) ]]; then
+      dirty='*'
+    fi
+  fi
+  printf ' %s%s' "$branch" "$dirty"
+}
+
+_dotfiles_set_ps1() {
+  local exit=${DOTFILES_LAST_EXIT:-0}
+  local c_reset="" c_user="" c_path="" c_git="" c_err="" c_mark=""
+  local git status="" gitbit=""
+  if [[ -z ${NO_COLOR:-} && ${TERM:-} != dumb ]]; then
+    c_reset=$'\e[0m'
+    if [[ ${_dotfiles_c256:-0} -eq 1 ]]; then
+      c_user=$'\e[1;38;5;120m'
+      c_path=$'\e[1;38;5;123m'
+      c_git=$'\e[1;38;5;228m'
+      c_err=$'\e[1;38;5;203m'
+      c_mark=$'\e[1;38;5;213m'
+    else
+      c_user=$'\e[1;97m'
+      c_path=$'\e[1;97m'
+      c_git=$'\e[1;97m'
+      c_err=$'\e[1;97m'
+      c_mark=$'\e[1;97m'
+    fi
+  fi
+  git=$(_dotfiles_git_prompt)
+  if [[ "$exit" -ne 0 ]]; then
+    status="${c_err}${exit}${c_reset} "
+  fi
+  if [[ -n "$git" ]]; then
+    gitbit="${c_git}${git}${c_reset}"
+  fi
+  PS1="${c_user}\\u@\\h${c_reset} ${c_path}\\w${c_reset}${gitbit} ${status}${c_mark}❯${c_reset} "
+}
+
 if _have zoxide; then
   eval "$(zoxide init bash --cmd cd)"
   __zoxide_cd() {
@@ -526,6 +748,12 @@ else
 fi
 
 _dotfiles_prompt_append _dotfiles_history_sync
+# Starship owns PS1 when it is installed. Capture $? first so the
+# fallback prompt still shows the command's exit code.
+if ! _have starship; then
+  _dotfiles_prompt_prepend _dotfiles_capture_exit
+  _dotfiles_prompt_append _dotfiles_set_ps1
+fi
 unset DOTFILES_BASHRC_RELOAD
 
 # --------------------------------------------------
