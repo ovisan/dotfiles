@@ -140,7 +140,8 @@ bind 'set show-all-if-ambiguous on' 2>/dev/null || true
 bind 'set mark-symlinked-directories on' 2>/dev/null || true
 bind 'set skip-completed-text on' 2>/dev/null || true
 bind 'set colored-stats on' 2>/dev/null || true
-bind 'set colored-completion-prefix on' 2>/dev/null || true
+# The shared completion prefix is magenta and stays dark on this terminal.
+bind 'set colored-completion-prefix off' 2>/dev/null || true
 
 # --------------------------------------------------
 # 4. Prompt tools and fzf
@@ -217,10 +218,10 @@ if [[ -z ${NO_COLOR:-} && ${TERM:-} != dumb ]]; then
   esac
 fi
 if [[ ${_dotfiles_c256} -eq 1 ]]; then
-  export LS_COLORS='fi=38;5;231:di=1;38;5;231:ln=1;4;38;5;120:so=38;5;228:pi=38;5;228:ex=38;5;120:bd=38;5;228:cd=38;5;228:su=38;5;203:sg=38;5;203:tw=1;38;5;231:ow=1;38;5;231:st=1;38;5;231:mh=38;5;231:mi=38;5;203:or=38;5;203:*.tar=38;5;203:*.tgz=38;5;203:*.gz=38;5;203:*.bz2=38;5;203:*.xz=38;5;203:*.zip=38;5;203:*.7z=38;5;203:*.jpg=38;5;120:*.jpeg=38;5;120:*.png=38;5;120:*.gif=38;5;120:*.webp=38;5;120:*.mp4=38;5;120:*.mkv=38;5;120:'
+  export LS_COLORS='fi=38;5;231:di=1;38;5;231:ln=1;4;38;5;120:so=38;5;228:pi=38;5;228:ex=38;5;120:bd=38;5;228:cd=38;5;228:su=38;5;203:sg=38;5;203:tw=1;38;5;231:ow=1;38;5;231:st=1;38;5;231:mh=38;5;231:mi=38;5;203:or=38;5;203:*.tar=38;5;203:*.tgz=38;5;203:*.gz=38;5;203:*.bz2=38;5;203:*.xz=38;5;203:*.zip=38;5;203:*.7z=38;5;203:*.jpg=38;5;120:*.jpeg=38;5;120:*.png=38;5;120:*.gif=38;5;120:*.webp=38;5;120:*.mp4=38;5;120:*.mkv=38;5;120:*.readline-colored-completion-prefix=1;38;5;231:'
   export GREP_COLORS='ms=38;5;228:mc=38;5;228:fn=38;5;231:ln=38;5;120:bn=38;5;120:se=38;5;231'
 else
-  export LS_COLORS='di=1;97:ln=1;97:so=1;97:pi=1;97:ex=1;97:bd=1;97:cd=1;97:su=1;97:sg=1;97:tw=1;97:ow=1;97:mi=1;97:or=1;97:'
+  export LS_COLORS='di=1;97:ln=1;97:so=1;97:pi=1;97:ex=1;97:bd=1;97:cd=1;97:su=1;97:sg=1;97:tw=1;97:ow=1;97:mi=1;97:or=1;97:*.readline-colored-completion-prefix=1;97:'
   export GREP_COLORS='ms=1;97:mc=1;97:fn=1;97:ln=1;97:bn=1;97:se=1;97'
 fi
 
