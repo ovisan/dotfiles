@@ -1,6 +1,6 @@
 # Starship — https://starship.rs
 # Fixed xterm colors. Named blue/cyan and Catppuccin hex go dark on SSH.
-# 231 white, 228 yellow, 213 magenta, 120 green, 203 red.
+# 231 white, 228 yellow, 120 green, 203 red. Magenta 213 renders as dark purple.
 
 "$schema" = "https://starship.rs/config-schema.json"
 
@@ -26,12 +26,12 @@ command_timeout = 1000
 scan_timeout = 50
 
 [character]
-success_symbol = "[❯](bold fg:213)"
+success_symbol = "[❯](bold fg:120)"
 error_symbol = "[❯](bold fg:203)"
 vimcmd_symbol = "[❮](bold fg:120)"
 vimcmd_visual_symbol = "[❮](bold fg:228)"
-vimcmd_replace_symbol = "[❮](bold fg:213)"
-vimcmd_replace_one_symbol = "[❮](bold fg:213)"
+vimcmd_replace_symbol = "[❮](bold fg:120)"
+vimcmd_replace_one_symbol = "[❮](bold fg:120)"
 
 [username]
 style_user = "bold fg:120"
@@ -55,7 +55,7 @@ read_only_style = "bold fg:203"
 
 [git_branch]
 symbol = " "
-style = "bold fg:213"
+style = "bold fg:120"
 truncation_length = 24
 truncation_symbol = "…"
 

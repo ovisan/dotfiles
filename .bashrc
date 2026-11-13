@@ -168,8 +168,8 @@ export FZF_DEFAULT_OPTS="
   --prompt='❯ '
   --pointer='◆'
   --marker='✓'
-  --color=fg:231,bg:-1,hl:228,fg+:231,bg+:-1,hl+:213
-  --color=info:213,prompt:231,pointer:213,marker:120,spinner:213,header:228
+  --color=fg:231,bg:-1,hl:228,fg+:231,bg+:-1,hl+:120
+  --color=info:120,prompt:231,pointer:120,marker:120,spinner:120,header:228
   --color=border:231,label:231,selected-bg:236
   --bind='ctrl-/:toggle-preview'
   --bind='ctrl-a:select-all'
@@ -209,7 +209,7 @@ _dotfiles_load_fzf
 # Terminal themes recolor the 16 ANSI slots, so blue, cyan, and yellow go dark.
 # Index 123 (cyan) still rendered as dark blue on this host, so directories
 # and other former-cyan slots use 231 white. The rest match the Vim palette:
-# 228 yellow, 213 magenta, 120 green, 203 red.
+# 228 yellow, 120 green, 203 red. Magenta 213 renders as dark purple here.
 _dotfiles_c256=0
 if [[ -z ${NO_COLOR:-} && ${TERM:-} != dumb ]]; then
   case ${TERM:-}:${COLORTERM:-} in
@@ -217,7 +217,7 @@ if [[ -z ${NO_COLOR:-} && ${TERM:-} != dumb ]]; then
   esac
 fi
 if [[ ${_dotfiles_c256} -eq 1 ]]; then
-  export LS_COLORS='fi=38;5;231:di=1;38;5;231:ln=38;5;213:so=38;5;228:pi=38;5;228:ex=38;5;120:bd=38;5;228:cd=38;5;228:su=38;5;203:sg=38;5;203:tw=1;38;5;231:ow=1;38;5;231:st=1;38;5;231:mh=38;5;231:mi=38;5;203:or=38;5;203:*.tar=38;5;203:*.tgz=38;5;203:*.gz=38;5;203:*.bz2=38;5;203:*.xz=38;5;203:*.zip=38;5;203:*.7z=38;5;203:*.jpg=38;5;213:*.jpeg=38;5;213:*.png=38;5;213:*.gif=38;5;213:*.webp=38;5;213:*.mp4=38;5;213:*.mkv=38;5;213:'
+  export LS_COLORS='fi=38;5;231:di=1;38;5;231:ln=1;4;38;5;120:so=38;5;228:pi=38;5;228:ex=38;5;120:bd=38;5;228:cd=38;5;228:su=38;5;203:sg=38;5;203:tw=1;38;5;231:ow=1;38;5;231:st=1;38;5;231:mh=38;5;231:mi=38;5;203:or=38;5;203:*.tar=38;5;203:*.tgz=38;5;203:*.gz=38;5;203:*.bz2=38;5;203:*.xz=38;5;203:*.zip=38;5;203:*.7z=38;5;203:*.jpg=38;5;120:*.jpeg=38;5;120:*.png=38;5;120:*.gif=38;5;120:*.webp=38;5;120:*.mp4=38;5;120:*.mkv=38;5;120:'
   export GREP_COLORS='ms=38;5;228:mc=38;5;228:fn=38;5;231:ln=38;5;120:bn=38;5;120:se=38;5;231'
 else
   export LS_COLORS='di=1;97:ln=1;97:so=1;97:pi=1;97:ex=1;97:bd=1;97:cd=1;97:su=1;97:sg=1;97:tw=1;97:ow=1;97:mi=1;97:or=1;97:'
@@ -714,7 +714,7 @@ _dotfiles_set_ps1() {
       c_path=$'\e[1;38;5;231m'
       c_git=$'\e[1;38;5;228m'
       c_err=$'\e[1;38;5;203m'
-      c_mark=$'\e[1;38;5;213m'
+      c_mark=$'\e[1;38;5;120m'
     else
       c_user=$'\e[1;97m'
       c_path=$'\e[1;97m'
