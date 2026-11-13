@@ -67,9 +67,114 @@ if has('termguicolors') && empty($SSH_CONNECTION) && &t_Co >= 256
   " Leave termguicolors off over SSH; many jump hosts break truecolor.
 endif
 
-silent! colorscheme habamax
-if !exists('g:colors_name')
-  silent! colorscheme desert
+" Dim ANSI colors (DarkCyan, Brown, DarkBlue) vanish on a black SSH
+" terminal. These are the bright row from :help cterm-colors:
+"   10 green, 11 cyan, 12 red, 13 magenta, 14 yellow, 15 white.
+function! s:ReadableColors() abort
+  if &t_Co == 0
+    return
+  endif
+  hi Normal ctermfg=15 ctermbg=0 guifg=#eeeeee guibg=#000000
+  hi Comment ctermfg=11 cterm=NONE guifg=#5fffff
+  hi Constant ctermfg=14 guifg=#ffff5f
+  hi String ctermfg=14 guifg=#ffff5f
+  hi Character ctermfg=14 guifg=#ffff5f
+  hi Number ctermfg=14 guifg=#ffff5f
+  hi Boolean ctermfg=14 guifg=#ffff5f
+  hi Float ctermfg=14 guifg=#ffff5f
+  hi Identifier ctermfg=15 guifg=#eeeeee
+  hi Function ctermfg=11 guifg=#5fffff
+  hi Statement ctermfg=13 cterm=NONE guifg=#ff5fff
+  hi Conditional ctermfg=13 guifg=#ff5fff
+  hi Repeat ctermfg=13 guifg=#ff5fff
+  hi Label ctermfg=13 guifg=#ff5fff
+  hi Operator ctermfg=15 guifg=#eeeeee
+  hi Keyword ctermfg=13 guifg=#ff5fff
+  hi Exception ctermfg=13 guifg=#ff5fff
+  hi PreProc ctermfg=13 guifg=#ff5fff
+  hi Include ctermfg=13 guifg=#ff5fff
+  hi Define ctermfg=13 guifg=#ff5fff
+  hi Macro ctermfg=13 guifg=#ff5fff
+  hi PreCondit ctermfg=13 guifg=#ff5fff
+  hi Type ctermfg=10 guifg=#5fff5f
+  hi StorageClass ctermfg=10 guifg=#5fff5f
+  hi Structure ctermfg=10 guifg=#5fff5f
+  hi Typedef ctermfg=10 guifg=#5fff5f
+  hi Special ctermfg=14 guifg=#ffff5f
+  hi SpecialChar ctermfg=14 guifg=#ffff5f
+  hi Tag ctermfg=11 guifg=#5fffff
+  hi Delimiter ctermfg=15 guifg=#eeeeee
+  hi SpecialComment ctermfg=11 guifg=#5fffff
+  hi Debug ctermfg=14 guifg=#ffff5f
+  hi Underlined ctermfg=11 cterm=underline guifg=#5fffff
+  hi Ignore ctermfg=11 guifg=#5fffff
+  hi Error ctermfg=15 ctermbg=12 guifg=#ffffff guibg=#ff5f5f
+  hi Todo ctermfg=0 ctermbg=14 cterm=bold guifg=#000000 guibg=#ffff5f
+  hi LineNr ctermfg=11 ctermbg=0 guifg=#5fffff guibg=#000000
+  hi CursorLineNr ctermfg=15 ctermbg=0 cterm=bold guifg=#ffffff guibg=#000000
+  hi CursorLine cterm=NONE ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE
+  hi ColorColumn ctermbg=0 guibg=#000000
+  hi NonText ctermfg=11 guifg=#5fffff
+  hi SpecialKey ctermfg=11 guifg=#5fffff
+  hi EndOfBuffer ctermfg=11 guifg=#5fffff
+  hi Whitespace ctermfg=11 guifg=#5fffff
+  hi StatusLine ctermfg=0 ctermbg=11 cterm=bold guifg=#000000 guibg=#5fffff
+  hi StatusLineNC ctermfg=0 ctermbg=15 guifg=#000000 guibg=#eeeeee
+  hi StatusLineTerm ctermfg=0 ctermbg=11 cterm=bold guifg=#000000 guibg=#5fffff
+  hi StatusLineTermNC ctermfg=0 ctermbg=15 guifg=#000000 guibg=#eeeeee
+  hi VertSplit ctermfg=11 ctermbg=0 guifg=#5fffff guibg=#000000
+  hi Pmenu ctermfg=15 ctermbg=0 guifg=#eeeeee guibg=#000000
+  hi PmenuSel ctermfg=0 ctermbg=11 guifg=#000000 guibg=#5fffff
+  hi PmenuSbar ctermbg=15 guibg=#eeeeee
+  hi PmenuThumb ctermbg=11 guibg=#5fffff
+  hi Visual ctermfg=0 ctermbg=11 guifg=#000000 guibg=#5fffff
+  hi Search ctermfg=0 ctermbg=14 guifg=#000000 guibg=#ffff5f
+  hi IncSearch ctermfg=0 ctermbg=11 guifg=#000000 guibg=#5fffff
+  hi MatchParen ctermfg=0 ctermbg=14 cterm=bold guifg=#000000 guibg=#ffff5f
+  hi Folded ctermfg=15 ctermbg=0 guifg=#eeeeee guibg=#000000
+  hi FoldColumn ctermfg=11 ctermbg=0 guifg=#5fffff guibg=#000000
+  hi DiffAdd ctermfg=0 ctermbg=10 guifg=#000000 guibg=#5fff5f
+  hi DiffChange ctermfg=0 ctermbg=14 guifg=#000000 guibg=#ffff5f
+  hi DiffDelete ctermfg=0 ctermbg=12 guifg=#000000 guibg=#ff5f5f
+  hi DiffText ctermfg=0 ctermbg=11 guifg=#000000 guibg=#5fffff
+  hi SpellBad ctermfg=15 ctermbg=12 guifg=#ffffff guibg=#ff5f5f
+  hi SpellCap ctermfg=0 ctermbg=14 guifg=#000000 guibg=#ffff5f
+  hi ErrorMsg ctermfg=15 ctermbg=12 guifg=#ffffff guibg=#ff5f5f
+  hi WarningMsg ctermfg=14 guifg=#ffff5f
+  hi ModeMsg ctermfg=15 cterm=bold guifg=#ffffff
+  hi MoreMsg ctermfg=10 guifg=#5fff5f
+  hi Question ctermfg=10 guifg=#5fff5f
+  hi Title ctermfg=15 cterm=bold guifg=#ffffff
+  hi Directory ctermfg=11 guifg=#5fffff
+  hi TabLine ctermfg=15 ctermbg=0 guifg=#eeeeee guibg=#000000
+  hi TabLineSel ctermfg=0 ctermbg=11 cterm=bold guifg=#000000 guibg=#5fffff
+  hi TabLineFill ctermfg=15 ctermbg=0 guifg=#eeeeee guibg=#000000
+  hi WildMenu ctermfg=0 ctermbg=14 guifg=#000000 guibg=#ffff5f
+  hi SignColumn ctermfg=11 ctermbg=0 guifg=#5fffff guibg=#000000
+  hi QuickFixLine ctermfg=0 ctermbg=14 guifg=#000000 guibg=#ffff5f
+  hi ExtraWhitespace ctermbg=12 guibg=#ff5f5f
+endfunction
+
+" ~/.vimrc.local is the per-machine override. To use a colorscheme instead
+" of the bright palette, put this in that file:
+"   let g:dotfiles_colorscheme = 'habamax'
+if filereadable(expand('~/.vimrc.local'))
+  execute 'source' fnameescape(expand('~/.vimrc.local'))
+endif
+if !exists('g:dotfiles_colorscheme')
+  let g:dotfiles_colorscheme = ''
+endif
+
+if g:dotfiles_colorscheme !=# ''
+  execute 'silent! colorscheme' fnameescape(g:dotfiles_colorscheme)
+endif
+" Empty name, or a scheme that is not installed: keep the bright palette.
+if g:dotfiles_colorscheme ==# '' || !exists('g:colors_name')
+  augroup dotfiles_readable
+    autocmd!
+    autocmd ColorScheme * call s:ReadableColors()
+  augroup END
+  call s:ReadableColors()
 endif
 
 " Mouse helps locally; on SSH it steals terminal copy/paste.
