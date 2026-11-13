@@ -258,7 +258,8 @@ if _have fd; then
 elif _have fdfind; then
   alias find='fdfind'
 fi
-_have rg && alias grep='rg'
+# grep stays grep. rg is only used by name.
+alias grep='grep --color=auto'
 _have btop && alias top='btop'
 _have dust && alias du='dust'
 if _have nvim; then
@@ -320,13 +321,7 @@ _have brew && alias brewup='brew update && brew upgrade && brew cleanup'
 alias path='echo $PATH | tr ":" "\n"'
 # Broken third-party repos (NodeSource, GitLab) must not abort dnf.
 _have dnf && alias dnfs='sudo dnf --setopt=skip_if_unavailable=true'
-if _have lsof; then
-  if _have rg; then
-    alias ports='lsof -i -P | rg LISTEN'
-  else
-    alias ports='lsof -i -P | grep LISTEN'
-  fi
-fi
+_have lsof && alias ports='lsof -i -P | grep LISTEN'
 alias myip='curl -s ifconfig.me && echo'
 localip() {
   if [[ "$(uname -s)" == Darwin ]]; then
@@ -531,21 +526,12 @@ dus() {
   fi
 }
 
-# Process search that still works when grep is aliased to rg.
 psg() {
-  if _have rg; then
-    command ps aux | command rg -i "$@"
-  else
-    command ps aux | command grep -i "$@"
-  fi
+  command ps aux | grep -i "$@"
 }
 
 hg() {
-  if _have rg; then
-    history | command rg "$@"
-  else
-    history | command grep "$@"
-  fi
+  history | grep "$@"
 }
 
 # Follow a unit, or the whole journal when called with no argument.
